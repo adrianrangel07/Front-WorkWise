@@ -7,7 +7,7 @@
             </button>
         </div>
         <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search" id="formBusqueda"
-            style="margin-right: 0 !important;">
+            style="margin-right: 0 !important;" *ngIf="modo === 'buscador'">
             <div class="input-group" style="text-align: center;border-color: var(--bs-emphasis-color);">
                 <input id="termino" name="termino" class=" bg-light form-control border-4 small" type="text"
                     placeholder="Puesto o palabra clave.." data-trad="navbar.search.placeholder">
@@ -16,10 +16,9 @@
                 </button>
             </div>
         </form>
-        <!-- boton idioma -->
         <div class="contenedor-botones">
             <!-- boton barra lateral filtro -->
-            <div class="btn-menu" title="Mostrar filtros">
+            <div *ngIf="modo === 'buscador'" class="btn-menu" title="Mostrar filtros">
                 <label for="btn-menu" id="navbar-toggler" aria-label="Filtros">
                     <i class="fa fa-filter"></i>
                     <span class="sr-only" data-trad="filtros.etiqueta">Filtros</span>
@@ -28,8 +27,11 @@
             <!-- fin boton barra lateral filtro -->
             <div *ngIf="logueado" class="nav-item dropdown no-arrow" id="usuario-container">
 
-                <img id="user-avatar" src="/imagen/perfil" alt="Persona Logo"
-                    onerror="this.onerror=null;this.src='/Imagenes/imagenperfil.png';">
+                <img *ngIf="persona?.photo" id="user-avatar" [src]="persona?.photo" alt="Persona Logo">
+
+                <div *ngIf="!persona?.photo" class="profile-initials rounded-circle d-flex align-items-center justify-content-center">
+                    {{ iniciales }}
+                </div>
 
                 <input type="hidden" id="subirFoto" accept="image/*" style="display: block; margin-top: 10px;">
 
@@ -37,22 +39,18 @@
                     <span id="usuario">{{persona?.nombre}}</span>
                 </a>
                 <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
-                    <a class="dropdown-item" th:href="@{/perfil/persona}" style="color: #0a1128;">
-                        <i class="fas fa-user fa-sm fa-fw me-2 "></i>&nbsp;<span
-                            data-trad="navbar.profile">Perfil</span>
+                    <a class="dropdown-item" routerLink="/perfilPersona" routerLinkActive="active" style="color: #0a1128;" >
+                        <i class="fas fa-user fa-sm fa-fw me-2 "></i>&nbsp;<span>Perfil</span>
                     </a>
                     <a class="dropdown-item" th:href="@{/persona/Postulaciones}" style="color: #0a1128;">
-                        <i class="fas fa-file-alt fa-sm fa-fw me-2"></i>&nbsp;<span
-                            data-trad="navbar.applications">Postulaciones</span>
+                        <i class="fas fa-file-alt fa-sm fa-fw me-2"></i>&nbsp;<span>Postulaciones</span>
                     </a>
                     <a class="dropdown-item" href="#" style="color: #0a1128;">
-                        <i class="fas fa-briefcase fa-sm fa-fw me-2 "></i>&nbsp;<span data-trad="navbar.cv">Hoja
-                            de vida</span>
+                        <i class="fas fa-briefcase fa-sm fa-fw me-2 "></i>&nbsp;<span>Hoja de vida</span>
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" id="logout" (click)="logout()" style="color: #0a1128;">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw me-2"></i><span data-trad="navbar.logout">Cerrar
-                            sesión</span>
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw me-2"></i><span>Cerrar sesión</span>
                     </a>
                 </div>
             </div>

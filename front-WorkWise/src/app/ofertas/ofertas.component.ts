@@ -3,10 +3,11 @@ import { NavbarAcordionComponent } from "../reutilzar/navbar-acordion/navbar-aco
 import { NavbarbusquedaComponent } from "../reutilzar/navbarbusqueda/navbarbusqueda.component";
 import { AuthPersonaService } from '../services/auth-personsa.service';
 import { OfertaCardComponent } from './oferta-card/oferta-card.component';
+import { FooterComponent } from "../reutilzar/footer/footer.component";
 
 @Component({
   selector: 'app-ofertas',
-  imports: [NavbarAcordionComponent, NavbarbusquedaComponent, OfertaCardComponent],
+  imports: [NavbarAcordionComponent, NavbarbusquedaComponent, OfertaCardComponent, FooterComponent],
   templateUrl: './ofertas.component.html',
   styleUrl: './ofertas.component.css'
 })

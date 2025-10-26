@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { AuthOfertasService } from '../../services/auth-ofertas.service';
+import { AuthPostulacionesService } from '../../services/auth-postulaciones.service';
 import { NgForOf, NgIf } from '@angular/common';
+import Swal from 'sweetalert2';
+import { S } from '@angular/cdk/keycodes';
+
 
 @Component({
   selector: 'app-oferta-card',
@@ -10,8 +14,10 @@ import { NgForOf, NgIf } from '@angular/common';
 })
 export class OfertaCardComponent {
   ofertas: any[] = [];
+  ofertaSeleccionada: any = null;
+  experiencia: string = '';
 
-  constructor(private authOfertasService: AuthOfertasService) { }
+  constructor(private authOfertasService: AuthOfertasService, private authPostulacionesService: AuthPostulacionesService) { }
 
   ngOnInit() {
     this.authOfertasService.getOfertas().subscribe({next: (data) =>{
@@ -20,5 +26,74 @@ export class OfertaCardComponent {
     },error: (err) =>{
       console.error('Error al cargar las ofertas', err);
     }})
+  }
+
+  abrirModal(oferta: any) {
+    this.ofertaSeleccionada = oferta
+    const modal = document.getElementById('modal');
+    if (modal) {
+      modal.style.display = 'flex';
+      console.log(this.ofertaSeleccionada);
+      switch (this.ofertaSeleccionada.experiencia) {
+        case 0:
+            this.experiencia = "Sin experiencia";
+            break
+        case 1:
+            this.experiencia = "Menos de 1 año";
+            break
+        case 2:
+            this.experiencia = "Entre 1 y 3 años";
+            break
+        case 3:
+            this.experiencia = "Entre 3 y 5 años";
+            break
+        case 4:
+            this.experiencia ="Entre 5 y 10 años";
+            break
+        case 5:
+            this.experiencia = "Más de 10 años";
+            break
+        default:
+            this.experiencia = "No especificado";
+      }   
+    }
+  }
+
+  cerrarModal() {
+    const modal = document.getElementById('modal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+    this.ofertaSeleccionada = null;
+  }
+
+  postularse(ofertaId: number) {
+    this.authPostulacionesService.postularse(ofertaId).subscribe({next: (response) =>{
+      if(response.success){
+        Swal.fire({
+          title: '¡Postulación exitosa!',
+          text: response.message,
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        })
+      }else{
+        Swal.fire({
+          title: 'Aviso',
+          text: response.message,
+          icon: 'info',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }
+    },error: (err) =>{
+      console.error('Error al postularse a la oferta:', err);
+      Swal.fire({
+        title: 'Error',
+        text: 'No se pudo completar la postulación. Inténtelo de nuevo.',
+        icon: 'error'
+      });
+    }
+    });
   }
 }

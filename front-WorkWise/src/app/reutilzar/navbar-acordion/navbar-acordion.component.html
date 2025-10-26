@@ -9,7 +9,7 @@
         <hr class="sidebar-divider my-0">
         <ul class="navbar-nav text-light" id="accordionSidebar">
 
-            <li class="nav-item"><a class="nav-link active">
+            <li class="nav-item"><a class="nav-link active" routerLink="/ofertasInicio" routerLinkActive="active">
                 <i class="fas fa-home"></i><span>Inicio</span></a>
             </li>
             <!-- invitado -->
@@ -21,7 +21,7 @@
                 </i><span>Registrarse</span></a>
             </li>
             <!-- registrado -->
-            <li *ngIf="logueado" class="nav-item"><a class="nav-link"><i class="fas fa-user-circle">
+            <li *ngIf="logueado" class="nav-item"><a class="nav-link" routerLink="/perfilPersona" routerLinkActive="active"><i class="fas fa-user-circle">
                 </i><span>Mi Perfil</span></a>
             </li>
 

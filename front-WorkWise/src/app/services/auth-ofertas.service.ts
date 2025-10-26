@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable,BehaviorSubject } from 'rxjs';
+import { HOME } from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,6 @@ export class AuthOfertasService {
 
   // 🔹 Obtener datos del usurio
   getOfertas(): Observable<any> {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('No hay token disponible');
-    }
-
-    const headers = { Authorization: `Bearer ${token}` };
-
-    return this.http.get<any[]>(this.apiUrl, { headers });
+    return this.http.get<any[]>(`${this.apiUrl}/home`);
   }
 }

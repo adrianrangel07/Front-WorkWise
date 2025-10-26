@@ -20,6 +20,4 @@ export class NavbarAcordionComponent implements OnInit {
       console.log('Estado de logueo en Navbar:', this.logueado);  
     });
   }
-
-
 }

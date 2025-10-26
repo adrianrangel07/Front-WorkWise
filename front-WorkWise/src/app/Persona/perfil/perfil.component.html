@@ -1,0 +1,132 @@
+<div id="wrapper">
+    <app-navbar-acordion style="display: inline-block;"></app-navbar-acordion>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <app-navbarbusqueda></app-navbarbusqueda>
+        <div class="container-fluid">
+            <div class="perfil-container">
+                <div class="perfil-header">
+                    <div>
+                        <h2>{{ persona?.nombre }} {{ persona?.apellido }}</h2>
+                        <ul class="perfil-info">
+                            <li><i class="fas fa-envelope"></i> {{ persona?.usuario.email }}</li>
+                            <li><i class="fas fa-phone"></i> {{ persona?.telefono }}</li>
+                            <li><i class="fas fa-map-marker-alt"></i> {{ persona?.direccion }}</li>
+                        </ul>
+                    </div>
+
+                    <div class="profile-container">
+                        <div class="profile-pic" (mouseenter)="hover = true" (mouseleave)="hover = false">
+
+                            <!-- Si hay foto -->
+                            <img *ngIf="persona?.photo" [src]="persona?.photo" alt="Foto de perfil" class="profile-img">
+
+                            <div *ngIf="!persona?.photo" class="profile-initials">
+                                {{ iniciales }}
+                            </div>
+
+                            <!-- Icono de editar (solo visible al hacer hover) -->
+                            <div class="edit-overlay" *ngIf="hover" (click)="fileInput.click();">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                            <!-- Input oculto para subir imagen -->
+
+                            <input type="file" #fileInput accept="image/*" (change)="subirFoto($event)" hidden>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="perfil-alerta">
+                    <i class="fas fa-eye"></i> Las empresas pueden encontrarte
+                </div>
+
+                <section class="perfil-section">
+                    <h3>HV</h3>
+                    <div class="perfil-card">
+                        <div class="perfil-icono">
+                            <i class="far fa-file-alt"></i>
+                        </div>
+                        <div>
+                            <strong>CV Indeed</strong>
+                            <p>Actualizado el Oct 21, 2025</p>
+                        </div>
+                    </div>
+
+                    <div class="perfil-card">
+                        <div class="perfil-icono pdf">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="perfil-info">
+                            <strong>{{ persona.nombre|| 'Tu Nombre' }}.pdf</strong>
+                            <p *ngIf="!archivoCV">No se ha subido ningún archivo</p>
+                            <p *ngIf="archivoCV">Archivo seleccionado: {{ archivoCV?.name}}</p>
+
+                            <!-- Botones -->
+                            <div class="perfil-actions mt-2">
+                                <label class="btn btn-outline-primary btn-sm me-2">
+                                    <i class="fas fa-upload"></i> Subir nuevo CV
+                                    <input type="file" (change)="onFileSelected($event)" accept="application/pdf"
+                                        hidden />
+                                </label>
+
+                                <button *ngIf="archivoCV" class="btn btn-success btn-sm me-2" (click)="subirCV($event)"
+                                    [disabled]="!archivoCV">
+                                    <i class="fas fa-cloud-upload-alt"></i> Enviar
+                                </button>
+
+                                <button *ngIf="persona?.cv" class="btn btn-outline-secondary btn-sm me-2"
+                                    (click)="verCV()">
+                                    <i class="fas fa-eye"></i> Ver CV
+                                </button>
+
+                                <button *ngIf="persona?.cv" class="btn btn-outline-danger btn-sm"
+                                    (click)="eliminarCV()">
+                                    <i class="fas fa-trash-alt"></i> Eliminar CV
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="perfil-section">
+                    <h3>Mejora los empleos compatibles</h3>
+
+                    <div class="perfil-card-link">
+                        <div>
+                            <strong>Competencias</strong>
+                            <p>Destaca tus habilidades y experiencia.</p>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <div class="perfil-card-link">
+                        <div>
+                            <strong>Preferencias de empleo</strong>
+                            <p>Guarda datos como horario y sueldo mínimo deseado.</p>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </section>
+                <section class="perfil-section">
+                    <h3>Tus oportunidades</h3>
+
+                    <div class="perfil-card-link">
+                        <div>
+                            <strong>Postulaciones activas</strong>
+                            <p>Vacantes en las que estás participando actualmente.</p>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <div class="perfil-card-link">
+                        <div>
+                            <strong>Ofertas finalizadas</strong>
+                            <p>Descubre si fuiste seleccionado .</p>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <app-footer class="mt-auto"></app-footer>
+    </div>
+</div>

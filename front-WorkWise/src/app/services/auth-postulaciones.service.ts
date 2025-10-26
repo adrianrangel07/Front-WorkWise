@@ -1,0 +1,37 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthPostulacionesService {
+
+  private apiUrl = 'http://localhost:8080/api/postulaciones';
+
+  constructor(private http: HttpClient) { }
+
+  // Obtener token
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  // postular a oferta
+  postularse(ofertaId: number): Observable<any> {
+    const token = this.getToken();
+    if (!token) {
+      throw new Error('No hay token disponible');
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const body = { ofertaId };
+
+    return this.http.post(`${this.apiUrl}/postularse`, body, { headers });
+  }
+
+
+}
