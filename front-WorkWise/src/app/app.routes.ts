@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './Persona/login/login.component';
+import { personaLoginComponent } from './Persona/login/login.component';
 import { OfertasComponent } from './ofertas/ofertas.component';
 import { RegisterComponent } from './Persona/register/register.component';
 import { PerfilComponent } from './Persona/perfil/perfil.component';
+import { empresaLoginComponent } from './Empresa/login/login.component';
+import { PostulacionesPendientesComponent } from './Persona/postulaciones-pendientes/postulaciones-pendientes.component';
 
 export const routes: Routes = [
     // invitados
@@ -25,7 +27,7 @@ export const routes: Routes = [
     // persona
     {
         path: 'loginPersona',
-        component: LoginComponent
+        component: personaLoginComponent
     },
 
     {
@@ -36,7 +38,15 @@ export const routes: Routes = [
     {
         path: 'perfilPersona',
         component: PerfilComponent
+    },
+    {
+        path: 'postulacionesPendientes',
+        component: PostulacionesPendientesComponent
+    },
+
+    // empresa
+    {
+        path: 'loginEmpresa',
+        component: empresaLoginComponent
     }
-
-
 ];

@@ -56,7 +56,7 @@
                             <i class="fas fa-file-pdf"></i>
                         </div>
                         <div class="perfil-info">
-                            <strong>{{ persona.nombre|| 'Tu Nombre' }}.pdf</strong>
+                            <strong>{{ persona?.nombre|| 'Tu Nombre' }}.pdf</strong>
                             <p *ngIf="!archivoCV">No se ha subido ningún archivo</p>
                             <p *ngIf="archivoCV">Archivo seleccionado: {{ archivoCV?.name}}</p>
 
@@ -109,7 +109,7 @@
                 <section class="perfil-section">
                     <h3>Tus oportunidades</h3>
 
-                    <div class="perfil-card-link">
+                    <div class="perfil-card-link" (click)="postulacionesPendientes()">
                         <div>
                             <strong>Postulaciones activas</strong>
                             <p>Vacantes en las que estás participando actualmente.</p>

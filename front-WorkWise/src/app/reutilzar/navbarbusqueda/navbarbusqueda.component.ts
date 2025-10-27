@@ -21,7 +21,7 @@ export class NavbarbusquedaComponent {
       this.logueado = estado;
       if (estado) {
         this.cargarUsuario()
-        this.authService.getFotoPerfil(this.persona.id).subscribe(blob => {
+        this.authService.getFotoPerfil(this.persona?.id).subscribe(blob => {
           this.persona.photo = URL.createObjectURL(blob);
         })
       }else {

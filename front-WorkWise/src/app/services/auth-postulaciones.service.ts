@@ -33,5 +33,19 @@ export class AuthPostulacionesService {
     return this.http.post(`${this.apiUrl}/postularse`, body, { headers });
   }
 
+  // obtener postulaciones del usuario
+  getPostulaciones(): Observable<any> {
+    const token = this.getToken();
+    if (!token) {
+      throw new Error('No hay token disponible');
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.get<any[]>(`${this.apiUrl}/mis-postulaciones`, { headers });
+  }
 
 }

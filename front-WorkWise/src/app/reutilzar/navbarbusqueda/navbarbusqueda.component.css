@@ -85,6 +85,12 @@
   width: 38px !important;
 }
 
+.profile-initials{
+  background: linear-gradient(135deg, #004aad, #007bff);
+    font-size: 30px;
+    width: 50px;
+    color: white;
+}
 /* ========== SISTEMA DE FILTROS ========== */
 #container-menu {
   position: fixed;

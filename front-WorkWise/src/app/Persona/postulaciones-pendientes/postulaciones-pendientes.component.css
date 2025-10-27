@@ -42,7 +42,6 @@
     position: absolute;
     top: 10px;
     left: 10px;
-    background-color: rgba(40, 167, 69, 0.9);
     color: white;
     padding: 5px 10px;
     border-radius: 20px;
@@ -51,6 +50,10 @@
     align-items: center;
     gap: 5px;
     z-index: 10;
+}
+
+.pendiente{
+    background-color: rgba(234, 97, 7, 0.9);
 }
 
 .applied-compatibilidad {

@@ -16,16 +16,32 @@ export class OfertaCardComponent {
   ofertas: any[] = [];
   ofertaSeleccionada: any = null;
   experiencia: string = '';
+  postulaciones: number[] = [];
 
   constructor(private authOfertasService: AuthOfertasService, private authPostulacionesService: AuthPostulacionesService) { }
 
   ngOnInit() {
-    this.authOfertasService.getOfertas().subscribe({next: (data) =>{
-      this.ofertas = data;
-      console.log(this.ofertas);
-    },error: (err) =>{
-      console.error('Error al cargar las ofertas', err);
-    }})
+    this.authOfertasService.getOfertas().subscribe({
+      next: (data) => {
+        this.ofertas = data;
+        console.log(this.ofertas);
+      }, error: (err) => {
+        console.error('Error al cargar las ofertas', err);
+      }
+    })
+
+    this.authPostulacionesService.getPostulaciones().subscribe({
+      next: (data) => {
+        this.postulaciones = data.map((postulacion: any) => postulacion.oferta.id);
+        console.log(this.postulaciones);
+      }, error: (err) => {
+        console.error('Error al cargar las postulaciones', err);
+      }
+    });
+  }
+
+  estadoPostulado(ofertaId: number): boolean {
+    return this.postulaciones.includes(ofertaId);
   }
 
   abrirModal(oferta: any) {
@@ -36,26 +52,26 @@ export class OfertaCardComponent {
       console.log(this.ofertaSeleccionada);
       switch (this.ofertaSeleccionada.experiencia) {
         case 0:
-            this.experiencia = "Sin experiencia";
-            break
+          this.experiencia = "Sin experiencia";
+          break
         case 1:
-            this.experiencia = "Menos de 1 año";
-            break
+          this.experiencia = "Menos de 1 año";
+          break
         case 2:
-            this.experiencia = "Entre 1 y 3 años";
-            break
+          this.experiencia = "Entre 1 y 3 años";
+          break
         case 3:
-            this.experiencia = "Entre 3 y 5 años";
-            break
+          this.experiencia = "Entre 3 y 5 años";
+          break
         case 4:
-            this.experiencia ="Entre 5 y 10 años";
-            break
+          this.experiencia = "Entre 5 y 10 años";
+          break
         case 5:
-            this.experiencia = "Más de 10 años";
-            break
+          this.experiencia = "Más de 10 años";
+          break
         default:
-            this.experiencia = "No especificado";
-      }   
+          this.experiencia = "No especificado";
+      }
     }
   }
 
@@ -68,32 +84,34 @@ export class OfertaCardComponent {
   }
 
   postularse(ofertaId: number) {
-    this.authPostulacionesService.postularse(ofertaId).subscribe({next: (response) =>{
-      if(response.success){
+    this.authPostulacionesService.postularse(ofertaId).subscribe({
+      next: (response) => {
+        this.postulaciones.push(ofertaId);
+        if (response.success) {
+          Swal.fire({
+            title: '¡Postulación exitosa!',
+            text: response.message,
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+          })
+        } else {
+          Swal.fire({
+            title: 'Aviso',
+            text: response.message,
+            icon: 'info',
+            timer: 2000,
+            showConfirmButton: false
+          });
+        }
+      }, error: (err) => {
+        console.error('Error al postularse a la oferta:', err);
         Swal.fire({
-          title: '¡Postulación exitosa!',
-          text: response.message,
-          icon: 'success',
-          timer: 2000,
-          showConfirmButton: false
-        })
-      }else{
-        Swal.fire({
-          title: 'Aviso',
-          text: response.message,
-          icon: 'info',
-          timer: 2000,
-          showConfirmButton: false
+          title: 'Error',
+          text: 'No se pudo completar la postulación. Inténtelo de nuevo.',
+          icon: 'error'
         });
       }
-    },error: (err) =>{
-      console.error('Error al postularse a la oferta:', err);
-      Swal.fire({
-        title: 'Error',
-        text: 'No se pudo completar la postulación. Inténtelo de nuevo.',
-        icon: 'error'
-      });
-    }
     });
   }
 }

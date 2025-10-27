@@ -1,15 +1,21 @@
 <div *ngIf="ofertas.length > 0" class="offer-container">
-    <div *ngFor="let oferta of ofertas" class="card" (click)="abrirModal(oferta)" >
-        <div class="favorite-icon" >
+    <div *ngFor="let oferta of ofertas" class="card" (click)="abrirModal(oferta)">
+        <div class="favorite-icon">
             <i class="far fa-heart"></i>
         </div>
-        <div class="applied-icon" th:if="${Oferta.postulado}" >
+        <div class="applied-icon" *ngIf="estadoPostulado(oferta.id)">
             <i class="fas fa-check-circle"></i>
             <span data-trad="offers.applied">Postulado</span>
         </div>
-        <div class="offer-content" >
+        <div class="offer-content">
             <h3>{{oferta.titulo}}</h3>
-            <p>{{oferta.descripcion}}</p>
+            <div class="job-company">{{oferta.empresa.nombre}}</div>
+            <div class="job-location">{{oferta?.ubicacion}}</div>
+
+            <div class="job-tags">
+                <span class="salary">{{oferta?.salario.toLocaleString('es-CO')}}</span>
+                <span class="fulltime">{{oferta?.tipo_Empleo}}</span>
+            </div>
         </div>
     </div>
 </div>
@@ -21,24 +27,30 @@
         <div class="modal-header">
             <div class="modal-header-info">
                 <h3 id="modal-title">{{ofertaSeleccionada?.titulo}}</h3>
-                <div class="modal-info-item" id="modal-empresa" style="padding: 0%;"><Strong>Empresa: </Strong>{{ofertaSeleccionada?.empresa.nombre}}</div>
+                <div class="modal-info-item" id="modal-empresa" style="padding: 0%;"><Strong>Empresa:
+                    </Strong>{{ofertaSeleccionada?.empresa.nombre}}</div>
             </div>
             <span (click)="cerrarModal()" class="close-btn" id="close-btn">&times;</span>
         </div>
         <div class="modal-body">
             <div class="pago valores">
-                <div class="modal-info-item" id="modal-salary" style="display: flex; margin-right: 5px;"><Strong>Salario: </Strong>{{ofertaSeleccionada?.salario}}</div>
+                <div class="modal-info-item" id="modal-salary" style="display: flex; margin-right: 5px;">
+                    <Strong>Salario: </Strong>{{ofertaSeleccionada?.salario.toLocaleString('es-CO')}}
+                </div>
                 <div id="modal-currency" style="margin-right: 2px; ;">({{ofertaSeleccionada?.moneda}})</div>
                 <div class="modal-info-item" id="modal-period"></div>
             </div>
             <div class="time-contract valores">
-                <div class="modal-info-item" id="modal-typeContract"><strong>Tipo de contrato: </strong>{{ofertaSeleccionada?.tipo_Contrato}}</div>
+                <div class="modal-info-item" id="modal-typeContract"><strong>Tipo de contrato:
+                    </strong>{{ofertaSeleccionada?.tipo_Contrato}}</div>
                 <div class="modal-info-item" id="modal-duration" style="margin-left: 3px;"></div>
             </div>
 
-            <div class="modal-info-item" id="modal-type"><strong>Tipo de empleo: </strong></div>
+            <div class="modal-info-item" id="modal-type"><strong>Tipo de empleo:
+                </strong>{{ofertaSeleccionada?.tipo_Empleo}}</div>
 
-            <div class="modal-info-item" id="modal-modalidad"><strong>Modalidad: </strong>{{ofertaSeleccionada?.modalidad}}</div>
+            <div class="modal-info-item" id="modal-modalidad"><strong>Modalidad:
+                </strong>{{ofertaSeleccionada?.modalidad}}</div>
 
             <div class="contenedorDescripcion">
                 <h4>Descripción</h4>
@@ -49,22 +61,27 @@
                 <h4 data-trad="offer.requirements">Requerimientos</h4>
                 <ul>
                     <li>
-                        <div class="modal-info-item" id="modal-experience"><strong>Experiencia:</strong>{{experiencia}}</div>
+                        <div class="modal-info-item" id="modal-experience"><strong>Experiencia:</strong>{{experiencia}}
+                        </div>
                     </li>
                     <li>
-                        <div class="modal-info-item" id="modal-studyLevel"><strong>Nivel de estudio:</strong>{{ofertaSeleccionada?.nivel_Educacion}}</div>
+                        <div class="modal-info-item" id="modal-studyLevel"><strong>Nivel de
+                                estudio:</strong>{{ofertaSeleccionada?.nivel_Educacion}}</div>
                     </li>
                     <li>
-                        <div class="modal-info-item" id="modal-sector"><strong>Sector:</strong>{{ofertaSeleccionada?.sector_oferta}}</div>
+                        <div class="modal-info-item" id="modal-sector">
+                            <strong>Sector:</strong>{{ofertaSeleccionada?.sector_oferta}}
+                        </div>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="modal-footer">
-            <a href="#" id="btn-prediccion" class="btn-prediccion" data-trad="modal.predictionLink">¿Quieres conocer
-                la
-                probabilidad de ser aceptado?</a>
-            <button class="apply-btn-modal" id="postularseBtn" data-trad="modal.applyBtn" (click)="postularse(ofertaSeleccionada?.id)">Postularse</button>
+            <button *ngIf="!estadoPostulado(ofertaSeleccionada?.id)" class="apply-btn-modal" id="postularseBtn"
+                data-trad="modal.applyBtn" (click)="postularse(ofertaSeleccionada?.id)">Postularse</button>
+            <button *ngIf="estadoPostulado(ofertaSeleccionada?.id)" class="btn-postulado" disabled>
+                <i class="fas fa-check-circle"></i> Ya estás postulado
+            </button>
         </div>
     </div>
 </div>

@@ -3,6 +3,7 @@ import { NavbarAcordionComponent } from "../../reutilzar/navbar-acordion/navbar-
 import { NavbarbusquedaComponent } from "../../reutilzar/navbarbusqueda/navbarbusqueda.component";
 import { FooterComponent } from "../../reutilzar/footer/footer.component";
 import { AuthPersonaService } from '../../services/auth-personsa.service';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import Swal from 'sweetalert2';
 import { S } from '@angular/cdk/keycodes';
@@ -19,7 +20,7 @@ export class PerfilComponent {
   nombreArchivoCV: string = '';
   hover: boolean = false;
 
-  constructor(private authService: AuthPersonaService) { }
+  constructor(private authService: AuthPersonaService, private router: Router) { }
 
   ngOnInit() {
     this.authService.getPersona().subscribe({
@@ -37,7 +38,6 @@ export class PerfilComponent {
 
   onFileSelected(event: any) {
     this.archivoCV = event.target.files[0] || null;
-    
   }
 
   subirCV(event: Event) {
@@ -191,6 +191,10 @@ export class PerfilComponent {
         timer: 2000,
       })
     }
+  }
+
+  postulacionesPendientes() {
+    this.router.navigate(['/postulacionesPendientes']); 
   }
 
 }
