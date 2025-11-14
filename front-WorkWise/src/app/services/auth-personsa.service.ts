@@ -28,7 +28,7 @@ export class AuthPersonaService {
     const token = this.getToken();
 
     if (!token) {
-      console.warn('No se encontró token de autenticación para empresa.');
+      console.warn('No se encontró token de autenticación para persona.');
       return of(null);
     }
 
@@ -88,6 +88,18 @@ export class AuthPersonaService {
     return this.http.post(`${this.apiUrl}/foto`, formData, { headers, responseType: 'text' });
   }
 
+  aggHabilidades(habilidad: string):Observable<any>{
+    const token = this.getToken()
+    if (!token) {
+      console.warn('No hay token disponible');
+      return of(null);
+    }
+
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    const body = {nombre: habilidad}
+    return this.http.post(`${this.apiUrl}/habilidades`, body, { headers });
+  } 
+
   getFotoPerfil(id: number): Observable<any> {
     const token = this.getToken();
 
@@ -98,16 +110,6 @@ export class AuthPersonaService {
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get(`${this.apiUrl}/foto/${id}`, { headers, responseType: 'blob' });
   }
-
-  // eliminar foto de perfil
-  // eliminarFoto(): Observable<any> {
-  //   const token = this.getToken();
-  //   if (!token) {
-  //     throw new Error('No hay token disponible');
-  //   }
-  //   const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-  //   return this.http.delete(`${this.apiUrl}/foto`, { headers, responseType: 'text' });
-  // }
 
   // Guardar token en el navegador
   saveToken(token: string) {

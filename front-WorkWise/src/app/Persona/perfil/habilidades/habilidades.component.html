@@ -1,0 +1,30 @@
+<div class="perfil-card-link" (click)="openModal()">
+    <div>
+        <strong>Competencias</strong>
+        <p>Destaca tus habilidades y experiencia.</p>
+    </div>
+    <i class="fas fa-chevron-right"></i>
+</div>
+
+<div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <div class="header-title">
+                <h3>Agregar habilidad</h3>
+                <button class="close-btn" (click)="closeModal()">×</button>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <label><strong>Habilidad *</strong></label>
+            <input [(ngModel)]="habilidad" type="text" placeholder="Ej: Java, liderazgo..." />
+        </div>
+
+        <div class="modal-footer">
+            <div style="padding: 20px;"> 
+                <button class="btn cancel" (click)="closeModal()">Cancelar</button>
+                <button class="btn save" (click)="agregarHabilidad()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

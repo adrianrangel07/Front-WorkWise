@@ -7,10 +7,11 @@ import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import Swal from 'sweetalert2';
 import { S } from '@angular/cdk/keycodes';
+import { HabilidadesComponent } from "./habilidades/habilidades.component";
 
 @Component({
   selector: 'app-perfil',
-  imports: [NavbarAcordionComponent, NavbarbusquedaComponent, FooterComponent, NgIf],
+  imports: [NavbarAcordionComponent, NavbarbusquedaComponent, FooterComponent, NgIf, HabilidadesComponent],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
 })

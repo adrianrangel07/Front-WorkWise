@@ -24,13 +24,12 @@ export class AuthService {
   actualizarRol() {
     const personaRol = this.authPersonaService.getRol();
     const empresaRol = this.authEmpresaService.getRol();
-    console.log('Persona token:', personaRol);
-    console.log('empresa', empresaRol)
 
     if (personaRol === 'PERSONA') {
       this.authPersonaService.getPersona().pipe(catchError(() => of(null))).subscribe(persona => {
         if (persona?.usuario?.rol === 'PERSONA') {
           this.rolSubject.next('PERSONA');
+          console.log('persona')
         } else {
           this.rolSubject.next('INVITADO');
         }
@@ -39,6 +38,7 @@ export class AuthService {
       this.authEmpresaService.getEmpresa().pipe(catchError(() => of(null))).subscribe(empresa => {
         if (empresa?.usuario?.rol === 'EMPRESA') {
           this.rolSubject.next('EMPRESA');
+          console.log('empresa')
         } else {
           this.rolSubject.next('INVITADO');
         }
