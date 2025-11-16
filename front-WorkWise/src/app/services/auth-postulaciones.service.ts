@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,8 @@ export class AuthPostulacionesService {
   postularse(ofertaId: number): Observable<any> {
     const token = this.getToken();
     if (!token) {
-      throw new Error('No hay token disponible');
+      console.warn('No hay token disponible');
+      return of(null);
     }
 
     const headers = new HttpHeaders({
@@ -37,7 +38,8 @@ export class AuthPostulacionesService {
   getPostulaciones(): Observable<any> {
     const token = this.getToken();
     if (!token) {
-      throw new Error('No hay token disponible');
+
+      return of([]); 
     }
 
     const headers = new HttpHeaders({

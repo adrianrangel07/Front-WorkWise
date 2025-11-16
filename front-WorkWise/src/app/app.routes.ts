@@ -23,7 +23,8 @@ export const routes: Routes = [
     // invitados
     {
         path: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+        data: { animation: 'HomePage' }
     },
     {
         path: '',
@@ -32,7 +33,8 @@ export const routes: Routes = [
     },
     {
         path: 'ofertasInicio',
-        component: OfertasComponent
+        component: OfertasComponent,
+        data: { animation: 'ofertasInicio' }
     },
 
 
@@ -40,45 +42,54 @@ export const routes: Routes = [
     {
         path: 'loginPersona',
         component: personaLoginComponent,
+        data: { animation: 'loginPersona' }
     },
 
     {
         path: 'registerPersona',
         component: RegisterComponent,
+        data: { animation: 'registerPersona' }
     },
 
     {
         path: 'perfilPersona',
         component: PerfilComponent,
-        canActivate: [authPersonaGuard]
+        canActivate: [authPersonaGuard],
+        data: { animation: 'perfilPersona' }
+
     },
     {
         path: 'postulacionesPendientes',
         component: PostulacionesPendientesComponent,
-        canActivate: [authPersonaGuard]
+        canActivate: [authPersonaGuard],
+        data: { animation: 'postulacionesPendientes' }
     },
 
     // empresa
     {
         path: 'loginEmpresa',
         component: empresaLoginComponent,
+        data: { animation: 'loginEmpresa' }
     },
 
     {
         path: 'RegisterEmpresa',
         component: EmpresaRegisterComponent,
+        data: { animation: 'RegisterEmpresa' }
     },
 
     {
         path: 'ofertas-empresa',
         component: OfertasEmpresaComponent,
-        canActivate: [authEmpresaGuard]
+        canActivate: [authEmpresaGuard],
+        data: { animation: 'ofertas-empresa' }
     },
 
     {
         path: 'crear-oferta',
         component: CrearOfertaComponent,
-        canActivate: [authEmpresaGuard]
+        canActivate: [authEmpresaGuard],
+        data: { animation: 'crear-oferta' }
     },
 
     // ⚠️ Ruta por defecto (404)

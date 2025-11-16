@@ -117,8 +117,11 @@
                                         <button type="button" class="btn-cancel">Cancelar</button>
                                     </div>
                                     <div>
-                                        <button type="button" class="btn-next btn-primary"
-                                            (click)="nextStep()">Siguiente</button>
+                                        <button type="button" class="btn-next btn-primary" (click)="nextStep()"
+                                            [disabled]="!oferta.ubicacion || !oferta.tipo_Empleo || !oferta.tipo_Contrato || !oferta.modalidad
+                                            || !oferta.salario || !oferta.moneda || !oferta.titulo">
+                                            Siguiente
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +135,8 @@
 
                                     <div class="custom-editor">
                                         <textarea [(ngModel)]="oferta.descripcion" id="jobDescription"
-                                            [ngModelOptions]="{standalone: true}" class="editor-area" name="descripcion"
+                                            [ngModelOptions]="{standalone: true}" class="mb-3 editor-area"
+                                            name="descripcion"
                                             placeholder="Consejos: Haz un resumen del puesto, explica qué se necesita para triunfar en él y el lugar que ocupa en la empresa."
                                             required>
                                         </textarea>
@@ -141,13 +145,14 @@
 
                                 <div class="btn-container">
                                     <div class="btn-containerVista">
-                                        <button class="btnVista" type="button" (click)="openPreview()">Vista previa</button>
+                                        <button class="btnVista" type="button" (click)="openPreview()">Vista
+                                            previa</button>
                                     </div>
                                     <div class="btn-containerSelectores">
                                         <button type="button" class="btn-prev btn-secondary"
                                             (click)="prevStep()">Anterior</button>
-                                        <button type="button" class="btn-next btn-primary"
-                                            (click)="nextStep()">Siguiente</button>
+                                        <button type="button" class="btn-next btn-primary" (click)="nextStep()"
+                                            [disabled]="!oferta.descripcion">Siguiente</button>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +189,7 @@
                                                 </div>
                                             </div>
 
-                                            <select hidden [(ngModel)]="oferta.sector_oferta">
+                                            <select hidden [(ngModel)]="oferta.sector_oferta" name="sector_oferta">
                                                 <option *ngFor="let item of options" [value]="item.value">
                                                     {{ item.label }}
                                                 </option>
@@ -243,7 +248,8 @@
                                 </div>
                                 <div class="btn-container">
                                     <div class="btn-containerVista">
-                                        <button type="button" class="btnVista" (click)="openPreview()">Vista previa</button>
+                                        <button type="button" class="btnVista" (click)="openPreview()">Vista
+                                            previa</button>
                                     </div>
                                     <div class="btn-containerSelectores">
                                         <button type="button" class="btn-prev btn-secondary"
@@ -260,38 +266,59 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <div class="modal-header-info">
-                                <h3 id="modal-title">{{oferta.titulo || 'No especificado'}}</h3>
-                                <div class="modal-info-item" id="modal-empresa" style="padding: 0%;"><Strong>Empresa:</Strong></div>
+                                <h4 id="modal-title">{{oferta.titulo || 'No especificado'}}</h4>
+                                <div class="modal-info-item" id="modal-empresa" style="padding: 0%;">
+                                    <Strong>Empresa:</Strong>
+                                </div>
                             </div>
                             <span (click)="closePreview()" class="close-btn" id="close-btn">&times;</span>
                         </div>
                         <div class="modal-body">
-                            <div class="pago valores">
-                                <div class="modal-info-item" id="modal-salary"
-                                    style="display: flex; margin-right: 5px;">
-                                    <Strong>Salario: </Strong>{{oferta.salario?.toLocaleString('es-CO')}}
+                            <section class="preview-section">
+                                <h3>Información del empleo</h3>
+                                <!-- salario -->
+                                <div class="preview-block">
+                                    <label class="preview-label">
+                                        <i class="fas fa-wallet"></i> Sueldo
+                                    </label>
+
+                                    <div class="preview-chip success">
+                                        ✔ {{ oferta.salario?.toLocaleString('es-CO') }} {{ oferta.moneda }}
+                                    </div>
                                 </div>
-                                <div id="modal-currency" style="margin-right: 2px; ;">({{oferta.moneda || 'No especificado'}})
+                                <!-- Tipo de empleo -->
+                                <div class="preview-block">
+                                    <label class="preview-label">
+                                        <i class="fas fa-briefcase"></i> Tipo de empleo
+                                    </label>
+
+                                    <div class="preview-chip-group">
+                                        <div class="preview-chip neutral">{{ this.tipo_Contrato }}</div>
+                                        <div class="preview-chip neutral">{{ this.Tipo_empleo }}</div>
+                                        <div class="preview-chip neutral">{{ oferta.modalidad }}</div>
+                                    </div>
                                 </div>
-                                <div class="modal-info-item" id="modal-period"></div>
-                            </div>
-                            <div class="time-contract valores">
-                                <div class="modal-info-item" id="modal-typeContract"><strong>Tipo de contrato:
-                                    </strong>{{this.tipo_Contrato}}</div>
-                                <div class="modal-info-item" id="modal-duration" style="margin-left: 3px;"></div>
-                            </div>
+                                <!-- Ubicación -->
+                                <div class="preview-block">
+                                    <label class="preview-label">
+                                        <i class="fas fa-map-marker-alt"></i> Ubicación
+                                    </label>
 
-                            <div class="modal-info-item" id="modal-type"><strong>Tipo de empleo:
-                                </strong>{{this.Tipo_empleo}}</div>
-
-                            <div class="modal-info-item" id="modal-modalidad"><strong>Modalidad:
-                                </strong>{{oferta.modalidad || 'No especificado'}}</div>
-
+                                    <p class="preview-text">{{ oferta.ubicacion }}</p>
+                                </div>
+                                <hr/>
+                            </section>
                             <div class="contenedorDescripcion">
-                                <h4>Descripción</h4>
+                                <h4>Descripción del empleo</h4>
                                 <p id="modal-description">{{oferta.descripcion || 'No especificado'}}</p>
                             </div>
 
+                            <h4>Aptitudes relacionadas con el empleo</h4>
+                            <div style="margin-bottom: 20px;">
+                                <div class="preview-chip neutral" *ngFor="let hab of habilidades">{{ hab || 'sin competencias' }}</div>
+                            </div>
+                            <hr/>
+                            
                             <div class="Requerimientos">
                                 <h4 data-trad="offer.requirements">Requerimientos</h4>
                                 <ul>

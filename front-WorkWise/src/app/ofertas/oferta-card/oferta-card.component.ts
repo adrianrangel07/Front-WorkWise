@@ -17,6 +17,11 @@ export class OfertaCardComponent {
   ofertaSeleccionada: any = null;
   experiencia: string = '';
   postulaciones: number[] = [];
+  Tipo_empleo: string = '';
+  tipo_Contrato: string = '';
+  nivel_Educacion: string = '';
+
+
 
   constructor(private authOfertasService: AuthOfertasService, private authPostulacionesService: AuthPostulacionesService) { }
 
@@ -72,6 +77,63 @@ export class OfertaCardComponent {
         default:
           this.experiencia = "No especificado";
       }
+      switch (this.ofertaSeleccionada.tipo_Empleo) {
+        case 'Tiempo_Completo':
+          this.Tipo_empleo = "Tiempo Completo";
+          break
+        case "Medio_Tiempo":
+          this.Tipo_empleo = "Medio Tiempo";
+          break
+        case "Por_Horas":
+          this.Tipo_empleo = "Por Horas";
+          break
+        case "Freelance":
+          this.Tipo_empleo = "Freelance";
+          break
+        default:
+          this.Tipo_empleo = "No especificado";
+      }
+      switch (this.ofertaSeleccionada.tipo_Contrato) {
+        case "Obra_Labor":
+          this.tipo_Contrato = "Obra labor";
+          break
+        case "Fijo":
+          this.tipo_Contrato = "Fijo";
+          break
+        case "Indefinido":
+          this.tipo_Contrato = "Indefinido";
+          break
+        case "Practicas":
+          this.tipo_Contrato = "Practicas";
+          break
+        default:
+          this.tipo_Contrato = "No especificado";
+      }
+      switch (this.ofertaSeleccionada.nivel_Educacion) {
+        case "Sin_estudios":
+          this.nivel_Educacion = "Sin estudios";
+          break
+        case "Bachiller":
+          this.nivel_Educacion = "Bachiller";
+          break
+        case "Tecnico_Tecnologo":
+          this.nivel_Educacion = "Tecnico/Tecnologo";
+          break
+        case "Tecnico_Universitario":
+          this.nivel_Educacion = "Tecnico o Universitario";
+          break
+        case "Universitario":
+          this.nivel_Educacion = "Universitario";
+          break
+        case "Master":
+          this.nivel_Educacion = "Master";
+          break
+        case "Doctorado":
+          this.nivel_Educacion = "Doctorado";
+          break
+        default:
+          this.nivel_Educacion = "No especificado";
+      }
     }
   }
 
@@ -86,7 +148,15 @@ export class OfertaCardComponent {
   postularse(ofertaId: number) {
     this.authPostulacionesService.postularse(ofertaId).subscribe({
       next: (response) => {
-        this.postulaciones.push(ofertaId);
+        if (!response) {
+          Swal.fire({
+            title: 'Inicia sesión',
+            text: 'Debes iniciar sesión para postularte a una oferta.',
+            icon: 'warning',
+            confirmButtonText: 'Aceptar'
+          });
+          return;
+        }
         if (response.success) {
           Swal.fire({
             title: '¡Postulación exitosa!',
@@ -95,6 +165,7 @@ export class OfertaCardComponent {
             timer: 2000,
             showConfirmButton: false
           })
+          this.postulaciones.push(ofertaId);
         } else {
           Swal.fire({
             title: 'Aviso',

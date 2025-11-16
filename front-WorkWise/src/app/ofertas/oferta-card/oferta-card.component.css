@@ -323,11 +323,73 @@
     }
 }
 
+.preview-section {
+    font-family: "Inter", sans-serif;
+    margin: 20px 0;
+}
+
+.subtitle {
+    color: #6f6f6f;
+    margin-top: -5px;
+    font-size: 14px;
+}
+
+.preview-block {
+    margin: 20px 0;
+}
+
+.preview-label {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.preview-chip {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.preview-chip.success {
+    background-color: #e9f8eb;
+    color: #1a7f37;
+    border: 1px solid #b8e5c1;
+}
+
+.preview-chip.neutral {
+    background-color: #f2f2f2;
+    border: 1px solid #e3e3e3;
+    color: #333;
+    margin-right: 8px;
+}
+
+.preview-chip-group {
+    display: flex;
+    gap: 10px;
+}
+
+.preview-text {
+    font-size: 15px;
+    color: #444;
+}
+
+hr {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    margin: 20px 0;
+}
+
 .modal-header {
     background: linear-gradient(135deg, #3498db, #2c3e50);
     color: white;
     padding: 20px;
     position: relative;
+    height: 80px;
 }
 
 .modal-header h3 {
@@ -359,21 +421,14 @@
 
 /* Cuerpo del modal */
 .modal-body {
-    padding: 25px;
+    padding-left: 15px;
+    padding-top: 0;
     line-height: 1.6;
     display: block;
     flex: none;
     overflow-y: auto;
     max-height: 55vh;
     color: #333;
-}
-
-.valores div {
-    margin: 2px;
-}
-
-.modal-info-item strong {
-    margin-right: 4px;
 }
 
 .modal-body p {
@@ -411,44 +466,7 @@ ul {
     padding-left: 1rem;
 }
 
-
-#modal-salary::before {
-    content: "\f155";
-    /* Icono dinero */
-}
-
-#modal-typeContract::before {
-    content: "\f017";
-    /* Icono reloj */
-}
-
-
-#modal-modalidad::before {
-    content: "\f109";
-    /* Icono computadora */
-}
-
-#modal-type::before {
-    content: "\f0c0";
-    /* Icono grupo */
-
-}
-
-.pago {
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-}
-
-.time-contract {
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-}
-
-
 /* Pie del modal */
-
 .btn-postulado {
     background-color: #198754;
     color: #fff;
@@ -523,24 +541,4 @@ ul {
     background: linear-gradient(135deg, #27ae60, #219653);
     transform: translateY(-2px);
     box-shadow: 0 3px 10px rgba(46, 204, 113, 0.3);
-}
-
-.btn-prediccion {
-    background: none;
-    border: none;
-    border-radius: 20px;
-    color: #5d5f61;
-    /* Gris medio de Bootstrap */
-    font-weight: 600;
-    cursor: pointer !important;
-    padding: 5px 5px;
-    text-decoration: none !important;
-    font-size: 16px;
-    transition: transform 0.3s ease;
-    margin: 0;
-    transform: scale(1);
-}
-
-.btn-prediccion:hover {
-    transform: scale(1.05);
 }
