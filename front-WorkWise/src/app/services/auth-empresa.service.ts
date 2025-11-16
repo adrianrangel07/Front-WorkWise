@@ -36,6 +36,18 @@ export class AuthEmpresaService {
     return this.http.get(`${this.apiUrl}/perfil`, { headers });
   }
 
+  crearOferta(oferta: any): Observable<any>{
+    const token = this.getToken();
+
+    if (!token) {
+      console.warn('No se encontró token de autenticación para empresa.');
+      return of(null);
+    }
+
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.post(`${this.apiUrl}/ofertas`, oferta ,{ headers});
+  }
+
   saveToken(token: string) {
     localStorage.setItem('token', token);
     this.loggedin.next(true);

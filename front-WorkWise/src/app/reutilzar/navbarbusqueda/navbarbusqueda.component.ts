@@ -20,22 +20,14 @@ export class NavbarbusquedaComponent {
   constructor(private authPersonaService: AuthPersonaService, private authEmpresaService: AuthEmpresaService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    this.authService.isLoggedIn().subscribe((estado) => {
-      this.logueado = estado;
-      if (estado) {
-        this.authService.rolActual().subscribe(rol => {
-          if (rol === 'PERSONA') {
-            this.cargarUsuario();
-          } else if (rol === 'EMPRESA') {
-            this.cargarEmpresa();
-            console.log(estado)
-          }
-        });
-      } else {
-        this.persona = null;
-        this.empresa = null;
-      }
+    this.authService.rolActual().subscribe(rol => {
+      this.logueado = rol !== 'INVITADO';
+      console.log('Logueado:', this.logueado);
     });
+
+    this.authService.actualizarRol();
+    this.cargarUsuario()
+    this.cargarEmpresa()
   }
 
   cargarUsuario() {

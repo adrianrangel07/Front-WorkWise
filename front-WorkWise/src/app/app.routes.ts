@@ -7,7 +7,9 @@ import { OfertasComponent } from './ofertas/ofertas.component';
 import { OfertasEmpresaComponent } from './Empresa/ofertas-empresa/ofertas-empresa.component';
 import { EmpresaRegisterComponent } from './Empresa/empresa-register/empresa-register.component';
 import { empresaLoginComponent } from './Empresa/login/login.component';
+import { CrearOfertaComponent } from './Empresa/crear-oferta/crear-oferta.component';
 import { authEmpresaGuard } from './guards/auth-empresa.guard';
+
 
 // persona
 import { authPersonaGuard } from './guards/auth-persona.guard';
@@ -15,6 +17,7 @@ import { PostulacionesPendientesComponent } from './Persona/postulaciones-pendie
 import { RegisterComponent } from './Persona/register/register.component';
 import { PerfilComponent } from './Persona/perfil/perfil.component';
 import { personaLoginComponent } from './Persona/login/login.component';
+
 
 export const routes: Routes = [
     // invitados
@@ -69,6 +72,12 @@ export const routes: Routes = [
     {
         path: 'ofertas-empresa',
         component: OfertasEmpresaComponent,
+        canActivate: [authEmpresaGuard]
+    },
+
+    {
+        path: 'crear-oferta',
+        component: CrearOfertaComponent,
         canActivate: [authEmpresaGuard]
     },
 
