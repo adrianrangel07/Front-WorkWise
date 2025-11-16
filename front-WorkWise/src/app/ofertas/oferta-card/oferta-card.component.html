@@ -1,24 +1,40 @@
-<div *ngIf="ofertas.length > 0" class="offer-container">
-    <div *ngFor="let oferta of ofertas" class="card" (click)="abrirModal(oferta)">
-        <div class="favorite-icon">
-            <i class="far fa-heart"></i>
-        </div>
-        <div class="applied-icon" *ngIf="estadoPostulado(oferta.id)">
-            <i class="fas fa-check-circle"></i>
-            <span data-trad="offers.applied">Postulado</span>
-        </div>
-        <div class="offer-content">
-            <h3>{{oferta.titulo}}</h3>
-            <div class="job-company">{{oferta.empresa.nombre}}</div>
-            <div class="job-location">{{oferta?.ubicacion}}</div>
+<div class="content-wrapper">
+    <div style="flex: 1;">
+        <div *ngIf="ofertasPaginadas.length > 0" class="offer-container">
+            <div *ngFor="let oferta of ofertasPaginadas" class="card" (click)="abrirModal(oferta)">
+                <div class="favorite-icon">
+                    <i class="far fa-heart"></i>
+                </div>
+                <div class="applied-icon" *ngIf="estadoPostulado(oferta.id)">
+                    <i class="fas fa-check-circle"></i>
+                    <span data-trad="offers.applied">Postulado</span>
+                </div>
+                <div class="offer-content">
+                    <h3>{{oferta.titulo}}</h3>
+                    <div class="job-company">{{oferta.empresa.nombre}}</div>
+                    <div class="job-location">{{oferta?.ubicacion}}</div>
 
-            <div class="job-tags">
-                <span class="salary">{{oferta?.salario.toLocaleString('es-CO')}}</span>
-                <span class="fulltime">{{oferta?.tipo_Empleo}}</span>
+                    <div class="job-tags">
+                        <span class="salary">{{oferta?.salario.toLocaleString('es-CO')}}</span>
+                        <span class="fulltime">{{oferta?.tipo_Empleo}}</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<div class="pagination">
+    <button [disabled]="page === 1" (click)="cambiarPagina(page - 1)">
+        « Anterior
+    </button>
+
+    <span>Página {{page}}</span>
+
+    <button [disabled]="page * pageSize >= ofertas.length" (click)="cambiarPagina(page + 1)">
+        Siguiente »
+    </button>
+</div>
+
 
 
 <!-- Modal que se mostrará al hacer clic en una tarjeta -->
@@ -74,7 +90,8 @@
 
             <h4>Aptitudes relacionadas con el empleo</h4>
             <div style="margin-bottom: 20px;">
-                <div class="preview-chip neutral" *ngFor="let hab of ofertaSeleccionada?.habilidades">{{ hab.habilidad.nombre || 'sin competencias' }}</div>
+                <div class="preview-chip neutral" *ngFor="let hab of ofertaSeleccionada?.habilidades">{{
+                    hab.habilidad.nombre || 'sin competencias' }}</div>
             </div>
             <hr />
             <div class="Requerimientos">

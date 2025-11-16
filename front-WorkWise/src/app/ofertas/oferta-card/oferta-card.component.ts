@@ -20,6 +20,9 @@ export class OfertaCardComponent {
   Tipo_empleo: string = '';
   tipo_Contrato: string = '';
   nivel_Educacion: string = '';
+  page = 1;
+  pageSize = 8;
+  ofertasPaginadas: any[] = [];
 
 
 
@@ -29,6 +32,7 @@ export class OfertaCardComponent {
     this.authOfertasService.getOfertas().subscribe({
       next: (data) => {
         this.ofertas = data;
+        this.actualizarPaginacion();
         console.log(this.ofertas);
       }, error: (err) => {
         console.error('Error al cargar las ofertas', err);
@@ -43,6 +47,17 @@ export class OfertaCardComponent {
         console.error('Error al cargar las postulaciones', err);
       }
     });
+  }
+
+  actualizarPaginacion() {
+    const startIndex = (this.page - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.ofertasPaginadas = this.ofertas.slice(startIndex, endIndex);
+  }
+
+  cambiarPagina(n: number) {
+    this.page = n;
+    this.actualizarPaginacion();
   }
 
   estadoPostulado(ofertaId: number): boolean {

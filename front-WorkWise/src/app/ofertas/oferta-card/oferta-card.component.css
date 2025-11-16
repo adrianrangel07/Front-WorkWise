@@ -82,8 +82,6 @@
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Asegurar que no se solapen con el título */
-/* Animación para el icono de postulado */
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -115,51 +113,10 @@
     }
 }
 
-.job-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #0a1128;
-    margin: 4px 0;
-}
-
-.job-company {
-    font-size: 14px;
-    color: #333;
-}
-
-.job-location {
-    font-size: 14px;
-    color: #666;
-}
-
-.job-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 4px;
-}
-
-.salary {
-    background-color: #e9f8ed;
-    color: #147a32;
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 13px;
-}
-
-.fulltime {
-    background-color: #f3f4f6;
-    color: #444;
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 13px;
-}
 
 .offer-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
     padding: 20px;
 }
@@ -211,77 +168,33 @@
     display: inline-block;
 }
 
-/* Iconos para cada campo */
-.empresa::before {
-    content: "\f1ad";
-    /* Icono de empresa */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 10px;
-    color: #3498db;
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 55vh; /* ocupa toda la pantalla */
 }
 
-.salario::before {
-    content: "\f155";
-    /* Icono de dinero */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 10px;
-    color: #2ecc71;
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
 }
 
-.moneda::before {
-    content: "\f51e";
-    /* Icono de moneda */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 10px;
-    color: #f39c12;
+.pagination button {
+    background: #0a66c2;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
 }
 
-.duracion::before {
-    content: "\f017";
-    /* Icono de reloj */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 10px;
-    color: #9b59b6;
-}
-
-.periodo::before {
-    content: "\f073";
-    /* Icono de calendario */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 10px;
-    color: #1abc9c;
-}
-
-.tipo_empleo::before {
-    content: "\f0c0";
-    /* Icono de grupo */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 10px;
-    color: #e74c3c;
-}
-
-.modalidad::before {
-    content: "\f109";
-    /* Icono de computadora */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 10px;
-    color: #3498db;
-}
-
-.tipo_contrato::before {
-    content: "\f560";
-    /* Icono de contrato */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 10px;
-    color: #34495e;
+.pagination button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
 }
 
 
