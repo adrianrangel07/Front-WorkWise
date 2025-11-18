@@ -16,7 +16,4 @@ export class OfertasComponent {
     logueado = false;
 
   constructor(private authService: AuthPersonaService) {}
-
-
-
 }

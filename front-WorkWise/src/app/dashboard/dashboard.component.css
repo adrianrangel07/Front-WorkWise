@@ -5,6 +5,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    user-select: none;
 }
 
 html {
@@ -83,6 +84,7 @@ img {
 
 .btn-secondary:hover {
     background-color: var(--primary-light);
+    color: var(--white);
 }
 
 .section {
