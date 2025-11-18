@@ -1,0 +1,145 @@
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 60vh; 
+}
+
+
+
+.job-layout {
+  display: flex;
+  gap: 20px;
+}
+
+/* LISTA IZQUIERDA */
+.job-list {
+  width: 40%;
+  border-right: 1px solid #a5a5a5;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.section-title {
+  margin-bottom: 10px;
+}
+
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+.job-card.selected {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0,0,255,0.2);
+}
+
+.offer-content h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    margin-top: 40px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #555;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.offer-content h3::before {
+    content: "\f0b1";
+    /* Icono de trabajo */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #555;
+}
+
+.offer-content p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.company {
+  font-weight: bold;
+  margin: 0;
+}
+
+.location {
+  color: #666;
+  margin: 5px 0;
+}
+
+.tags {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+}
+
+.salary {
+  font-weight: bold;
+  color: #28a745;
+}
+
+.type {
+  background: #f1f1f1;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* PANEL DERECHO */
+.job-details {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.update-btn {
+  margin-top: 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.update-btn:hover {
+  background: #0056b3;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pagination button {
+    background: #0a66c2;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.pagination button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}

@@ -447,7 +447,7 @@ button:disabled {
 .btn-containerSelectores{
     display: flex;
     justify-content: space-between;
-    width: 255px;
+    gap: 10px;
 }
 .btn-container {
     display: flex;

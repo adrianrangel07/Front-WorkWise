@@ -33,7 +33,7 @@ export class OfertaCardComponent {
       next: (data) => {
         this.ofertas = data;
         this.actualizarPaginacion();
-        console.log(this.ofertas);
+        console.log(this.ofertas, this.Tipo_empleo);
       }, error: (err) => {
         console.error('Error al cargar las ofertas', err);
       }
@@ -70,7 +70,20 @@ export class OfertaCardComponent {
     if (modal) {
       modal.style.display = 'flex';
       console.log(this.ofertaSeleccionada);
-      switch (this.ofertaSeleccionada.experiencia) {
+      this.normalizarDatos(this.ofertaSeleccionada);
+    }
+  }
+
+  cerrarModal() {
+    const modal = document.getElementById('modal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+    this.ofertaSeleccionada = null;
+  }
+
+  normalizarDatos(ofertaData: any){
+    switch (ofertaData.experiencia) {
         case 0:
           this.experiencia = "Sin experiencia";
           break
@@ -92,7 +105,7 @@ export class OfertaCardComponent {
         default:
           this.experiencia = "No especificado";
       }
-      switch (this.ofertaSeleccionada.tipo_Empleo) {
+      switch (ofertaData.tipo_Empleo) {
         case 'Tiempo_Completo':
           this.Tipo_empleo = "Tiempo Completo";
           break
@@ -108,7 +121,7 @@ export class OfertaCardComponent {
         default:
           this.Tipo_empleo = "No especificado";
       }
-      switch (this.ofertaSeleccionada.tipo_Contrato) {
+      switch (ofertaData.tipo_Contrato) {
         case "Obra_Labor":
           this.tipo_Contrato = "Obra labor";
           break
@@ -124,7 +137,7 @@ export class OfertaCardComponent {
         default:
           this.tipo_Contrato = "No especificado";
       }
-      switch (this.ofertaSeleccionada.nivel_Educacion) {
+      switch (ofertaData.nivel_Educacion) {
         case "Sin_estudios":
           this.nivel_Educacion = "Sin estudios";
           break
@@ -149,16 +162,19 @@ export class OfertaCardComponent {
         default:
           this.nivel_Educacion = "No especificado";
       }
+  }
+
+  getTipoEmpleo(valor: string) {
+    console.log(valor)
+    switch (valor) {
+      case 'Tiempo_Completo': return 'Tiempo Completo';
+      case 'Medio_Tiempo': return 'Medio Tiempo';
+      case 'Por_Horas': return 'Por Horas';
+      case 'Freelance': return 'Freelance';
+      default: return 'No especificado';
     }
   }
 
-  cerrarModal() {
-    const modal = document.getElementById('modal');
-    if (modal) {
-      modal.style.display = 'none';
-    }
-    this.ofertaSeleccionada = null;
-  }
 
   postularse(ofertaId: number) {
     this.authPostulacionesService.postularse(ofertaId).subscribe({

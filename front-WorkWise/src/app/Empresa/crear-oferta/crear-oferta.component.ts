@@ -84,6 +84,22 @@ export class CrearOfertaComponent {
     { value: 'Turismo', label: 'Turismo' }
   ];
 
+    oferta: Oferta = {
+    titulo: '',
+    descripcion: '',
+    salario: null,
+    moneda: '',
+    ubicacion: '',
+    tipo_Contrato: '',
+    tipo_Empleo: '',
+    modalidad: '',
+    fecha_Publicacion: new Date(),
+    fecha_Cierre: '',
+    sector_oferta: '',
+    habilidades: [] as string[],
+    experiencia: null,
+    nivel_Educacion: '',
+  };
 
   filteredOptions = [...this.options];
 
@@ -116,26 +132,6 @@ export class CrearOfertaComponent {
   stopPropagation(event: Event) {
     event.stopPropagation();
   }
-
-
-
-  oferta: Oferta = {
-    titulo: '',
-    descripcion: '',
-    salario: null,
-    moneda: '',
-    ubicacion: '',
-    tipo_Contrato: '',
-    tipo_Empleo: '',
-    modalidad: '',
-    fecha_Publicacion: new Date(),
-    fecha_Cierre: '',
-    sector_oferta: '',
-    habilidades: [] as string[],
-    experiencia: null,
-    nivel_Educacion: '',
-  };
-
 
   constructor(private authEmpresaService: AuthEmpresaService) { }
 

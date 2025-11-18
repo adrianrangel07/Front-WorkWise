@@ -1,1 +1,63 @@
-<p>oferta-card-empresa works!</p>
+<div class="content-wrapper">
+    <div style="flex: 1;">
+        <div class="job-layout">
+
+            <!-- 🟦 LISTA IZQUIERDA -->
+            <div class="job-list">
+                <h3 class="section-title">Tus ofertas</h3>
+
+                <div *ngIf="ofertas.length === 0" class="no-data">
+                    <p>No tienes ofertas publicadas aún.</p>
+                </div>
+
+                <div *ngIf="ofertas.length > 0">
+                    <div *ngFor="let oferta of ofertas" class="card" (click)="seleccionarOferta(oferta)"
+                        [class.selected]="ofertaSeleccionada?.id === oferta.id">
+                        <div class="offer-content">
+                            <h3>{{ oferta.titulo }}</h3>
+                            <p class="company">{{ oferta.empresa.nombre }}</p>
+                            <p class="location"><i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i>{{ oferta.ubicacion }}</p>
+
+                            <div class="tags">
+                                <span class="salary">{{ oferta.salario.toLocaleString('es-CO') }}</span>
+                                <span class="type">{{oferta.tipo_Empleo }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🟩 PANEL DERECHO (DETALLES) -->
+            <div class="job-details" *ngIf="ofertaSeleccionada">
+                <h2>{{ ofertaSeleccionada.titulo }}</h2>
+
+                <p><strong>Empresa:</strong> {{ ofertaSeleccionada.empresa.nombre }}</p>
+                <p><strong>Ubicación:</strong> {{ ofertaSeleccionada.ubicacion }}</p>
+                <p><strong>Tipo:</strong> {{ ofertaSeleccionada.tipo_Empleo }}</p>
+                <p><strong>Salario:</strong> {{ ofertaSeleccionada.salario.toLocaleString('es-CO') }}</p>
+
+                <hr>
+
+                <h3>Descripción</h3>
+                <p [innerHTML]="ofertaSeleccionada.descripcion"></p>
+
+                <button class="update-btn">
+                    Actualizar esta oferta
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="pagination">
+    <button (click)="cambiarPagina(page - 1)" [disabled]="page === 0">
+        « Anterior
+    </button>
+
+    <span>Página {{ page + 1 }} / {{ totalPages }}</span>
+
+    <button (click)="cambiarPagina(page + 1)" [disabled]="page + 1 >= totalPages">
+        Siguiente »
+    </button>
+</div>

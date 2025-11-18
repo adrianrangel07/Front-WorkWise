@@ -12,11 +12,11 @@
                 <div class="offer-content">
                     <h3>{{oferta.titulo}}</h3>
                     <div class="job-company">{{oferta.empresa.nombre}}</div>
-                    <div class="job-location">{{oferta?.ubicacion}}</div>
+                    <div class="job-location"><i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i>{{oferta?.ubicacion}}</div>
 
-                    <div class="job-tags">
+                    <div class="tags">
                         <span class="salary">{{oferta?.salario.toLocaleString('es-CO')}}</span>
-                        <span class="fulltime">{{oferta?.tipo_Empleo}}</span>
+                        <span class="type">{{getTipoEmpleo(oferta?.tipo_Empleo)}}</span>
                     </div>
                 </div>
             </div>
@@ -34,8 +34,6 @@
         Siguiente »
     </button>
 </div>
-
-
 
 <!-- Modal que se mostrará al hacer clic en una tarjeta -->
 <div id="modal" class="modal">

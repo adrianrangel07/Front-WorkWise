@@ -48,6 +48,17 @@ export class AuthEmpresaService {
     return this.http.post(`${this.apiUrl}/ofertas`, oferta ,{ headers});
   }
 
+  getOfertas(page: number , size: number){
+    const token = this.getToken();
+
+    if(!token){
+      console.warn('No se encontró token de autenticación para empresa.');
+      return of([]);
+    }
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.get<any>(`${this.apiUrl}/ofertas?page=${page}&size=${size}`,{headers});
+  }
+
   saveToken(token: string) {
     localStorage.setItem('token', token);
     this.loggedin.next(true);
