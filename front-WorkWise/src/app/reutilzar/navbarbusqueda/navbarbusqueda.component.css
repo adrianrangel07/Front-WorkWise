@@ -1,6 +1,7 @@
 .navbar {
   background: var(--bg-light);
   box-shadow: var(--shadow);
+  user-select: none;
 }
 
 .sidebar {

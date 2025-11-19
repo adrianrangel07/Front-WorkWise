@@ -7,6 +7,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     position: relative;
+    user-select: none;
 }
 
 .card:hover {
@@ -329,6 +330,7 @@ hr {
     font-size: 1.5rem;
     display: flex;
     align-items: center;
+    padding-bottom: 6px;
 }
 
 .modal-header h3::before {

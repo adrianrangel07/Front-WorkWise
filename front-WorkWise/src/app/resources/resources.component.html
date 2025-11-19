@@ -1,0 +1,150 @@
+<div class="resources-page">
+    <!-- Layout Principal con Sidebar -->
+    <div class="resources-layout">
+        <!-- Sidebar -->
+        <aside class="resources-sidebar">
+            <app-navbar-acordion style="display: inline-block;"></app-navbar-acordion>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="resources-main">
+            <!-- Header -->
+            <div class="resources-header">
+                <div class="container">
+                    <h1>Centro de Recursos</h1>
+                    <p class="subtitle">Aprende a preparar entrevistas, buscar empleo y desarrollar tu carrera
+                        profesional</p>
+                </div>
+            </div>
+
+            <!-- Filtros y Búsqueda -->
+            <div class="filters-section">
+                <div class="container">
+                    <div class="search-box">
+                        <div class="search-input-wrapper">
+                            <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()"
+                                placeholder="Buscar recursos..." class="search-input">
+                            <span class="search-icon">🔍</span>
+                        </div>
+                    </div>
+
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label for="category">Categoría:</label>
+                            <select id="category" [(ngModel)]="selectedCategory" (change)="onCategoryChange()"
+                                class="filter-select">
+                                <option value="all">Todas las categorías</option>
+                                <option *ngFor="let cat of categories" [value]="cat.value">
+                                    {{ cat.label }} ({{ cat.count }})
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="type">Tipo:</label>
+                            <select id="type" [(ngModel)]="selectedType" (change)="onTypeChange()"
+                                class="filter-select">
+                                <option value="all">Todos los tipos</option>
+                                <option value="video">Videos</option>
+                                <option value="document">Documentos</option>
+                                <option value="article">Artículos</option>
+                                <option value="tip">Tips</option>
+                            </select>
+                        </div>
+
+                        <button (click)="clearFilters()" class="clear-filters-btn">
+                            Limpiar filtros
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido Principal -->
+            <div class="resources-content">
+                <div class="container">
+                    <!-- Loading State -->
+                    <div *ngIf="isLoading" class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Cargando recursos...</p>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div *ngIf="!isLoading && filteredResources.length === 0" class="empty-state">
+                        <div class="empty-icon">📚</div>
+                        <h3>No se encontraron recursos</h3>
+                        <p>Intenta con otros términos de búsqueda o ajusta los filtros</p>
+                        <button (click)="clearFilters()" class="btn-primary">
+                            Mostrar todos los recursos
+                        </button>
+                    </div>
+
+                    <!-- Grid de Recursos -->
+                    <div *ngIf="!isLoading && filteredResources.length > 0" class="resources-grid">
+                        <div *ngFor="let resource of filteredResources" class="resource-card"
+                            [class.featured]="resource.featured">
+                            <!-- Badge Destacado -->
+                            <div *ngIf="resource.featured" class="featured-badge">
+                                ⭐ Destacado
+                            </div>
+
+                            <!-- Header de la Tarjeta -->
+                            <div class="resource-header">
+                                <div class="resource-type">
+                                    <span class="type-icon">{{ getTypeIcon(resource.type) }}</span>
+                                    <span class="type-label">{{ getTypeLabel(resource.type) }}</span>
+                                </div>
+                                <div class="resource-category">
+                                    {{ getCategoryLabel(resource.category) }}
+                                </div>
+                            </div>
+
+                            <!-- Contenido de la Tarjeta -->
+                            <div class="resource-content">
+                                <h3 class="resource-title">{{ resource.title }}</h3>
+                                <p class="resource-description">{{ resource.description }}</p>
+
+                                <!-- Metadatos específicos por tipo -->
+                                <div class="resource-meta">
+                                    <span *ngIf="resource.duration" class="meta-item">
+                                        ⏱️ {{ resource.duration }}
+                                    </span>
+                                    <span *ngIf="resource.fileSize" class="meta-item">
+                                        📦 {{ resource.fileSize }}
+                                    </span>
+                                    <span class="meta-item">
+                                        📅 {{ resource.createdAt | date:'dd/MM/yyyy' }}
+                                    </span>
+                                </div>
+
+                                <!-- Tags -->
+                                <div class="resource-tags">
+                                    <span *ngFor="let tag of resource.tags" class="tag">
+                                        {{ tag }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Acciones -->
+                            <div class="resource-actions">
+                                <button *ngIf="resource.type === 'video'" (click)="openVideo(resource.url)"
+                                    class="btn-primary">
+                                    Ver Video
+                                </button>
+
+                                <button *ngIf="resource.type === 'document'" (click)="downloadDocument(resource.url)"
+                                    class="btn-primary">
+                                    Descargar PDF
+                                </button>
+
+                                <button *ngIf="resource.type === 'article' || resource.type === 'tip'"
+                                    (click)="readContent(resource)" class="btn-primary">
+                                    Leer Más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

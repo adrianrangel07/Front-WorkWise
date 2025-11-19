@@ -4,6 +4,7 @@
     margin-bottom: 20px;
     text-align: center;
     height: 132px;
+    user-select: none;
 }
 
 .section-title h2 {

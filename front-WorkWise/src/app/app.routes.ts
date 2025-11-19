@@ -10,13 +10,14 @@ import { empresaLoginComponent } from './Empresa/login/login.component';
 import { CrearOfertaComponent } from './Empresa/crear-oferta/crear-oferta.component';
 import { authEmpresaGuard } from './guards/auth-empresa.guard';
 
-
 // persona
 import { authPersonaGuard } from './guards/auth-persona.guard';
 import { PostulacionesPendientesComponent } from './Persona/postulaciones-pendientes/postulaciones-pendientes.component';
 import { RegisterComponent } from './Persona/register/register.component';
 import { PerfilComponent } from './Persona/perfil/perfil.component';
 import { personaLoginComponent } from './Persona/login/login.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResourcesComponent } from './resources/resources.component';
 
 
 export const routes: Routes = [
@@ -36,7 +37,17 @@ export const routes: Routes = [
         component: OfertasComponent,
         data: { animation: 'ofertasInicio' }
     },
+    {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent,
+        data: { animation: 'forgotPassword' }
+    },
 
+    {
+        path: 'resources',
+        component: ResourcesComponent,
+        data: { animation: 'resources' }
+    },
 
     // persona
     {

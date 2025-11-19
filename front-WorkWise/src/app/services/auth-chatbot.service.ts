@@ -13,8 +13,6 @@ export class AuthChatbotService {
 
   constructor(private http: HttpClient) {}
 
-
-
   enviarMensaje(mensaje: string, tipo: 'antiguo' | 'nuevo'): Observable<any> {
     if(tipo === 'nuevo'){
       const params = new HttpParams().set('message', mensaje);

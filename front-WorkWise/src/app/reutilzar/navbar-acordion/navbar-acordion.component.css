@@ -3,6 +3,7 @@
   box-shadow: var(--shadow);
   /* width: 956px; */
   height: 100%;
+  user-select: none;
 }
 
 .persona-navbar, .invitado-navbar {

@@ -92,7 +92,7 @@ export class RegisterComponent {
         console.log('Registro exitoso:', response);
         Swal.fire({
           title: 'Éxito',
-          text: 'Empresa registrada con éxito.',
+          text: 'Usuario registrado con éxito.',
           icon: 'success',
           timer: 2000,
         }).then(() => {
@@ -103,7 +103,7 @@ export class RegisterComponent {
         console.error('Error en el registro:', error);
         Swal.fire({
           title: 'Error',
-          text: 'Hubo un error al registrar la empresa.',
+          text: 'Hubo un error al registrar el Usuario.',
           icon: 'error',
           timer: 2000,
         });
