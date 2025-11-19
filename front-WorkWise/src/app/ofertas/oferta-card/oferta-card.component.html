@@ -2,8 +2,8 @@
     <div style="flex: 1;">
         <div *ngIf="ofertasPaginadas.length > 0" class="offer-container">
             <div *ngFor="let oferta of ofertasPaginadas" class="card" (click)="abrirModal(oferta)">
-                <div class="favorite-icon">
-                    <i class="far fa-heart"></i>
+                <div class="favorite-icon" (click)="toggleFavorito(oferta, $event)">
+                    <i [ngClass]="esFavorito(oferta.id) ? 'fas fa-heart favorito' : 'far fa-heart'"></i>
                 </div>
                 <div class="applied-icon" *ngIf="estadoPostulado(oferta.id)">
                     <i class="fas fa-check-circle"></i>
@@ -12,7 +12,8 @@
                 <div class="offer-content">
                     <h3>{{oferta.titulo}}</h3>
                     <div class="job-company">{{oferta.empresa.nombre}}</div>
-                    <div class="job-location"><i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i>{{oferta?.ubicacion}}</div>
+                    <div class="job-location"><i class="fas fa-map-marker-alt"
+                            style="margin-right: 5px;"></i>{{oferta?.ubicacion}}</div>
 
                     <div class="tags">
                         <span class="salary">{{oferta?.salario.toLocaleString('es-CO')}}</span>

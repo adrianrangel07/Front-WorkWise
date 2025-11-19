@@ -15,20 +15,20 @@
 }
 
 .tags {
-  margin-top: 8px;
-  display: flex;
-  gap: 10px;
+    margin-top: 8px;
+    display: flex;
+    gap: 10px;
 }
 
 .salary {
-  font-weight: bold;
-  color: #28a745;
+    font-weight: bold;
+    color: #28a745;
 }
 
 .type {
-  background: #f1f1f1;
-  padding: 3px 8px;
-  border-radius: 6px;
+    background: #f1f1f1;
+    padding: 3px 8px;
+    border-radius: 6px;
 }
 
 .favorite-icon {
@@ -46,9 +46,10 @@
     color: #ff4757;
 }
 
-.favorite-icon.favorited {
+.favorite-icon i.favorito {
     color: #ff4757;
 }
+
 
 .card.favorited {
     border: 2px solid #ff4757;
@@ -188,7 +189,8 @@
 .content-wrapper {
     display: flex;
     flex-direction: column;
-    min-height: 55vh; /* ocupa toda la pantalla */
+    min-height: 55vh;
+    /* ocupa toda la pantalla */
 }
 
 .pagination {

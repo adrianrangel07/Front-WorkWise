@@ -17,8 +17,6 @@
     height: 63px;
 }
 
-
-
 .sidebar .nav-item:hover {
   background: rgba(255, 255, 255, 0.2);
   border-left: 4px solid #1e88e5;
@@ -30,8 +28,6 @@
   border-left: 4px solid #59625e;
   padding: 16px;
 }
-
-
 
 .sidebar a {
   text-decoration: none;

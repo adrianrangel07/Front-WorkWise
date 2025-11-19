@@ -7,6 +7,16 @@
                 <h2 class="display-5 fw-bold" data-trad="offers.title">Ofertas disponibles</h2>
                 <p class="text-muted">Explora las oportunidades laborales que tenemos para ti</p>
             </div>
+
+            <div class="btn-favoritos-container">
+                <button class="btn-favoritos" [class.active]="mostrarFavoritosPrimero"
+                    (click)="toggleMostrarFavoritos()">
+                    <span class="heart-icon">❤️</span> Favoritos
+                </button>
+            </div>
+
+
+
             <app-oferta-card></app-oferta-card>
         </div>
         <app-footer class="mt-auto"></app-footer>
