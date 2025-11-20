@@ -14,12 +14,17 @@ export class OfertaCardEmpresaComponent {
   ofertas: any[] = [];
   totalPages: number = 0;
   ofertaSeleccionada: any = null;
+  menuAbierto = false;
 
   ngOnInit() {
     this.cargarOfertas();
   }
 
-  constructor(private authEmpresaService: AuthEmpresaService) {}
+  toggleMenu() {
+    this.menuAbierto = !this.menuAbierto;
+  }
+
+  constructor(private authEmpresaService: AuthEmpresaService) { }
 
   seleccionarOferta(oferta: any) {
     this.ofertaSeleccionada = oferta;
@@ -37,6 +42,16 @@ export class OfertaCardEmpresaComponent {
 
     this.page = nuevaPagina;
     this.cargarOfertas();
+  }
+
+  editarOferta(oferta: any) {
+    console.log("Editar", oferta);
+    // Aquí navegas o abres modal
+  }
+
+  deshabilitarOferta(oferta: any) {
+    console.log("Deshabilitar", oferta);
+    // Aquí haces tu lógica de deshabilitar
   }
 
 }

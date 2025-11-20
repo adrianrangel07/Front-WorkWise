@@ -1,7 +1,6 @@
 <div class="content-wrapper">
     <div style="flex: 1;">
         <div class="job-layout">
-
             <!-- 🟦 LISTA IZQUIERDA -->
             <div class="job-list">
                 <h3 class="section-title">Tus ofertas</h3>
@@ -16,7 +15,8 @@
                         <div class="offer-content">
                             <h3>{{ oferta.titulo }}</h3>
                             <p class="company">{{ oferta.empresa.nombre }}</p>
-                            <p class="location"><i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i>{{ oferta.ubicacion }}</p>
+                            <p class="location"><i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i>{{
+                                oferta.ubicacion }}</p>
 
                             <div class="tags">
                                 <span class="salary">{{ oferta.salario.toLocaleString('es-CO') }}</span>
@@ -29,25 +29,105 @@
 
             <!-- 🟩 PANEL DERECHO (DETALLES) -->
             <div class="job-details" *ngIf="ofertaSeleccionada">
-                <h2>{{ ofertaSeleccionada.titulo }}</h2>
+                <div class="job-details-container">
+                    <!-- Header Section -->
+                    <div class="job-header">
+                        <div class="menu-wrapper" (click)="toggleMenu()" tabindex="0">
+                            <i class="fas fa-ellipsis-v menu-icon"></i>
 
-                <p><strong>Empresa:</strong> {{ ofertaSeleccionada.empresa.nombre }}</p>
-                <p><strong>Ubicación:</strong> {{ ofertaSeleccionada.ubicacion }}</p>
-                <p><strong>Tipo:</strong> {{ ofertaSeleccionada.tipo_Empleo }}</p>
-                <p><strong>Salario:</strong> {{ ofertaSeleccionada.salario.toLocaleString('es-CO') }}</p>
+                            <div class="menu-options" *ngIf="menuAbierto">
+                                <button class="menu-item" (click)="editarOferta(ofertaSeleccionada)">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
+                                <button class="menu-item" (click)="deshabilitarOferta(ofertaSeleccionada)">
+                                    <i class="fas fa-ban"></i> Deshabilitar
+                                </button>
+                            </div>
+                        </div>
+                        <h1 class="job-title">{{ ofertaSeleccionada.titulo }}</h1>
+                        <div class="company-info">
+                            <span class="company-name">{{ ofertaSeleccionada.empresa.nombre }}</span>
+                        </div>
+                    </div>
 
-                <hr>
+                    <div class="divider"></div>
 
-                <h3>Descripción</h3>
-                <p [innerHTML]="ofertaSeleccionada.descripcion"></p>
+                    <!-- Job Specifications -->
+                    <div class="specifications-section">
+                        <h2 class="section-title">Información del empleo</h2>
+                        <div class="spec-list">
+                            <div class="spec-item">
+                                <div class="spec-header">
+                                    <i class="fas fa-wallet"></i><span class="spec-title">Sueldo</span>
+                                </div>
+                                <div class="preview-chip success">
+                                    {{ ofertaSeleccionada.salario.toLocaleString('es-CO') }}<span
+                                        class="checkmark">✔</span>
+                                </div>
+                            </div>
 
-                <button class="update-btn">
-                    Actualizar esta oferta
-                </button>
+                            <div class="spec-item">
+                                <div class="spec-header">
+                                    <i class="fas fa-briefcase"></i><span class="spec-title">Tipo de empleo</span>
+                                </div>
+                                <div class="preview-chip-group">
+                                    <div class="preview-chip neutral">{{ ofertaSeleccionada.tipo_Empleo }}</div>
+                                    <div class="preview-chip neutral">{{ ofertaSeleccionada.tipo_Contrato }}</div>
+                                    <div class="preview-chip neutral">{{ ofertaSeleccionada.modalidad }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Location Section -->
+                    <div class="location-section">
+                        <div class="spec-header">
+                            <i class="fas fa-map-marker-alt"></i><span class="spec-title">Location</span>
+                        </div>
+                        <div class="location-item">
+                            <span class="location-detail">{{ ofertaSeleccionada.ubicacion }}</span>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Full Job Description -->
+                    <div class="description-section">
+                        <h2 class="section-title">Full job description</h2>
+                        <div class="job-description">
+                            <p [innerHTML]="ofertaSeleccionada.descripcion"></p>
+                        </div>
+
+                    </div>
+                    <h4>Aptitudes relacionadas con el empleo</h4>
+                    <div style="margin-bottom: 20px;">
+                        <div class="preview-chip neutral" *ngFor="let hab of ofertaSeleccionada?.habilidades">{{
+                            hab.habilidad.nombre || 'sin competencias' }}</div>
+                    </div>
+                    <div class="Requerimientos">
+                        <h3 class="subsection-title">Requisitos:</h3>
+                        <ul>
+                            <li>
+                                <div class="modal-info-item" id="modal-experience">
+                                    <strong>Experiencia:</strong>{{ofertaSeleccionada.experiencia}}
+                                </div>
+                            </li>
+                            <li>
+                                <div class="modal-info-item" id="modal-studyLevel"><strong>Nivel de
+                                        estudio:</strong>{{ofertaSeleccionada?.nivel_Educacion}}</div>
+                            </li>
+                            <li>
+                                <div class="modal-info-item" id="modal-sector">
+                                    <strong>Sector:</strong>{{ofertaSeleccionada?.sector_oferta}}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-
         </div>
-
     </div>
 </div>
 <div class="pagination">
