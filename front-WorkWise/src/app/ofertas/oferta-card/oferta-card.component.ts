@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import { AuthOfertasService } from '../../services/auth-ofertas.service';
 import { AuthPostulacionesService } from '../../services/auth-postulaciones.service';
 import { NgForOf, NgIf, NgClass } from '@angular/common';
-// import { NgForOf, NgIf } from '@angular/common';
 import Swal from 'sweetalert2';
-import { S } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-oferta-card',
@@ -14,6 +12,7 @@ import { S } from '@angular/cdk/keycodes';
 })
 export class OfertaCardComponent {
   ofertas: any[] = [];
+  ofertasFiltradas: any[] = [];
   ofertaSeleccionada: any = null;
   experiencia: string = '';
   postulaciones: number[] = [];
@@ -24,6 +23,17 @@ export class OfertaCardComponent {
   pageSize = 8;
   ofertasPaginadas: any[] = [];
   token: string | null = null;
+  terminoBusqueda: string = '';
+  buscando: boolean = false;
+
+  // Filtros activos
+  filtrosActivos: any = {
+    salarioMin: null,
+    salarioMax: null,
+    tipoContrato: '',
+    tipoEmpleo: '',
+    modalidades: [],
+  };
 
   constructor(
     private authOfertasService: AuthOfertasService,
@@ -31,17 +41,15 @@ export class OfertaCardComponent {
   ) {}
 
   ngOnInit() {
-    // Obtener token
     this.token = localStorage.getItem('token');
-
-    // Cargar favoritos con token
     this.cargarFavoritosUsuario();
 
     this.authOfertasService.getOfertas().subscribe({
       next: (data) => {
         this.ofertas = data;
+        this.ofertasFiltradas = [...this.ofertas];
         this.actualizarPaginacion();
-        console.log(this.ofertas, this.Tipo_empleo);
+        console.log('Ofertas cargadas:', this.ofertas.length);
       },
       error: (err) => {
         console.error('Error al cargar las ofertas', err);
@@ -53,7 +61,7 @@ export class OfertaCardComponent {
         this.postulaciones = data.map(
           (postulacion: any) => postulacion.oferta.id
         );
-        console.log(this.postulaciones);
+        console.log('Postulaciones cargadas:', this.postulaciones.length);
       },
       error: (err) => {
         console.error('Error al cargar las postulaciones', err);
@@ -61,10 +69,116 @@ export class OfertaCardComponent {
     });
   }
 
+  // Método para filtrar por texto
+  filtrarOfertas(termino: string) {
+    this.terminoBusqueda = termino.toLowerCase().trim();
+    this.page = 1;
+    this.buscando = !!this.terminoBusqueda;
+    this.aplicarTodosLosFiltros();
+  }
+
+  // Método para aplicar filtros avanzados
+  aplicarFiltrosAvanzados(filtros: any) {
+    this.filtrosActivos = { ...filtros };
+    this.page = 1;
+    this.aplicarTodosLosFiltros();
+  }
+
+  // Aplicar todos los filtros (texto + avanzados)
+  aplicarTodosLosFiltros() {
+    let ofertasFiltradas = [...this.ofertas];
+
+    // Aplicar filtro de texto
+    if (this.terminoBusqueda) {
+      ofertasFiltradas = ofertasFiltradas.filter(
+        (oferta) =>
+          oferta.titulo?.toLowerCase().includes(this.terminoBusqueda) ||
+          oferta.empresa?.nombre
+            ?.toLowerCase()
+            .includes(this.terminoBusqueda) ||
+          oferta.descripcion?.toLowerCase().includes(this.terminoBusqueda) ||
+          (oferta.habilidades &&
+            oferta.habilidades.some((hab: any) =>
+              hab.habilidad?.nombre
+                ?.toLowerCase()
+                .includes(this.terminoBusqueda)
+            )) ||
+          oferta.ubicacion?.toLowerCase().includes(this.terminoBusqueda)
+      );
+    }
+
+    // Aplicar filtros avanzados
+    ofertasFiltradas = ofertasFiltradas.filter((oferta) => {
+      // Filtro por salario
+      if (
+        this.filtrosActivos.salarioMin !== null &&
+        oferta.salario < this.filtrosActivos.salarioMin
+      ) {
+        return false;
+      }
+      if (
+        this.filtrosActivos.salarioMax !== null &&
+        oferta.salario > this.filtrosActivos.salarioMax
+      ) {
+        return false;
+      }
+
+      // Filtro por tipo de contrato
+      if (
+        this.filtrosActivos.tipoContrato &&
+        oferta.tipo_Contrato !== this.filtrosActivos.tipoContrato
+      ) {
+        return false;
+      }
+
+      // Filtro por tipo de empleo
+      if (
+        this.filtrosActivos.tipoEmpleo &&
+        oferta.tipo_Empleo !== this.filtrosActivos.tipoEmpleo
+      ) {
+        return false;
+      }
+
+      // Filtro por modalidad
+      if (
+        this.filtrosActivos.modalidades.length > 0 &&
+        !this.filtrosActivos.modalidades.includes(
+          oferta.modalidad?.toLowerCase()
+        )
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+
+    this.ofertasFiltradas = ofertasFiltradas;
+    this.actualizarPaginacion();
+
+    console.log(
+      'Ofertas después de aplicar filtros:',
+      this.ofertasFiltradas.length
+    );
+    console.log('Filtros activos:', this.filtrosActivos);
+  }
+
+  limpiarBusqueda() {
+    this.terminoBusqueda = '';
+    this.buscando = false;
+    this.filtrosActivos = {
+      salarioMin: null,
+      salarioMax: null,
+      tipoContrato: '',
+      tipoEmpleo: '',
+      modalidades: [],
+    };
+    this.aplicarTodosLosFiltros();
+  }
+
   actualizarPaginacion() {
     const startIndex = (this.page - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.ofertasPaginadas = this.ofertas.slice(startIndex, endIndex);
+    this.ofertasPaginadas = this.ofertasFiltradas.slice(startIndex, endIndex);
   }
 
   cambiarPagina(n: number) {
@@ -242,7 +356,6 @@ export class OfertaCardComponent {
   toggleFavorito(oferta: any, event: MouseEvent) {
     event.stopPropagation();
 
-    // Si NO hay token → no permitir
     if (!this.token) {
       Swal.fire(
         'Inicia sesión',
@@ -252,22 +365,17 @@ export class OfertaCardComponent {
       return;
     }
 
-    // Si ya es favorito → quitar
     if (this.esFavorito(oferta.id)) {
       this.favoritos = this.favoritos.filter((id) => id !== oferta.id);
-    }
-    // Si no es → agregar
-    else {
+    } else {
       this.favoritos.push(oferta.id);
     }
 
-    // Guardar favoritos ligados al token
     localStorage.setItem(
       'favoritos_' + this.token,
       JSON.stringify(this.favoritos)
     );
 
-    // Reordenar si tu toggle está activado
     this.ordenarOfertas();
     this.actualizarPaginacion();
   }
@@ -283,7 +391,7 @@ export class OfertaCardComponent {
   ordenarOfertas() {
     if (!this.mostrarFavoritosPrimero) return;
 
-    this.ofertas.sort((a, b) => {
+    this.ofertasFiltradas.sort((a, b) => {
       const aFav = this.esFavorito(a.id) ? 1 : 0;
       const bFav = this.esFavorito(b.id) ? 1 : 0;
       return bFav - aFav;
@@ -292,7 +400,7 @@ export class OfertaCardComponent {
 
   cargarFavoritosUsuario() {
     if (!this.token) {
-      this.favoritos = []; // No logueado → no favoritos
+      this.favoritos = [];
       return;
     }
 

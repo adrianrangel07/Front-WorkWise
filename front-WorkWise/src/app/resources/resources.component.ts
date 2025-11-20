@@ -8,7 +8,7 @@ import { NavbarAcordionComponent } from '../reutilzar/navbar-acordion/navbar-aco
 @Component({
   selector: 'app-resources',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, NavbarAcordionComponent,],
+  imports: [CommonModule, FormsModule, RouterModule, NavbarAcordionComponent],
   templateUrl: './resources.component.html',
   styleUrl: './resources.component.css',
 })
@@ -123,15 +123,15 @@ export class ResourcesComponent implements OnInit {
     return labels[category] || category;
   }
 
-  openVideo(url: string): void {
+  open(url: string): void {
     window.open(url, '_blank');
   }
 
   downloadDocument(url: string): void {
+    window.open(url, '_blank');
     const link = document.createElement('a');
     link.href = url;
     link.download = url.split('/').pop() || 'documento';
-    link.click();
   }
 
   readContent(resource: Resource): void {

@@ -1,31 +1,34 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavbarComponent } from '../reutilzar/navbar/navbar.component';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [NavbarComponent],
+  imports: [NavbarComponent, FormsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent implements AfterViewInit {
-  ngAfterViewInit(): void {
-    // Capturar formulario y manejar búsqueda
-    const formBusqueda = document.getElementById('formBusqueda');
-    if (formBusqueda) {
-      formBusqueda.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const terminoInput = document.getElementById(
-          'termino'
-        ) as HTMLInputElement;
-        const termino = terminoInput.value.trim();
-        if (termino !== '') {
-          window.location.href = `/ofertasInicio?termino=${encodeURIComponent(
-            termino
-          )}`;
-        }
-      });
-    }
+export class DashboardComponent {
+  terminoBusqueda: string = '';
 
+  constructor(private router: Router) {}
+
+  buscarEmpleo(event: Event) {
+    event.preventDefault();
+
+    if (this.terminoBusqueda.trim()) {
+      // Navegar a ofertasInicio con el término de búsqueda como parámetro
+      this.router.navigate(['/ofertasInicio'], {
+        queryParams: { termino: this.terminoBusqueda.trim() },
+      });
+    } else {
+      // Si no hay término, ir a ofertasInicio sin filtro
+      this.router.navigate(['/ofertasInicio']);
+    }
+  }
+
+  ngAfterViewInit(): void {
     // Función para animar contador
     const animateCounter = (
       element: string,
@@ -64,4 +67,5 @@ export class DashboardComponent implements AfterViewInit {
       observer.observe(stats);
     }
   }
+
 }

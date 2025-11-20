@@ -111,11 +111,7 @@
                                     <span *ngIf="resource.fileSize" class="meta-item">
                                         📦 {{ resource.fileSize }}
                                     </span>
-                                    <span class="meta-item">
-                                        📅 {{ resource.createdAt | date:'dd/MM/yyyy' }}
-                                    </span>
                                 </div>
-
                                 <!-- Tags -->
                                 <div class="resource-tags">
                                     <span *ngFor="let tag of resource.tags" class="tag">
@@ -126,7 +122,7 @@
 
                             <!-- Acciones -->
                             <div class="resource-actions">
-                                <button *ngIf="resource.type === 'video'" (click)="openVideo(resource.url)"
+                                <button *ngIf="resource.type === 'video'" (click)="open(resource.url)"
                                     class="btn-primary">
                                     Ver Video
                                 </button>
@@ -137,7 +133,7 @@
                                 </button>
 
                                 <button *ngIf="resource.type === 'article' || resource.type === 'tip'"
-                                    (click)="readContent(resource)" class="btn-primary">
+                                    (click)="open(resource.url)" class="btn-primary">
                                     Leer Más
                                 </button>
                             </div>

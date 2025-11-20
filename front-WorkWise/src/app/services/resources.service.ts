@@ -13,7 +13,6 @@ export interface Resource {
   fileSize?: string; // Para documentos
   tags: string[];
   featured: boolean;
-  createdAt: Date;
 }
 
 @Injectable({
@@ -32,7 +31,6 @@ export class ResourcesService {
       duration: '20:41',
       tags: ['entrevista', 'técnica', 'preparación'],
       featured: true,
-      createdAt: new Date('2025-01-15'),
     },
     {
       id: 2,
@@ -45,7 +43,6 @@ export class ResourcesService {
       fileSize: '3 MB',
       tags: ['cv', 'plantilla', 'profesional'],
       featured: true,
-      createdAt: new Date('2025-11-10'),
     },
     {
       id: 3,
@@ -54,10 +51,9 @@ export class ResourcesService {
         'Aprende a evitar los errores más comunes que cometen los candidatos.',
       type: 'article',
       category: 'job-search',
-      url: '#',
+      url: 'https://online-usc-edu.translate.goog/news/top-common-job-search-mistakes-how-to-avoid/?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=tc',
       tags: ['errores', 'consejos', 'búsqueda'],
       featured: false,
-      createdAt: new Date('2024-01-08'),
     },
     {
       id: 4,
@@ -66,23 +62,22 @@ export class ResourcesService {
         'Estrategias para sobresalir en procesos de selección grupales.',
       type: 'video',
       category: 'interview',
-      url: 'https://www.youtube.com/embed/ejemplo2',
-      duration: '12:45',
+      url: 'https://www.youtube.com/watch?v=I-tZbwo5VsI',
+      duration: '6:37',
       tags: ['entrevista', 'grupal', 'destacar'],
       featured: false,
-      createdAt: new Date('2024-01-05'),
     },
     {
       id: 5,
-      title: 'Guía de LinkedIn para profesionales',
-      description: 'Optimiza tu perfil de LinkedIn para atraer reclutadores.',
-      type: 'document',
+      title: 'Networking - otra forma de mejorar en tu búsqueda de empleo',
+      description:
+        'Técnicas prácticas para usar el networking como parte clave de tu estrategia de búsqueda de trabajo.',
+      type: 'video',
       category: 'job-search',
-      url: '/assets/documents/linkedin-guide.pdf',
-      fileSize: '1.8 MB',
-      tags: ['linkedin', 'networking', 'perfil'],
-      featured: true,
-      createdAt: new Date('2024-01-03'),
+      url: 'https://www.youtube.com/watch?v=cUnFTXYwFZE',
+      duration: '5:30', // estimado
+      tags: ['networking', 'empleo', 'búsqueda de trabajo'],
+      featured: false,
     },
     {
       id: 6,
@@ -91,10 +86,9 @@ export class ResourcesService {
         'Lista de preguntas comunes y cómo responderlas efectivamente.',
       type: 'article',
       category: 'interview',
-      url: '#',
+      url: 'https://www.robertwalters.mx/tendencias-de-talento/consejos-de-carrera/blog/preguntas-habituales-entrevista-laboral.html',
       tags: ['preguntas', 'entrevista', 'preparación'],
       featured: false,
-      createdAt: new Date('2024-01-01'),
     },
     {
       id: 7,
@@ -102,10 +96,9 @@ export class ResourcesService {
       description: 'Aprende a negociar tu remuneración de manera efectiva.',
       type: 'tip',
       category: 'career',
-      url: '#',
+      url: 'https://www.michaelpage.es/advice/candidatos/desarrollo-profesional/¿vas-negociar-tu-subida-de-sueldo-te-damos-las-7-claves-que',
       tags: ['salario', 'negociación', 'consejos'],
       featured: true,
-      createdAt: new Date('2023-12-28'),
     },
     {
       id: 8,
@@ -114,11 +107,69 @@ export class ResourcesService {
         'Cómo enfrentar exitosamente las pruebas de assessment center.',
       type: 'video',
       category: 'interview',
-      url: 'https://www.youtube.com/embed/ejemplo3',
-      duration: '18:20',
+      url: 'https://www.youtube.com/watch?v=bZ-adjhjIAc',
+      duration: '5:40',
       tags: ['assessment', 'pruebas', 'selección'],
       featured: false,
-      createdAt: new Date('2023-12-25'),
+    },
+    {
+      id: 9,
+      title: '10 consejos para una búsqueda de trabajo efectiva',
+      description:
+        'Guía con recomendaciones clave para definir objetivos, optimizar el currículum, usar redes de contactos y más. ',
+      type: 'article',
+      category: 'job-search',
+      url: 'https://aula10formacion.com/blog/10-consejos-para-una-busqueda-de-trabajo-efectiva/',
+      tags: ['consejos', 'búsqueda de empleo', 'trabajo efectivo'],
+      featured: false,
+    },
+    {
+      id: 10,
+      title: 'Manual de búsqueda activa de empleo',
+      description:
+        'Manual práctico para planificar, organizar y ejecutar una búsqueda activa de empleo con estrategias, cronograma y herramientas. ',
+      type: 'document',
+      category: 'job-search',
+      url: 'https://www.ayto-villacanada.es/sites/default/files/files/manual_busqueda_empleo.pdf',
+      fileSize: '1.2 MB',
+      tags: ['manual', 'empleo', 'planificación'],
+      featured: false,
+    },
+    {
+      id: 11,
+      title: 'Estrategias de búsqueda de empleo (PDF)',
+      description:
+        'Documento con técnicas para buscar empleo: networking, fuentes no tradicionales y cómo organizar tu plan de acción. ',
+      type: 'document',
+      category: 'job-search',
+      url: 'https://sitioanterior.cucea.udg.mx/include/publicaciones/coorinv/pdf/estrategia_de_busqueda_de_empleo.pdf',
+      fileSize: '800 KB',
+      tags: ['estrategia', 'empleo', 'plan de búsqueda'],
+      featured: false,
+    },
+    {
+      id: 12,
+      title: 'Cómo organizar tu búsqueda de empleo',
+      description:
+        'Guía práctica de la OIT para aprovechar herramientas digitales, planificar tu tiempo y ser más estratégico en la búsqueda. ',
+      type: 'document',
+      category: 'job-search',
+      url: 'https://www.ilo.org/sites/default/files/wcmsp5/groups/public/%40ed_emp/documents/publication/wcms_829542.pdf',
+      fileSize: '1.5 MB',
+      tags: ['organización', 'planificación', 'empleo'],
+      featured: false,
+    },
+    {
+      id: 13,
+      title: '6 consejos para negociar un mejor salario',
+      description:
+        'Video con estrategias claras para pedir más en tu oferta: cómo presentar tu valor, argumentos y tácticas para negociar con confianza.',
+      type: 'video',
+      category: 'job-search',
+      url: 'https://www.youtube.com/watch?v=iXZMzcm0f8I', 
+      duration: '7:45', // aproximado
+      tags: ['negociación', 'salario', 'entrevista'],
+      featured: false,
     },
   ];
 

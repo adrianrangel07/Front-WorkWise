@@ -4,13 +4,13 @@
         <div class="container hero-content">
             <h1>¡Encuentra el trabajo ideal en Cartagena!</h1>
 
-            <form id="formBusqueda">
+            <form id="formBusqueda" (submit)="buscarEmpleo($event)">
                 <div class="search-bar">
-                    <input id="termino" name="termino" type="text" placeholder="Puesto o palabra clave">
+                    <input id="termino" name="termino" type="text" placeholder="Puesto o palabra clave"
+                        [(ngModel)]="terminoBusqueda">
                     <button class="btn btn-primary btn-search" type="submit">Buscar empleo</button>
                 </div>
             </form>
-
             <div class="stats">
                 <span>+5,000</span><span>empleos publicados</span>
                 <span>•</span>

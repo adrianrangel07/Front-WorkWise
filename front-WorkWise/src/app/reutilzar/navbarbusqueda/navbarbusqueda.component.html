@@ -7,15 +7,19 @@
             </button>
         </div>
         <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search" id="formBusqueda"
-            style="margin-right: 0 !important;" *ngIf="modo === 'buscador'">
+            style="margin-right: 0 !important;" *ngIf="modo === 'buscador'" (submit)="onBuscar($event)">
             <div class="input-group" style="text-align: center;border-color: var(--bs-emphasis-color);">
                 <input id="termino" name="termino" class=" bg-light form-control border-4 small" type="text"
-                    placeholder="Puesto o palabra clave.." data-trad="navbar.search.placeholder">
+                    placeholder="Puesto o palabra clave.." data-trad="navbar.search.placeholder"
+                    [(ngModel)]="terminoBusqueda" (input)="onInputChange()" (keyup.enter)="onBuscar($event)">
                 <button class="btn btn-primary py-0" type="submit" style="background: #0a1128; border: none;">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
         </form>
+
+        <!-- filtro -->
+
         <div class="contenedor-botones">
             <!-- boton barra lateral filtro -->
             <div *ngIf="modo === 'buscador'" class="btn-menu" title="Mostrar filtros">
@@ -29,11 +33,13 @@
 
                 <img *ngIf="persona?.photo" id="user-avatar" [src]="persona?.photo" alt="Persona Logo">
 
-                <div *ngIf="!persona?.photo"  class="profile-initials rounded-circle d-flex align-items-center justify-content-center">
+                <div *ngIf="!persona?.photo"
+                    class="profile-initials rounded-circle d-flex align-items-center justify-content-center">
                     {{ inicialesPer}}
                 </div>
 
-                <div *ngIf="!persona?.photo"  class="profile-initials rounded-circle d-flex align-items-center justify-content-center">
+                <div *ngIf="!persona?.photo"
+                    class="profile-initials rounded-circle d-flex align-items-center justify-content-center">
                     {{ inicialesEmp}}
                 </div>
 
@@ -43,7 +49,8 @@
                     <span id="usuario">{{persona?.nombre || empresa?.nombre}}</span>
                 </a>
                 <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
-                    <a class="dropdown-item" routerLink="/perfilPersona" routerLinkActive="active" style="color: #0a1128;" >
+                    <a class="dropdown-item" routerLink="/perfilPersona" routerLinkActive="active"
+                        style="color: #0a1128;">
                         <i class="fas fa-user fa-sm fa-fw me-2 "></i>&nbsp;<span>Perfil</span>
                     </a>
                     <a class="dropdown-item" th:href="@{/persona/Postulaciones}" style="color: #0a1128;">
@@ -83,14 +90,15 @@
                                 <label for="salarioMin" class="form-label" data-trad="filtros.minimo">Mínimo</label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input type="number" id="salarioMin" placeholder="0" class="form-control">
+                                    <input type="number" id="salarioMin" placeholder="0" class="form-control" min="0">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="salarioMax" class="form-label" data-trad="filtros.maximo">Máximo</label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input type="number" id="salarioMax" placeholder="10000" class="form-control">
+                                    <input type="number" id="salarioMax" placeholder="10000" class="form-control"
+                                        min="0">
                                 </div>
                             </div>
                         </div>
@@ -167,10 +175,11 @@
 
                 <!-- Botones de acción -->
                 <div class="filter-actions mt-4">
-                    <button class="btn btn-primary w-100 mb-2" onclick="applyFilters()" data-trad="filtros.aplicar">
+                    <button class="btn btn-primary w-100 mb-2" (click)="aplicarFiltrosHandler()"
+                        data-trad="filtros.aplicar">
                         <i class="fas fa-filter me-2"></i>Aplicar filtros
                     </button>
-                    <button class="btn btn-outline-secondary w-100" onclick="resetFilters()"
+                    <button class="btn btn-outline-secondary w-100" (click)="restablecerFiltros()"
                         data-trad="filtros.restablecer">
                         <i class="fas fa-undo me-2"></i>Restablecer
                     </button>
