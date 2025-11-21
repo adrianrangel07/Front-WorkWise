@@ -230,13 +230,12 @@ export class OfertaCardEmpresaComponent {
   }
 
   cambiarEstado(p: any, estado: string) {
-    console.log(`Cambiando estado de postulacion ${p} a ${estado}`);
     this.authPostulacionesService.actualizarEstadoPostulacion(p.id, estado)
       .subscribe({
         next: (resp) => {
           Swal.fire({
             icon: 'info',
-            text: `El postulante ha sido a "${estado}".`,
+            text: `El postulante ha sido a ${estado}.`,
             timer: 3000,
           });
           console.log(resp);
@@ -244,7 +243,6 @@ export class OfertaCardEmpresaComponent {
         },
         error: (err) => {
           console.error(err)
-          console.log(`Cambiando estado de postulacion ${p} a ${estado}`);
           Swal.fire({
             icon: 'error',
             title: 'Error',
