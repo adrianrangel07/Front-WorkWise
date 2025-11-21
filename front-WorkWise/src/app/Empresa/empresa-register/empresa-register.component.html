@@ -44,7 +44,7 @@
                                         <input class="form-control form-control-user" type="password" placeholder=""
                                             [(ngModel)]="empresa.usuario.password"
                                             (input)="checkPasswordStrength(empresa.usuario.password); checkPasswordsMatch()"
-                                            id="password" name="contraseña" minlength="6" maxlength="45" required>
+                                            id="password" name="contraseña" minlength="8" maxlength="45" required>
                                         <i class="fas fa-eye toggle-password"
                                             (click)="togglePasswordVisibility('password')"></i>
                                         <label for="password" class="label" data-trad="contrasena">Contraseña</label>
@@ -61,24 +61,28 @@
                                     <div class="password-input">
                                         <input class="form-control form-control-user" type="password" placeholder=""
                                             [(ngModel)]="confirmPassword" (input)="checkPasswordsMatch()"
-                                            id="confirm-password" name="confirm-password" minlength="6" maxlength="45"
+                                            id="confirm-password" name="confirm-password" minlength="8" maxlength="45"
                                             required>
                                         <i class="fas fa-eye toggle-password"
                                             (click)="togglePasswordVisibility('confirm-password')"></i>
                                         <label for="confirm-password" class="label">Repetir Contraseña</label>
                                     </div>
                                     <div class="password-match">
-                                        <span *ngIf="passwordsMatch === true" style="color: green;">Las contraseñas coinciden</span>
-                                        <span *ngIf="passwordsMatch === false" style="color: red;">Las contraseñas no coinciden</span>
+                                        <span *ngIf="passwordsMatch === true" style="color: green;">Las contraseñas
+                                            coinciden</span>
+                                        <span *ngIf="passwordsMatch === false" style="color: red;">Las contraseñas no
+                                            coinciden</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <button type="button" class="btn btn-primary d-block btn-user w-100" (click)="nextStep()"
-                        [disabled]="!empresa.nombre || !empresa.razonSocial || !empresa.usuario.password ||
-                            !confirmPassword || !empresa.usuario.email || (empresa.usuario.password !== confirmPassword)">
+                            [disabled]="!empresa.nombre ||!empresa.razonSocial ||!empresa.usuario.email 
+                            ||!empresa.usuario.email.includes('@') || !empresa.usuario.password || empresa.usuario.password.length < 8 
+                            ||!confirmPassword ||(empresa.usuario.password !== confirmPassword)">
                             Siguiente
                         </button>
+
                     </div>
                     <div *ngIf="step === 2" class="animate__animated animate__fadeIn">
                         <div class="container-back">
@@ -90,27 +94,30 @@
                             <div class="contenedor-input">
                                 <div class="col-sm-6 mb-3">
                                     <input class="form-control form-control-user" type="text" placeholder="" id="nit"
-                                    [(ngModel)]="empresa.nit"  name="nit" minlength="7" maxlength="9" required>
+                                        [(ngModel)]="empresa.nit" name="nit" minlength="7" maxlength="9" required>
                                     <label for="nit" class="label" data-trad="nit">Nit</label>
                                 </div>
                             </div>
                             <div class="contenedor-input">
                                 <div class="col-sm-6 mb-3">
                                     <select name="direccion" id="direccion" class="form-control form-control-btn"
-                                    [(ngModel)]="empresa.direccion" required>
-                                        <option value="" hidden></option>
-                                        <option value="socorro">socorro</option>
-                                        <option value="campestre">campestre</option>
+                                        [(ngModel)]="empresa.direccion" required>
+                                        <option value="" disabled hidden></option>
+                                        <option *ngFor="let barrio of barrios" [value]="barrio">
+                                            {{ barrio }}
+                                        </option>
                                     </select>
-                                    <label for="direccion" class="label-active">Direccion</label>
+
+                                    <label for="direccion" class="label-active">Dirección</label>
                                 </div>
                             </div>
+
                         </div>
                         <div class="row">
                             <div class="contenedor-input">
                                 <div class="col-sm-6 mb-3">
                                     <select name="tipoTelefono" id="tipoTelefono" class="form-control form-control-btn"
-                                    [(ngModel)]="empresa.tipo_telefono" required>
+                                        [(ngModel)]="empresa.tipo_telefono" required>
                                         <option value="" hidden></option>
                                         <option value="Fijo">Fijo</option>
                                         <option value="Celular">Celular</option>
@@ -121,23 +128,26 @@
                             <div class="contenedor-input">
                                 <div class="col-sm-6 mb-3">
                                     <input class="form-control form-control-user" type="text" placeholder=""
-                                    [(ngModel)]="empresa.telefono" id="Numero_telefono" name="Numero_telefono" required>
+                                        [(ngModel)]="empresa.telefono" id="Numero_telefono" name="Numero_telefono"
+                                        required>
                                     <label for="Numero_telefono" class="label">Número de telefono</label>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <select name="sector" id="sector" class="form-control form-control-btn" 
-                            [(ngModel)]="empresa.sector" required>
+                            <select name="sector" id="sector" class="form-control form-control-btn"
+                                [(ngModel)]="empresa.sector" required>
                                 <option value="" hidden></option>
-                                <option value="ing-sistemas">ing-sistemas</option>
-                                <option value="medico">medico</option>
+                                <option *ngFor="let s of sectores" [value]="s">
+                                    {{ s }}
+                                </option>
                             </select>
                             <label for="sector" class="label-active">Sector empresarial</label>
                         </div>
+
                         <div class="mb-3">
-                            <textarea  name="descripcion" id="descripcion" class="form-control form-control-user" 
-                            [(ngModel)]="empresa.descripcion" placeholder=""></textarea>
+                            <textarea name="descripcion" id="descripcion" class="form-control form-control-user"
+                                [(ngModel)]="empresa.descripcion" placeholder=""></textarea>
                             <label for="descripcion" class="label">Describe tu empresa</label>
                         </div>
                         <button class="btn btn-primary d-block btn-user w-100" type="submit" id="btn-register">

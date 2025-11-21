@@ -476,3 +476,30 @@ ul {
     transform: translateY(-2px);
     box-shadow: 0 3px 10px rgba(46, 204, 113, 0.3);
 }
+
+/* estilo para el icono */
+.compatible-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #fff6d3;
+    /* amarillo suave */
+    color: #7a5a00;
+    /* texto suave */
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    border: 1px solid #ffe9a8;
+    /* borde sutil */
+}
+
+.compatible-badge i {
+    font-size: 13px;
+    color: #d4a017;
+    /* dorado elegante */
+}

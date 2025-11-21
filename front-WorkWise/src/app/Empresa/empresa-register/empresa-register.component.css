@@ -246,7 +246,7 @@ html, body {
 
 .container-img{
     height: 100%;
-    background: url("/Imagenes/job-5382501.png");
+    background: url("/Imagenes/job-5382501.webp");
     background-size: cover;
     background-position: center;
     filter: contrast(110%);

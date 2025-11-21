@@ -23,16 +23,15 @@ interface Oferta {
   activo: boolean;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthOfertasService {
-
 
   private apiUrl = 'https://workwise-backend-s3w4.onrender.com/api/ofertas';
 
   private ofertaSeleccionada: Oferta | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // 🔹 Obtener datos del usurio
   getOfertas(): Observable<any> {
@@ -42,16 +41,20 @@ export class AuthOfertasService {
   actualizarOferta(id: number, oferta: Oferta): Observable<Oferta> {
     const token = localStorage.getItem('token');
 
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.put<Oferta>(`${this.apiUrl}/${id}`, oferta, { headers });
   }
 
   toggleOferta(id: number): Observable<Oferta> {
     const token = localStorage.getItem('token');
 
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    return this.http.put<Oferta>(`${this.apiUrl}/${id}/toggle`, {}, { headers });
+    return this.http.put<Oferta>(
+      `${this.apiUrl}/${id}/toggle`,
+      {},
+      { headers }
+    );
   }
 
   setOfertaSeleccionada(oferta: Oferta) {
@@ -64,5 +67,16 @@ export class AuthOfertasService {
 
   clearOfertaSeleccionada() {
     this.ofertaSeleccionada = null;
+  }
+
+  getOfertasCompatibles(personaId: number): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get<any[]>(`${this.apiUrl}/compatibles/${personaId}`, {
+      headers,
+    });
   }
 }
