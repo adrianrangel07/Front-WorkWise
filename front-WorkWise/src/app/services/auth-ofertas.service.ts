@@ -8,7 +8,7 @@ import { HOME } from '@angular/cdk/keycodes';
 })
 export class AuthOfertasService {
 
-  private apiUrl = 'http://localhost:8080/api/ofertas';
+  private apiUrl = 'https://workwise-backend-s3w4.onrender.com/api/ofertas';
 
   constructor(private http: HttpClient) { }
 

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class PasswordResetService {
-  private apiUrl = 'http://localhost:8080/api/password';
+  private apiUrl = 'https://workwise-backend-s3w4.onrender.com/api/password';
 
   constructor(private http: HttpClient) {}
 
