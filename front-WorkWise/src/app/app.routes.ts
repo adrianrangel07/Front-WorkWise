@@ -18,6 +18,7 @@ import { PerfilComponent } from './Persona/perfil/perfil.component';
 import { personaLoginComponent } from './Persona/login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResourcesComponent } from './resources/resources.component';
+import { EditarOfertaComponent } from './Empresa/editar-oferta/editar-oferta.component';
 
 
 export const routes: Routes = [
@@ -101,6 +102,12 @@ export const routes: Routes = [
         component: CrearOfertaComponent,
         canActivate: [authEmpresaGuard],
         data: { animation: 'crear-oferta' }
+    },
+    {
+        path: 'editar-oferta',
+        component: EditarOfertaComponent,
+        canActivate: [authEmpresaGuard],
+        data: { animation: 'editar-oferta' }
     },
 
     // ⚠️ Ruta por defecto (404)
