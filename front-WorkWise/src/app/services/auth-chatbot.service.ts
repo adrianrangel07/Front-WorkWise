@@ -11,7 +11,6 @@ export class AuthChatbotService {
   private apiUrlAntiguo = 'https://workwise-backend-s3w4.onrender.com/api/chatbot/message';
   private apiUrlNuevo = 'https://workwise-backend-s3w4.onrender.com/api/chat';
   
-
   constructor(private http: HttpClient) {}
 
   enviarMensaje(mensaje: string, tipo: 'antiguo' | 'nuevo'): Observable<any> {
