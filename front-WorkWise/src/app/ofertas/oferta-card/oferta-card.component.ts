@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { AuthOfertasService } from '../../services/auth-ofertas.service';
 import { AuthPostulacionesService } from '../../services/auth-postulaciones.service';
+import { AuthPersonaService } from '../../services/auth-personsa.service';
 import { NgForOf, NgIf, NgClass } from '@angular/common';
 import Swal from 'sweetalert2';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-oferta-card',
@@ -25,6 +27,7 @@ export class OfertaCardComponent {
   token: string | null = null;
   terminoBusqueda: string = '';
   buscando: boolean = false;
+  compatibles: number[] = [];
 
   // Filtros activos
   filtrosActivos: any = {
@@ -37,7 +40,8 @@ export class OfertaCardComponent {
 
   constructor(
     private authOfertasService: AuthOfertasService,
-    private authPostulacionesService: AuthPostulacionesService
+    private authPostulacionesService: AuthPostulacionesService,
+    private AuthPersonaService: AuthPersonaService
   ) {}
 
   ngOnInit() {
@@ -54,6 +58,25 @@ export class OfertaCardComponent {
       error: (err) => {
         console.error('Error al cargar las ofertas', err);
       },
+    });
+
+    this.AuthPersonaService.getPersona().subscribe((persona) => {
+      forkJoin({
+        ofertas: this.authOfertasService.getOfertas(),
+        compatibles: this.authOfertasService.getOfertasCompatibles(persona.id),
+      }).subscribe(({ ofertas, compatibles }) => {
+        // IDs de compatibles
+        const idsCompatibles = compatibles.map((o: any) => o.id);
+
+        // Añadir campo compatible a cada oferta
+        this.ofertas = ofertas.map((of: any) => ({
+          ...of,
+          compatible: idsCompatibles.includes(of.id),
+        }));
+
+        this.ofertasFiltradas = [...this.ofertas];
+        this.actualizarPaginacion();
+      });
     });
 
     this.authPostulacionesService.getPostulaciones().subscribe({

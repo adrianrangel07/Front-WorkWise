@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, Router } from "@angular/router";
 import { AuthEmpresaService } from '../../services/auth-empresa.service';
+import { sectores_empresariales } from '../../data/sectores_empresariales';
+import { BARRIOS_CARTAGENA } from '../../data/barrios';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,6 +18,8 @@ export class EmpresaRegisterComponent {
   step: number = 1;
   confirmPassword: string = '';
   passwordsMatch: boolean | null = null;
+  sectores = sectores_empresariales;
+  barrios = BARRIOS_CARTAGENA;
 
   empresa = {
     nombre: '',

@@ -18,7 +18,7 @@
                 </button>
             </div>
         </div>
-        
+
         <div *ngIf="buscando && ofertasFiltradas.length === 0" class="text-center py-5">
             <div class="spinner-border text-primary mb-3" role="status">
                 <span class="visually-hidden">Buscando...</span>
@@ -28,6 +28,14 @@
 
         <div *ngIf="ofertasPaginadas.length > 0" class="offer-container">
             <div *ngFor="let oferta of ofertasPaginadas" class="card" (click)="abrirModal(oferta)">
+
+                <!-- Mostrar sugerida SOLO si NO está postulado -->
+                <div *ngIf="!estadoPostulado(oferta.id) && oferta.compatible" class="compatible-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Sugerida para ti</span>
+                </div>
+
+
                 <div class="favorite-icon" (click)="toggleFavorito(oferta, $event)">
                     <i [ngClass]="esFavorito(oferta.id) ? 'fas fa-heart favorito' : 'far fa-heart'"></i>
                 </div>

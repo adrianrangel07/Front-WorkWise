@@ -53,11 +53,11 @@
                         style="color: #0a1128;">
                         <i class="fas fa-user fa-sm fa-fw me-2 "></i>&nbsp;<span>Perfil</span>
                     </a>
-                    <a class="dropdown-item" th:href="@{/persona/Postulaciones}" style="color: #0a1128;">
+                    <a class="dropdown-item" routerLink="/postulacionesPendientes" style="color: #0a1128;">
                         <i class="fas fa-file-alt fa-sm fa-fw me-2"></i>&nbsp;<span>Postulaciones</span>
                     </a>
-                    <a class="dropdown-item" href="#" style="color: #0a1128;">
-                        <i class="fas fa-briefcase fa-sm fa-fw me-2 "></i>&nbsp;<span>Hoja de vida</span>
+                    <a class="dropdown-item" routerLink="/perfilPersona" style="color: #0a1128;">
+                        <i class="fas fa-briefcase fa-sm fa-fw me-2 "></i>&nbsp;<span>Subir Hoja de vida</span>
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" id="logout" (click)="logout()" style="color: #0a1128;">
