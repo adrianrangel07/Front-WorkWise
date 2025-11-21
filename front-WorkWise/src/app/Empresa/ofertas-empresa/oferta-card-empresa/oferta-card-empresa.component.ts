@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthEmpresaService } from '../../../services/auth-empresa.service';
+import { AuthPostulacionesService } from '../../../services/auth-postulaciones.service';
 import { Router } from '@angular/router';
 import { AuthOfertasService } from '../../../services/auth-ofertas.service';
 import { CommonModule } from '@angular/common';
@@ -23,6 +24,9 @@ export class OfertaCardEmpresaComponent {
   tipo_Contrato: string = '';
   nivel_Educacion: string = '';
   experiencia: string = '';
+  postulaciones: any[] = [];
+  estadoSeleccionado: string = 'Pendiente';
+
 
   ngOnInit() {
     this.cargarOfertas();
@@ -32,12 +36,45 @@ export class OfertaCardEmpresaComponent {
     this.menuAbierto = !this.menuAbierto;
   }
 
-  constructor(private authEmpresaService: AuthEmpresaService, private authOfertasService: AuthOfertasService, private router: Router) { }
+  constructor(private authEmpresaService: AuthEmpresaService, private authOfertasService: AuthOfertasService, private authPostulacionesService: AuthPostulacionesService, private router: Router) { }
+
+  filtrar(estado: string) {
+    return this.postulaciones.filter(p => p.estado === estado);
+  }
+
 
   seleccionarOferta(oferta: any) {
     this.ofertaSeleccionada = oferta;
     this.normalizarDatos(oferta);
+    this.authPostulacionesService.getPostulacionesPorOferta(oferta.id)
+      .subscribe({
+        next: (data) => {
+          this.postulaciones = data.map((p: any) => {
+            p.coincidencias = this.contarCoincidencias(
+              p.habilidades,
+              oferta.habilidades    // <-- ahora funciona
+            );
+            return p;
+          })
+            .sort((a: any, b: any) => b.coincidencias - a.coincidencias);
+          console.log("Postulaciones:", data);
+        },
+        error: (err) => console.error("Error cargando postulaciones", err)
+      });
   }
+
+  contarCoincidencias(habPostulado: any, habOferta: any): number {
+    if (!habPostulado || !habOferta) return 0;
+
+    // HABILIDADES DEL POSTULADO (string → array)
+    const listaPostulado = habPostulado.split(",").map((h: string) => h.trim().toLowerCase());
+
+    // HABILIDADES DE LA OFERTA (array objetos → array de nombres)
+    const listaOferta = habOferta.map((obj: any) => obj.habilidad.nombre.toLowerCase());
+    // Contar coincidencias
+    return listaPostulado.filter((h:String) => listaOferta.includes(h)).length;
+  }
+
 
   cargarOfertas() {
     this.authEmpresaService.getOfertas(this.page, this.size).subscribe(res => {
@@ -187,6 +224,49 @@ export class OfertaCardEmpresaComponent {
               'error'
             );
           }
+        });
+      }
+    });
+  }
+
+  cambiarEstado(p: any, estado: string) {
+    console.log(`Cambiando estado de postulacion ${p} a ${estado}`);
+    this.authPostulacionesService.actualizarEstadoPostulacion(p.id, estado)
+      .subscribe({
+        next: (resp) => {
+          Swal.fire({
+            icon: 'info',
+            text: `El postulante ha sido a "${estado}".`,
+            timer: 3000,
+          });
+          console.log(resp);
+          p.estado = estado;
+        },
+        error: (err) => {
+          console.error(err)
+          console.log(`Cambiando estado de postulacion ${p} a ${estado}`);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo actualizar el estado del postulante. Por favor, intenta de nuevo más tarde.',
+            timer: 2000,
+          });
+        }
+      });
+  }
+
+  obtenerCVPostulado(p: any) {
+    this.authPostulacionesService.verCVPostuldao(p.postulacionId).subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      }, error: (err) => {
+        console.error("Error al obtener el CV:", err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'El postuldo no cuenta con un CV.',
+          timer: 2000,
         });
       }
     });

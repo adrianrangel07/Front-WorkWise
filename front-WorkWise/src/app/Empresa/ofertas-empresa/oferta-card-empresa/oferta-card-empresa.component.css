@@ -363,6 +363,8 @@
   color: #444;
 }
 
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .job-details-container {
@@ -536,4 +538,70 @@
 .pagination button:disabled {
     background: #ccc;
     cursor: not-allowed;
+}
+
+.perfil-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 12px;
+  gap: 15px;
+}
+
+.perfil-icono {
+  width: 40px;
+  height: 40px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.perfil-info {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  color: #000000;
+}
+
+.perfil-info li {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+    padding-left: 0;
+}
+
+.tab-btn {
+    padding: 8px 16px;
+    border: none;
+    background: #eaeaea;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+    color: #333;
+}
+
+.tab-btn:hover {
+    background: #333030;
+    color: white;
+}
+
+.active-tab {
+    background: #555;
+    color: white;
 }

@@ -39,7 +39,7 @@ export class AuthPostulacionesService {
     const token = this.getToken();
     if (!token) {
 
-      return of([]); 
+      return of([]);
     }
 
     const headers = new HttpHeaders({
@@ -50,4 +50,33 @@ export class AuthPostulacionesService {
     return this.http.get<any[]>(`${this.apiUrl}/mis-postulaciones`, { headers });
   }
 
+  getPostulacionesPorOferta(id: number): Observable<any[]> {
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+
+    return this.http.get<any[]>(`${this.apiUrl}/ofertas/${id}`, { headers });
+  }
+
+  actualizarEstadoPostulacion(id: number, nuevoEstado: string): Observable<any> {
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    const body = { estado: nuevoEstado };
+
+    return this.http.put<any>(`${this.apiUrl}/${id}/estado`, body, { headers });
+  }
+
+  verCVPostuldao(id: number): Observable<Blob> {
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(`${this.apiUrl}/${id}/cv`, { headers, responseType: 'blob'});
+  }
 }
