@@ -8,8 +8,8 @@ import { __param } from 'tslib';
 })
 export class AuthChatbotService {
 
-  private apiUrlAntiguo = 'http://localhost:8080/api/chatbot/message';
-  private apiUrlNuevo = 'http://localhost:8080/api/chat';
+  private apiUrlAntiguo = 'https://workwise-backend-s3w4.onrender.com/api/chatbot/message';
+  private apiUrlNuevo = 'https://workwise-backend-s3w4.onrender.com/api/chat';
 
   constructor(private http: HttpClient) {}
 

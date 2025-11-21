@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-  "start": "ng serve",
-  "build": "ng build --configuration production --output-path=dist/front-work-wise",
-  "build:vercel": "ng build --configuration production --output-path=dist/front-work-wise",
-  "watch": "ng build --watch --configuration development",
-  "test": "ng test"
+    "start": "ng serve",
+    "build": "ng build --configuration production --output-path=dist/front-work-wise",
+    "build:vercel": "ng build --configuration production --output-path=dist/front-work-wise",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
