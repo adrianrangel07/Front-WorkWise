@@ -20,7 +20,7 @@
 
                             <div class="tags">
                                 <span class="salary">{{ oferta.salario.toLocaleString('es-CO') }}</span>
-                                <span class="type">{{oferta.tipo_Empleo }}</span>
+                                <span class="type">{{ getTipoEmpleo(oferta.tipo_Empleo) }}</span>
                             </div>
                         </div>
                     </div>
@@ -39,8 +39,11 @@
                                 <button class="menu-item" (click)="editarOferta(ofertaSeleccionada)">
                                     <i class="fas fa-edit"></i> Editar
                                 </button>
-                                <button class="menu-item" (click)="deshabilitarOferta(ofertaSeleccionada)">
-                                    <i class="fas fa-ban"></i> Deshabilitar
+                                <button *ngIf="ofertaSeleccionada.activo" class="menu-item" (click)="cambiarEstadoOferta(ofertaSeleccionada)">
+                                    <i class="fas fa-ban"></i> Deshabilitar oferta
+                                </button>
+                                <button *ngIf="!ofertaSeleccionada.activo" class="menu-item" (click)="cambiarEstadoOferta(ofertaSeleccionada)">
+                                    <i class="fas fa-check-circle"></i> habilitar oferta
                                 </button>
                             </div>
                         </div>
@@ -71,8 +74,8 @@
                                     <i class="fas fa-briefcase"></i><span class="spec-title">Tipo de empleo</span>
                                 </div>
                                 <div class="preview-chip-group">
-                                    <div class="preview-chip neutral">{{ ofertaSeleccionada.tipo_Empleo }}</div>
-                                    <div class="preview-chip neutral">{{ ofertaSeleccionada.tipo_Contrato }}</div>
+                                    <div class="preview-chip neutral">{{ this.Tipo_empleo}}</div>
+                                    <div class="preview-chip neutral">{{ this.tipo_Contrato }}</div>
                                     <div class="preview-chip neutral">{{ ofertaSeleccionada.modalidad }}</div>
                                 </div>
                             </div>
@@ -111,12 +114,12 @@
                         <ul>
                             <li>
                                 <div class="modal-info-item" id="modal-experience">
-                                    <strong>Experiencia:</strong>{{ofertaSeleccionada.experiencia}}
+                                    <strong>Experiencia:</strong>{{ this.experiencia}}
                                 </div>
                             </li>
                             <li>
                                 <div class="modal-info-item" id="modal-studyLevel"><strong>Nivel de
-                                        estudio:</strong>{{ofertaSeleccionada?.nivel_Educacion}}</div>
+                                        estudio:</strong>{{this.nivel_Educacion}}</div>
                             </li>
                             <li>
                                 <div class="modal-info-item" id="modal-sector">
