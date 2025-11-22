@@ -39,10 +39,12 @@
                                 <button class="menu-item" (click)="editarOferta(ofertaSeleccionada)">
                                     <i class="fas fa-edit"></i> Editar
                                 </button>
-                                <button *ngIf="ofertaSeleccionada.activo" class="menu-item" (click)="cambiarEstadoOferta(ofertaSeleccionada)">
+                                <button *ngIf="ofertaSeleccionada.activo" class="menu-item"
+                                    (click)="cambiarEstadoOferta(ofertaSeleccionada)">
                                     <i class="fas fa-ban"></i> Deshabilitar oferta
                                 </button>
-                                <button *ngIf="!ofertaSeleccionada.activo" class="menu-item" (click)="cambiarEstadoOferta(ofertaSeleccionada)">
+                                <button *ngIf="!ofertaSeleccionada.activo" class="menu-item"
+                                    (click)="cambiarEstadoOferta(ofertaSeleccionada)">
                                     <i class="fas fa-check-circle"></i> habilitar oferta
                                 </button>
                             </div>
@@ -127,6 +129,79 @@
                                 </div>
                             </li>
                         </ul>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 12px; color: black;">Postulados</h3>
+                <small>organizmos a los mejores candidatos por ti</small>
+
+                <ul class="tabs mb-3">
+                    <li class="nav-item">
+                        <button class="tab-btn" [ngClass]="{ 'active-tab': estadoSeleccionado === 'Pendiente' }"
+                            (click)="estadoSeleccionado = 'Pendiente'">
+                            Pendientes
+                        </button>
+                    </li>
+
+                    <li class="nav-item">
+                        <button class="tab-btn" [ngClass]="{ 'active-tab': estadoSeleccionado === 'Aceptado' }"
+                            (click)="estadoSeleccionado = 'Aceptado'">
+                            Aceptados
+                        </button>
+                    </li>
+
+                    <li class="nav-item">
+                        <button class="tab-btn" [ngClass]="{ 'active-tab': estadoSeleccionado === 'Rechazado' }"
+                            (click)="estadoSeleccionado = 'Rechazado'">
+                            Rechazados
+                        </button>
+                    </li>
+                </ul>
+                <div *ngIf="filtrar(estadoSeleccionado).length === 0" class="text-center text-muted my-3">
+                    No hay postulados en esta categoría.
+                </div>
+
+                <div class="perfil-card" *ngFor="let p of filtrar(estadoSeleccionado)">
+                    <div class="perfil-icono pdf">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="perfil-info">
+                        <div class="flex-grow-1" style="color: black;">
+                            <h6 class="mb-1">{{ p.nombre }} {{ p.apellido }}</h6>
+                            Estado:<small [ngClass]="{
+                                'text-success': p.estado === 'Aceptado',
+                                'text-danger': p.estado === 'Rechazado',
+                                'text-secondary': p.estado === 'Pendiente'}">
+                            {{ p.estado }}
+                            </small>
+
+                        </div>
+                        <div>
+                            <small class="text-info">
+                                {{ p.coincidencias }} de {{ ofertaSeleccionada.habilidades.length }} habilidades
+                                coinciden
+                            </small>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <div class="preview-chip neutral" *ngFor="let hab of p?.habilidades.split(',')">
+                                {{hab.trim() || 'sin competencias' }}
+                            </div>
+                        </div>
+                        <!-- Botones -->
+                        <div class="perfil-actions mt-2">
+                            <button class="btn btn-outline-secondary btn-sm me-2" (click)="obtenerCVPostulado(p)">
+                                <i class="fas fa-eye"></i> Ver CV
+                            </button>
+
+                            <button class="btn btn-success btn-sm me-2" (click)="cambiarEstado(p, 'Aceptado')">
+                                <i class="fas fa-check-circle"></i> Aceptar
+                            </button>
+
+                            <button class="btn btn-outline-danger btn-sm" (click)="cambiarEstado(p, 'Rechazado')">
+                                <i class="fas fa-ban"></i> Rechazar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
