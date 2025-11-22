@@ -1,0 +1,39 @@
+<div class="layout-container">
+
+    <!-- Sidebar (navbar) -->
+    <app-navbar-acordion class="sidebar-layout"></app-navbar-acordion>
+
+    <!-- Contenido principal -->
+    <div class="content-layout">
+
+        <div class="dashboard-header">
+            <div class="header-content">
+                <h1 class="dashboard-title">Estadísticas de Uso</h1>
+                <p class="dashboard-subtitle">
+                    Visualiza las estadísticas de uso de la plataforma WorkWise
+                </p>
+            </div>
+        </div>
+
+        <div class="dashboard-body">
+            <div class="powerbi-container">
+                <div class="powerbi-wrapper">
+                    <iframe
+                        title="Power BI"
+                        src="https://app.powerbi.com/view?r=eyJrIjoiNWYyNGNjNDUtZDg2Mi00MTEyLWFkNDUtN2JmNjgxOTRjOTA3IiwidCI6IjlkMTJiZjNmLWU0ZjYtNDdhYi05MTJmLTFhMmYwZmM0OGFhNCIsImMiOjR9"
+                        frameborder="0"
+                        allowFullScreen>
+                    </iframe>
+                </div>
+
+                <div class="loading-indicator" *ngIf="isLoading">
+                    <div class="spinner"></div>
+                    <p>Cargando dashboard...</p>
+                </div>
+            </div>
+        </div>
+
+        <app-footer></app-footer>
+
+    </div>
+</div>
