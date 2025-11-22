@@ -5,6 +5,7 @@ import { NavbarbusquedaComponent } from "../../reutilzar/navbarbusqueda/navbarbu
 import { AuthPostulacionesService } from '../../services/auth-postulaciones.service';
 import { NgForOf, NgIf } from '@angular/common';
 import { P } from '@angular/cdk/keycodes';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-postulaciones-pendientes',
@@ -23,6 +24,49 @@ export class PostulacionesPendientesComponent {
   constructor(private authPostulacionesService: AuthPostulacionesService) { }
 
   ngOnInit(): void {
+    this.cargarPostulaciones();
+  }
+
+  eliminarPostulacion(id: number) {
+    console.log('Eliminando postulacion con id:', id);
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "Esta acción no se puede deshacer.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.authPostulacionesService.eliminarPostulacion(id).subscribe({
+          next: (res) => {
+            console.log(res.message);
+            Swal.fire({
+              icon: 'success',
+              title: 'Postulación eliminada',
+              text: 'La postulación ha sido eliminada exitosamente.',
+              confirmButtonText: 'Aceptar'
+            });
+            this.cargarPostulaciones();
+            window.location.reload();
+          },
+          error: (err) => {
+            console.error(err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Hubo un error al eliminar la postulación. Por favor, intenta de nuevo.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+      }
+    });
+  }
+
+  cargarPostulaciones() {
     this.authPostulacionesService.getPostulaciones().subscribe((data) => {
       this.postulaciones = data.filter((Postulacion: { estado: string; }) => Postulacion.estado === 'Pendiente');
       console.log(this.postulaciones);
@@ -32,6 +76,7 @@ export class PostulacionesPendientesComponent {
       }
     );
   }
+
 
   abrirModal(postulacion: any) {
     this.postulacionSeleccionada = postulacion

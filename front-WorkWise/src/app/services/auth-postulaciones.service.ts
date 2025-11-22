@@ -79,4 +79,11 @@ export class AuthPostulacionesService {
 
     return this.http.get(`${this.apiUrl}/${id}/cv`, { headers, responseType: 'blob'});
   }
+
+  eliminarPostulacion(id: number): Observable<any> {
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({'Authorization': `Bearer ${token}`});
+    return this.http.delete<any>(`${this.apiUrl}/eliminar/${id}`, { headers });
+  }
 }

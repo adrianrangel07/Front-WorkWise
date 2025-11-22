@@ -12,68 +12,77 @@
             <!-- persona -->
             <ng-container *ngIf="rol === 'PERSONA'">
                 <li class="nav-item"><a class="nav-link active" routerLink="/ofertasInicio" routerLinkActive="active">
-                    <i class="fas fa-home"></i><span>Inicio</span></a>
+                        <i class="fas fa-home"></i><span>Inicio</span></a>
                 </li>
 
                 <li class="nav-item"><a class="nav-link" routerLink="/perfilPersona" routerLinkActive="active">
-                    <i class="fas fa-user-circle"></i><span>Mi Perfil</span></a>
+                        <i class="fas fa-user-circle"></i><span>Mi Perfil</span></a>
+                </li>
+
+                <li class="nav-item"><a class="nav-link" routerLink="/postulaciones-pendientes"
+                        routerLinkActive="active">
+                        <i class="fas fa-briefcase"></i><span>Mis postulaciones pendientes</span></a>
+                </li>
+
+                <li class="nav-item"><a class="nav-link" routerLink="/postulaciones-resueltas"routerLinkActive="active">
+                        <i class="fas fa-briefcase"></i><span>Mis postulaciones resueltas</span></a>
                 </li>
 
                 <li class="nav-item"><a class="nav-link" routerLink="/resources" routerLinkActive="active">
-                    <i class="fas fa-file"></i><span>Centro de recursos</span></a>
+                        <i class="fas fa-file"></i><span>Centro de recursos</span></a>
                 </li>
 
                 <li class="nav-item"><a class="nav-link" routerLink="/estadisticas" routerLinkActive="active">
-                    <i class="fas fa-chart-bar"></i><span>Estadísticas</span></a>
+                        <i class="fas fa-chart-bar"></i><span>Estadísticas</span></a>
                 </li>
 
                 <li class="nav-item"><a class="nav-link" routerLink="/loginEmpresa" routerLinkActive="active">
-                    <i class="fas fa-building"></i><span>¿Tienes una empresa?</span></a>
+                        <i class="fas fa-building"></i><span>¿Tienes una empresa?</span></a>
                 </li>
             </ng-container>
 
             <!-- empresa -->
             <ng-container *ngIf="rol === 'EMPRESA'">
                 <li class="nav-item"><a class="nav-link active" routerLink="/ofertas-empresa" routerLinkActive="active">
-                    <i class="fas fa-home"></i><span>Inicio</span></a>
+                        <i class="fas fa-home"></i><span>Inicio</span></a>
                 </li>
 
                 <li class="nav-item"><a class="nav-link">
-                    <i class="fas fa-chart-bar"></i><span>Mi perfil</span></a>
+                        <i class="fas fa-chart-bar"></i><span>Mi perfil</span></a>
                 </li>
 
                 <li class="nav-item" routerLink="/crear-oferta" routerLinkActive="active"><a class="nav-link">
-                    <i class="fas fa-chart-bar"></i><span>Crea tu oferta</span></a>
+                        <i class="fas fa-chart-bar"></i><span>Crea tu oferta</span></a>
                 </li>
 
                 <li class="nav-item"><a class="nav-link" routerLink="/estadisticas" routerLinkActive="active">
-                    <i class="fas fa-chart-bar"></i><span>Estadísticas</span></a>
+                        <i class="fas fa-chart-bar"></i><span>Estadísticas</span></a>
                 </li>
             </ng-container>
 
             <!-- invitado -->
             <ng-container *ngIf="rol === 'INVITADO'">
                 <li class="nav-item"><a class="nav-link active" routerLink="/ofertasInicio" routerLinkActive="active">
-                    <i class="fas fa-home"></i><span>Inicio</span></a>
+                        <i class="fas fa-home"></i><span>Inicio</span></a>
                 </li>
-                <li  class="nav-item"><a class="nav-link" routerLink="/loginPersona" routerLinkActive="active">
-                    <i class="far fa-user-circle"></i><span>Inicio de sesión</span></a>
+                <li class="nav-item"><a class="nav-link" routerLink="/loginPersona" routerLinkActive="active">
+                        <i class="far fa-user-circle"></i><span>Inicio de sesión</span></a>
                 </li>
 
-                <li  class="nav-item"><a class="nav-link" routerLink="/registerPersona" routerLinkActive="active">
-                    <i class="fas fa-user-circle"></i><span>Registrarse</span></a>
+                <li class="nav-item"><a class="nav-link" routerLink="/registerPersona" routerLinkActive="active">
+                        <i class="fas fa-user-circle"></i><span>Registrarse</span></a>
                 </li>
 
                 <li class="nav-item"><a class="nav-link" routerLink="/resources" routerLinkActive="active">
-                    <i class="fas fa-file"></i><span>Centro de recursos</span></a>
+                        <i class="fas fa-file"></i><span>Centro de recursos</span></a>
                 </li>
 
                 <li class="nav-item"><a class="nav-link" routerLink="/estadisticas" routerLinkActive="active">
-                    <i class="fas fa-chart-bar"></i><span>Estadísticas</span></a>
+                        <i class="fas fa-chart-bar"></i><span>Estadísticas</span></a>
                 </li>
 
                 <li class="nav-item"><a class="nav-link" routerLink="/loginEmpresa" routerLinkActive="active">
-                    <i class="fas fa-building"></i><span>¿Tienes una empresa?</span></a>
+                        <i class="fas fa-building"></i><span>¿Tienes una empresa?</span></a>
                 </li>
             </ng-container>
         </ul>
