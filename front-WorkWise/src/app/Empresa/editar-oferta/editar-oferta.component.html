@@ -1,1 +1,258 @@
-<p>editar-oferta works!</p>
+<div id="wrapper">
+    <app-navbar-acordion style="display: inline-block;"></app-navbar-acordion>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <app-navbarbusqueda></app-navbarbusqueda>
+        <div class="content-area flex-grow-1 p-3">
+            <div class="content" style="margin: auto;">
+                <div class="form-container">
+                    <div class="title">
+                        <h2 data-trad="jobPost.announceJob">Edita tu oferta</h2>
+                    </div>
+                    <form id="jobOfferForm" (ngSubmit)="guardarCambios()" #formOferta="ngForm">
+                        <div class="container-step">
+                            <div class="step-indicator">
+                                <div class="step-line"></div>
+
+                                <div class="step-dot" [class.active]="step ===1">1</div>
+                                <div class="step-dot" [class.active]="step ===2">2</div>
+                                <div class="step-dot" [class.active]="step ===3">3</div>
+
+                                <h6 class="step-text">Datos Generales</h6>
+                                <h6 class="step-text">Descripción</h6>
+                                <h6 class="step-text">Requerimientos</h6>
+                            </div>
+                        </div>
+                        <div class="form-steps">
+                            <!-- pagina 1 -->
+                            <div class="step animate__animated animate__fadeIn" *ngIf="step === 1">
+                                <!-- titulo -->
+                                <div class="mb-3">
+                                    <input type="text" class="form-control form-control-user" id="jobTitle"
+                                        [(ngModel)]="oferta.titulo" name="titulo" placeholder="" required>
+                                    <label for="jobTitle" class="label">Título del Puesto</label>
+                                </div>
+
+                                <!-- moneda de pago y periodo de pago-->
+                                <div class="row">
+                                    <div class="contenedor-input">
+                                        <div class="col-sm-6 mb-3">
+                                            <select [(ngModel)]="oferta.moneda" id="currency" name="moneda" id="moneda"
+                                                class="form-control" required>
+                                                <option value="" hidden></option>
+                                                <option value="COP">COP</option>
+                                                <option value="USD">USD</option>
+                                                <option value="EUR">EUR</option>
+                                            </select>
+                                            <label for="currency" class="label-active">Moneda de pago</label>
+                                        </div>
+                                    </div>
+                                    <div class="contenedor-input">
+                                        <div class="col-sm-6 mb-3">
+                                            <input type="number" [(ngModel)]="oferta.salario" id="jobSalary"
+                                                class="form-control form-control-user" name="salario" placeholder=""
+                                                required>
+                                            <label for="jobSalary" class="label">Salario</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- modalidad de trabajo y tipo de contratato -->
+                                <div class="row">
+                                    <div class="contenedor-input">
+                                        <div class="col-sm-6 mb-3">
+                                            <select id="jobMode" [(ngModel)]="oferta.modalidad" name="modalidad"
+                                                class="form-control" required>
+                                                <option value="" hidden></option>
+                                                <option value="Presencial">Presencial</option>
+                                                <option value="Remoto">Remoto</option>
+                                                <option value="Híbrido">Híbrido</option>
+                                            </select>
+                                            <label for="jobMode" class="label-active">Modalidad de trabajo</label>
+                                        </div>
+                                    </div>
+                                    <div class="contenedor-input">
+                                        <div class="col-sm-6 mb-3">
+                                            <select id="contractType" [(ngModel)]="oferta.tipo_Contrato"
+                                                name="tipo_contrato" class="form-control" required>
+                                                <option value="" hidden></option>
+                                                <option value="Obra_Labor">Obra labor</option>
+                                                <option value="Fijo">Fijo</option>
+                                                <option value="Indefinido">Indefinido</option>
+                                                <option value="Practicas">Prácticas</option>
+                                            </select>
+                                            <label for="contractType" class="label-active">Tipo de contrato</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Duraciion del contrato y tipo de empleo -->
+                                <div class="row">
+                                    <div class="contenedor-input">
+                                        <div class="col-sm-6 mb-3">
+                                            <select id="jobType" [(ngModel)]="oferta.tipo_Empleo" name="tipo_empleo"
+                                                class="form-control" required>
+                                                <option value="" hidden></option>
+                                                <option value="Tiempo_Completo">Tiempo Completo</option>
+                                                <option value="Medio_Tiempo">Medio Tiempo</option>
+                                                <option value="Por_Horas">Por Horas</option>
+                                                <option value="Freelance">Freelance</option>
+                                            </select>
+                                            <label for="jobType" class="label-active">Tipo de empleo</label>
+                                        </div>
+                                    </div>
+                                    <div class="contenedor-input">
+                                        <div class="col-sm-6 mb-3">
+                                            <select [(ngModel)]="oferta.ubicacion" id="ubicacion" name="ubicacion"
+                                                class="form-control" required>
+                                                <option value="" hidden></option>
+                                                <option value="campestre">campestre</option>
+                                                <option value="socorro">socorro</option>
+                                            </select>
+                                            <label for="jobType" class="label-active">Ubicacion de empleo</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn-container">
+                                    <div>
+                                        <button type="button" class="btn-cancel">Cancelar</button>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn-next btn-primary" (click)="nextStep()">
+                                            Siguiente
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- pagina 2 -->
+                            <div class="step animate__animated animate__fadeIn" *ngIf="step === 2">
+                                <div class="input-group">
+                                    <label for="jobDescription">
+                                        <h3 data-trad="offer.label.description">Descripción</h3>
+                                    </label>
+
+                                    <div class="custom-editor">
+                                        <textarea [(ngModel)]="oferta.descripcion" id="jobDescription"
+                                            [ngModelOptions]="{standalone: true}" class="mb-3 editor-area"
+                                            name="descripcion"
+                                            placeholder="Consejos: Haz un resumen del puesto, explica qué se necesita para triunfar en él y el lugar que ocupa en la empresa."
+                                            required>
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                                <div class="btn-container">
+                                    <div class="btn-containerSelectores">
+                                        <button type="button" class="btn-prev btn-secondary"
+                                            (click)="prevStep()">Anterior</button>
+                                        <button type="button" class="btn-next btn-primary" (click)="nextStep()">Siguiente</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- pagina 3 -->
+                            <div class="step animate__animated animate__fadeIn" *ngIf="step === 3">
+                                <!-- Años de experiencia y estudio -->
+                                <div class="row">
+                                    <div class="contenedor-input">
+                                        <div class="col-sm-6 mb-3">
+                                            <select [(ngModel)]="oferta.experiencia" id="experiencia" name="experiencia"
+                                                class="form-control" required>
+                                                <option value="" hidden></option>
+                                                <option [ngValue]="0">Sin experiencia</option>
+                                                <option [ngValue]="1">Menos de 1 año</option>
+                                                <option [ngValue]="2">Entre 1 y 3 años</option>
+                                                <option [ngValue]="3">Entre 3 y 5 años</option>
+                                                <option [ngValue]="4">Entre 5 y 10 años</option>
+                                                <option [ngValue]="5">Más de 10 años</option>
+                                            </select>
+                                            <label for="experiencia" class="label-active">Años de experiencia</label>
+                                        </div>
+                                    </div>
+                                    <div class="contenedor-input">
+                                        <div class="col-sm-6 mb-3" (click)="stopPropagation($event)">
+                                            <input type="text" class="form-control form-control-user" placeholder=""
+                                                (click)="toggleDropdown()" (input)="filterOptions($event)"
+                                                [value]="selectedLabel">
+
+                                            <div class="dropdown" *ngIf="showDropdown">
+                                                <div class="option" *ngFor="let item of filteredOptions"
+                                                    (click)="selectOption(item)">
+                                                    {{ item.label }}
+                                                </div>
+                                            </div>
+
+                                            <select hidden [(ngModel)]="oferta.sector_oferta" name="sector_oferta">
+                                                <option *ngFor="let item of options" [value]="item.value">
+                                                    {{ item.label }}
+                                                </option>
+                                            </select>
+
+                                            <label for="sector" class="label">Sector empresarial</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- salario y sector empresarial -->
+                                <div class="row">
+                                    <div class="contenedor-input">
+                                        <div class="col-sm-6 mb-3">
+                                            <select id="nivel-estudio" [(ngModel)]="oferta.nivel_Educacion"
+                                                name="nivel_educativo" class="form-control" required>
+                                                <option value="" hidden></option>
+                                                <option value="Sin_estudios">Sin estudios</option>
+                                                <option value="Bachiller">Bachiller</option>
+                                                <option value="Tecnico_Tecnologo">Técnico/Tecnólogo</option>
+                                                <option value="Tecnico_Universitario">Tecnólogo o Universitario</option>
+                                                <option value="Universitario">Universitario</option>
+                                                <option value="Master">Master</option>
+                                                <option value="Doctorado">Doctorado</option>
+                                            </select>
+                                            <label for="nivel-estudio" class="label-active">Nivel de estudio</label>
+                                        </div>
+                                    </div>
+                                    <div class="contenedor-input">
+                                        <div class="col-sm-6 mb-3">
+                                            <input type="text" id="fecha" class="form-control form-control-user"
+                                                [(ngModel)]="oferta.fecha_Cierre" name="fecha_Cierre" placeholder=".">
+                                            <label for="nivel-estudio" class="label">fecha de cierre de la
+                                                oferta</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="skills-box">
+                                        <div style="position: relative;">
+                                            <input type="text" class="form-control" placeholder="" name="nuevaHabilidad"
+                                                [(ngModel)]="nuevaHabilidad"
+                                                ((keydown.enter)="addHabilidad(); $event.preventDefault()">
+                                            <label for="nivel-estudio" class="label">Habilidades</label>
+                                            <button type="button" class="btn btn-add" (click)="addHabilidad()">
+                                                Agregar
+                                            </button>
+                                        </div>
+                                        <div class="chips">
+                                            <span class="chip" *ngFor="let hab of habilidades; let i = index">
+                                                {{ hab }}
+                                                <button type="button" (click)="removeHabilidad(i)">×</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn-container">
+                                    <div class="btn-containerSelectores">
+                                        <button type="button" class="btn-prev btn-secondary"
+                                            (click)="prevStep()">Anterior</button>
+                                        <button type="submit" [disabled]="formOferta.invalid"
+                                            class="btn-submit">Editar oferta</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <app-footer class="mt-auto"></app-footer>
+    </div>
+</div>
