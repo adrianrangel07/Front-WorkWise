@@ -1,5 +1,9 @@
 <div class="content-wrapper">
     <div style="flex: 1;">
+        <div *ngIf="loading" class="loader-container">
+            <div class="spinner"></div>
+        </div>
+
         <div *ngIf="buscando" class="search-results-info mb-3 p-3 bg-light rounded">
             <div class="d-flex justify-content-between align-items-center">
                 <div>

@@ -28,6 +28,8 @@ export class OfertaCardComponent {
   terminoBusqueda: string = '';
   buscando: boolean = false;
   compatibles: number[] = [];
+  loading: boolean = false;
+
 
   // Filtros activos
   filtrosActivos: any = {
@@ -38,15 +40,13 @@ export class OfertaCardComponent {
     modalidades: [],
   };
 
-  constructor(
-    private authOfertasService: AuthOfertasService,
-    private authPostulacionesService: AuthPostulacionesService,
-    private AuthPersonaService: AuthPersonaService
-  ) {}
+  constructor(private authOfertasService: AuthOfertasService, private authPostulacionesService: AuthPostulacionesService, private AuthPersonaService: AuthPersonaService){}
 
   ngOnInit() {
     this.token = localStorage.getItem('token');
     this.cargarFavoritosUsuario();
+
+    this.loading = true;
 
     this.authOfertasService.getOfertas().subscribe({
       next: (data) => {
@@ -58,6 +58,7 @@ export class OfertaCardComponent {
       error: (err) => {
         console.error('Error al cargar las ofertas', err);
       },
+      complete: () => (this.loading = false),
     });
 
     this.AuthPersonaService.getPersona().subscribe((persona) => {

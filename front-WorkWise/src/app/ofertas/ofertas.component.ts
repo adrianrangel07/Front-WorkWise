@@ -5,8 +5,6 @@ import { AuthPersonaService } from '../services/auth-personsa.service';
 import { OfertaCardComponent } from './oferta-card/oferta-card.component';
 import { FooterComponent } from '../reutilzar/footer/footer.component';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
-
 
 @Component({
   selector: 'app-ofertas',
@@ -15,7 +13,6 @@ import { CommonModule } from '@angular/common';
     NavbarbusquedaComponent,
     OfertaCardComponent,
     FooterComponent,
-    CommonModule
   ],
   templateUrl: './ofertas.component.html',
   styleUrl: './ofertas.component.css',
@@ -29,28 +26,21 @@ export class OfertasComponent {
     private authService: AuthPersonaService,
     private route: ActivatedRoute
   ) {}
-
+  
   @ViewChild(OfertaCardComponent)
   ofertaCard!: OfertaCardComponent;
 
   mostrarFavoritosPrimero: boolean = false;
-  loading: boolean = true;
 
   ngOnInit() {
-    this.loading = true;
-
-    setTimeout(() => {
-      this.loading = false;
-    }, 2000);
-
     // Escuchar los parámetros de la URL
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.subscribe(params => {
       if (params['termino']) {
         this.terminoBusqueda = params['termino'];
         // Si el componente ofertaCard ya está cargado, aplicar el filtro
         setTimeout(() => {
           if (this.ofertaCard) {
-            this.ofertaCard.filtrarOfertas(this.terminoBusqueda);
+            this.ofertaCard.filtrarOfertas(this.terminoBusqueda); 
           }
         });
       }
@@ -59,7 +49,7 @@ export class OfertasComponent {
 
   toggleMostrarFavoritos() {
     this.mostrarFavoritosPrimero = !this.mostrarFavoritosPrimero;
-    this.ofertaCard.ordenarFavoritosDesdePadre();
+    this.ofertaCard.ordenarFavoritosDesdePadre(); 
   }
 
   onBuscar(termino: string) {
@@ -70,12 +60,8 @@ export class OfertasComponent {
   }
 
   onAplicarFiltros(filtros: any) {
-    this.loading = true;
     if (this.ofertaCard) {
       this.ofertaCard.aplicarFiltrosAvanzados(filtros);
     }
-    setTimeout(() => {
-      this.loading = false;
-    }, 1200);
   }
 }

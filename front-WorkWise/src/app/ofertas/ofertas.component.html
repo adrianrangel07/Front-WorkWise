@@ -16,14 +16,7 @@
                     <span class="heart-icon">❤️</span> Favoritos
                 </button>
             </div>
-            <div class="ofertas-container">
-                <div class="spinner-container" *ngIf="loading">
-                    <div class="spinner"></div>
-                </div>
-
-                <app-oferta-card *ngIf="!loading"></app-oferta-card>
-            </div>
-
+            <app-oferta-card></app-oferta-card>
         </div>
         <app-footer class="mt-auto"></app-footer>
     </div>
