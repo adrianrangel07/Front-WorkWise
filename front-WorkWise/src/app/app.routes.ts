@@ -9,16 +9,17 @@ import { EmpresaRegisterComponent } from './Empresa/empresa-register/empresa-reg
 import { empresaLoginComponent } from './Empresa/login/login.component';
 import { CrearOfertaComponent } from './Empresa/crear-oferta/crear-oferta.component';
 import { authEmpresaGuard } from './guards/auth-empresa.guard';
+import { EditarOfertaComponent } from './Empresa/editar-oferta/editar-oferta.component';
 
 // persona
 import { authPersonaGuard } from './guards/auth-persona.guard';
 import { PostulacionesPendientesComponent } from './Persona/postulaciones-pendientes/postulaciones-pendientes.component';
+import { PostulacionesResueltasComponent } from './Persona/postulaciones-resueltas/postulaciones-resueltas.component';
 import { RegisterComponent } from './Persona/register/register.component';
 import { PerfilComponent } from './Persona/perfil/perfil.component';
 import { personaLoginComponent } from './Persona/login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResourcesComponent } from './resources/resources.component';
-import { EditarOfertaComponent } from './Empresa/editar-oferta/editar-oferta.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 
 
@@ -77,10 +78,16 @@ export const routes: Routes = [
 
     },
     {
-        path: 'postulacionesPendientes',
+        path: 'postulaciones-pendientes',
         component: PostulacionesPendientesComponent,
         canActivate: [authPersonaGuard],
         data: { animation: 'postulacionesPendientes' }
+    },
+    {
+        path: 'postulaciones-resueltas',
+        component: PostulacionesResueltasComponent,
+        canActivate: [authPersonaGuard],
+        data: { animation: 'postulacionesResueltas' }
     },
 
     // empresa

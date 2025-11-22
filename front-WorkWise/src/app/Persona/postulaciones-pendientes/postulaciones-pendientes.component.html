@@ -15,7 +15,7 @@
 
                         <div class="job-tags">
                             <span class="salary">{{postulacion?.oferta.salario.toLocaleString('es-CO')}}</span>
-                            <span class="fulltime">{{postulacion?.oferta.tipoEmpleo}}</span>
+                            <span class="fulltime">{{getTipoEmpleo(postulacion?.oferta.tipoEmpleo)}}</span>
                         </div>
                     </div>
                 </div>
@@ -45,12 +45,12 @@
                         </div>
                         <div class="time-contract valores">
                             <div class="modal-info-item" id="modal-typeContract"><strong>Tipo de contrato:
-                                </strong>{{postulacionSeleccionada?.oferta.tipoContrato}}</div>
+                                </strong>{{tipo_Contrato}}</div>
                             <div class="modal-info-item" id="modal-duration" style="margin-left: 3px;"></div>
                         </div>
 
                         <div class="modal-info-item" id="modal-type"><strong>Tipo de empleo:
-                            </strong>{{postulacionSeleccionada?.oferta.tipoEmpleo}}</div>
+                            </strong>{{Tipo_empleo}}</div>
 
                         <div class="modal-info-item" id="modal-modalidad"><strong>Modalidad:
                             </strong>{{postulacionSeleccionada?.oferta.modalidad}}</div>
@@ -70,7 +70,7 @@
                                 </li>
                                 <li>
                                     <div class="modal-info-item" id="modal-studyLevel"><strong>Nivel de
-                                            estudio:</strong>{{postulacionSeleccionada?.oferta.nivelEducacion}}</div>
+                                            estudio:</strong>{{nivel_Educacion}}</div>
                                 </li>
                                 <li>
                                     <div class="modal-info-item" id="modal-sector">
@@ -81,9 +81,6 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn-postulado" disabled>
-                            <i class="fas fa-check-circle"></i> Ya estás postulado
-                        </button>
                     </div>
                 </div>
             </div>

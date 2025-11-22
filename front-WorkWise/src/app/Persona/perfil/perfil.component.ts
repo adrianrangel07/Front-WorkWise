@@ -195,7 +195,11 @@ export class PerfilComponent {
   }
 
   postulacionesPendientes() {
-    this.router.navigate(['/postulacionesPendientes']); 
+    this.router.navigate(['/postulaciones-pendientes']); 
+  }
+
+  postulacionesResueltas() {
+    this.router.navigate(['/postulaciones-resueltas']); 
   }
 
 }
