@@ -65,13 +65,9 @@ export class OfertaCardEmpresaComponent {
 
   contarCoincidencias(habPostulado: any, habOferta: any): number {
     if (!habPostulado || !habOferta) return 0;
-
-    // HABILIDADES DEL POSTULADO (string → array)
     const listaPostulado = habPostulado.split(",").map((h: string) => h.trim().toLowerCase());
 
-    // HABILIDADES DE LA OFERTA (array objetos → array de nombres)
     const listaOferta = habOferta.map((obj: any) => obj.habilidad.nombre.toLowerCase());
-    // Contar coincidencias
     return listaPostulado.filter((h:String) => listaOferta.includes(h)).length;
   }
 

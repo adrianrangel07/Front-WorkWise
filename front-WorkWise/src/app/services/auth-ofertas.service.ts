@@ -2,34 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 
-interface Oferta {
-  id: number;
-  titulo: string;
-  empresa: {
-    id: number;
-    nombre: string;
-  };
-  salario: number;
-  moneda: string;
-  ubicacion: string;
-  tipo_Empleo: string;
-  descripcion: string;
-  habilidades: string[];
-  nivel_Educacion: string;
-  experiencia: number;
-  modalidad: string;
-  sector_oferta: string;
-  fecha_Cierre: Date;
-  activo: boolean;
-}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthOfertasService {
 
-  private apiUrl = 'https://workwise-backend-s3w4.onrender.com/api/ofertas';
+  private ofertaSeleccionada: any | null = null;
 
-  private ofertaSeleccionada: Oferta | null = null;
+  private apiUrl = 'https://workwise-backend-s3w4.onrender.com/api/ofertas';
 
   constructor(private http: HttpClient) {}
 
@@ -38,30 +19,30 @@ export class AuthOfertasService {
     return this.http.get<any[]>(`${this.apiUrl}/home`);
   }
 
-  actualizarOferta(id: number, oferta: Oferta): Observable<Oferta> {
+  actualizarOferta(id: number, oferta: any): Observable<any> {
     const token = localStorage.getItem('token');
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.put<Oferta>(`${this.apiUrl}/${id}`, oferta, { headers });
+    return this.http.put<any>(`${this.apiUrl}/${id}`, oferta, { headers });
   }
 
-  toggleOferta(id: number): Observable<Oferta> {
+  toggleOferta(id: number): Observable<any> {
     const token = localStorage.getItem('token');
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    return this.http.put<Oferta>(
+    return this.http.put<any>(
       `${this.apiUrl}/${id}/toggle`,
       {},
       { headers }
     );
   }
 
-  setOfertaSeleccionada(oferta: Oferta) {
+  setOfertaSeleccionada(oferta: any) {
     this.ofertaSeleccionada = oferta;
   }
 
-  getOfertaSeleccionada(): Oferta | null {
+  getOfertaSeleccionada(): any | null {
     return this.ofertaSeleccionada;
   }
 
