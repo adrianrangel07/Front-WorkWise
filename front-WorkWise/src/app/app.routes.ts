@@ -19,6 +19,7 @@ import { personaLoginComponent } from './Persona/login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResourcesComponent } from './resources/resources.component';
 import { EditarOfertaComponent } from './Empresa/editar-oferta/editar-oferta.component';
+import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 
 
 export const routes: Routes = [
@@ -37,6 +38,11 @@ export const routes: Routes = [
         path: 'ofertasInicio',
         component: OfertasComponent,
         data: { animation: 'ofertasInicio' }
+    },
+    {
+        path: 'estadisticas',
+        component: EstadisticasComponent,
+        data: { animation: 'estadisticas' }
     },
     {
         path: 'forgot-password',
