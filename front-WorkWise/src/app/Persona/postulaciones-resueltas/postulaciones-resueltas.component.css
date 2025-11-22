@@ -1,0 +1,557 @@
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    color: #ccc;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.favorite-icon:hover {
+    color: #ff4757;
+}
+
+.favorite-icon.favorited {
+    color: #ff4757;
+}
+
+.card.favorited {
+    border: 2px solid #ff4757;
+    box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
+}
+
+.applied-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 10;
+}
+
+.pendiente{
+    background-color: rgba(234, 97, 7, 0.9);
+}
+
+.rechazado{
+    background-color: rgba(220, 53, 69, 0.9);
+}
+
+.aceptado{
+    background-color: rgba(40, 167, 69, 0.9);
+}
+
+.applied-compatibilidad {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(40, 167, 69, 0.9);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 10;
+}
+
+.applied-icon i {
+    font-size: 16px;
+}
+
+.applied-icon span {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.card:hover .applied-icon {
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Asegurar que no se solapen con el título */
+/* Animación para el icono de postulado */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.applied-icon.new {
+    animation: pulse 1s ease-in-out 2;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.job-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0a1128;
+    margin: 4px 0;
+}
+
+.job-company {
+    font-size: 14px;
+    color: #333;
+}
+
+.job-location {
+    font-size: 14px;
+    color: #666;
+}
+
+.job-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.salary {
+    background-color: #e9f8ed;
+    color: #147a32;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.fulltime {
+    background-color: #f3f4f6;
+    color: #444;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.offer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.offer-content h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    margin-top: 40px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.offer-content h3::before {
+    content: "\f0b1";
+    /* Icono de trabajo */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #3498db;
+}
+
+.offer-content p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.hidden-info {
+    display: none;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.hidden-info p {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    color: #555;
+}
+
+.hidden-info strong {
+    margin-right: 5px;
+    color: #2c3e50;
+    min-width: 120px;
+    display: inline-block;
+}
+
+/* Iconos para cada campo */
+.empresa::before {
+    content: "\f1ad";
+    /* Icono de empresa */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #3498db;
+}
+
+.salario::before {
+    content: "\f155";
+    /* Icono de dinero */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #2ecc71;
+}
+
+.moneda::before {
+    content: "\f51e";
+    /* Icono de moneda */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #f39c12;
+}
+
+.duracion::before {
+    content: "\f017";
+    /* Icono de reloj */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #9b59b6;
+}
+
+.periodo::before {
+    content: "\f073";
+    /* Icono de calendario */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #1abc9c;
+}
+
+.tipo_empleo::before {
+    content: "\f0c0";
+    /* Icono de grupo */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #e74c3c;
+}
+
+.modalidad::before {
+    content: "\f109";
+    /* Icono de computadora */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #3498db;
+}
+
+.tipo_contrato::before {
+    content: "\f560";
+    /* Icono de contrato */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #34495e;
+}
+
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    margin: auto;
+    padding: 0;
+    max-width: 600px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    animation: modalopen 0.4s;
+}
+
+@keyframes modalopen {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    padding: 20px;
+    position: relative;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.modal-header h3::before {
+    content: "\f0b1";
+    /* Icono de trabajo */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    font-size: 1.3rem;
+}
+
+.close-btn {
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.close-btn:hover {
+    transform: scale(1.2);
+}
+
+
+/* Cuerpo del modal */
+.modal-body {
+    padding: 25px;
+    line-height: 1.6;
+    display: block;
+    flex: none;
+    overflow-y: auto;
+    max-height: 55vh;
+    color: #333;
+}
+
+.valores div {
+    margin: 2px;
+}
+
+.modal-info-item strong {
+    margin-right: 4px;
+}
+
+.modal-body p {
+    margin-bottom: 15px;
+}
+
+.contenedorDescripcion {
+    margin: 10px 0;
+}
+
+#modal-description {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+
+.modal-info-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.modal-info-item::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    /* margin-right: 15px; */
+    width: 25px;
+    text-align: center;
+    color: #3498db;
+}
+
+ul {
+    padding-left: 1rem;
+}
+
+
+#modal-salary::before {
+    content: "\f155";
+    /* Icono dinero */
+}
+
+#modal-typeContract::before {
+    content: "\f017";
+    /* Icono reloj */
+}
+
+
+#modal-modalidad::before {
+    content: "\f109";
+    /* Icono computadora */
+}
+
+#modal-type::before {
+    content: "\f0c0";
+    /* Icono grupo */
+
+}
+
+.pago {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.time-contract {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+
+/* Pie del modal */
+
+.btn-postulado {
+    background-color: #198754;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: default;
+    box-shadow: 0 4px 10px rgba(25, 135, 84, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-postulado i {
+    color: #fff;
+    font-size: 1.1em;
+}
+
+/* Efecto visual sutil al aparecer */
+.btn-postulado {
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-footer {
+    padding: 10px 10px;
+    background: #f9f9f9;
+    text-align: right;
+    border-top: 1px solid #eee;
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.apply-btn-modal {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.apply-btn-modal::before {
+    content: "\f234";
+    /* Icono enviar */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 8px;
+}
+
+.apply-btn-modal:hover {
+    background: linear-gradient(135deg, #27ae60, #219653);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(46, 204, 113, 0.3);
+}
+
+.btn-prediccion {
+    background: none;
+    border: none;
+    border-radius: 20px;
+    color: #5d5f61;
+    /* Gris medio de Bootstrap */
+    font-weight: 600;
+    cursor: pointer !important;
+    padding: 5px 5px;
+    text-decoration: none !important;
+    font-size: 16px;
+    transition: transform 0.3s ease;
+    margin: 0;
+    transform: scale(1);
+}
+
+.btn-prediccion:hover {
+    transform: scale(1.05);
+}
