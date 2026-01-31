@@ -1,17 +1,43 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthPersonaService {
-
   private loggedin = new BehaviorSubject<boolean>(this.getToken() !== null);
 
   private apiUrl = 'http://localhost:8080/api/personas';
+  private verificationUrl = 'http://localhost:8080/api/verificacion';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
+
+  // Verificar si el email existe
+  verificarEmail(
+    email: string,
+  ): Observable<{ exists: boolean; message: string }> {
+    return this.http.get<{ exists: boolean; message: string }>(
+      `${this.verificationUrl}/verificar-email?email=${encodeURIComponent(email)}`,
+    );
+  }
+
+  // Verificar si el documento existe
+  verificarDocumento(
+    numeroDocumento: string,
+  ): Observable<{ exists: boolean; message: string }> {
+    return this.http.get<{ exists: boolean; message: string }>(
+      `${this.verificationUrl}/verificar-documento?numeroDocumento=${numeroDocumento}`,
+    );
+  }
+
+  // Verificar ambos (email y documento)
+  verificarRegistro(email: string, numeroDocumento: string): Observable<any> {
+    return this.http.get(
+      `${this.verificationUrl}/verificar-registro?email=${encodeURIComponent(email)}&numeroDocumento=${numeroDocumento}`,
+    );
+  }
 
   // Iniciar sesión
   login(credentials: { email: string; password: string }): Observable<any> {
@@ -48,7 +74,10 @@ export class AuthPersonaService {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post(`${this.apiUrl}/cv`, formData, { headers, responseType: 'text' });
+    return this.http.post(`${this.apiUrl}/cv`, formData, {
+      headers,
+      responseType: 'text',
+    });
   }
 
   // obetener cv
@@ -59,7 +88,10 @@ export class AuthPersonaService {
     }
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.get(`${this.apiUrl}/cv/${id}`, { headers, responseType: 'blob' });
+    return this.http.get(`${this.apiUrl}/cv/${id}`, {
+      headers,
+      responseType: 'blob',
+    });
   }
 
   // Eliminar CV
@@ -69,7 +101,10 @@ export class AuthPersonaService {
       throw new Error('No hay token disponible');
     }
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.delete(`${this.apiUrl}/cv`, { headers, responseType: 'text' });
+    return this.http.delete(`${this.apiUrl}/cv`, {
+      headers,
+      responseType: 'text',
+    });
   }
 
   // subir foto de perfil
@@ -82,25 +117,30 @@ export class AuthPersonaService {
     const formData = new FormData();
     formData.append('file', file);
 
-
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    return this.http.post(`${this.apiUrl}/foto`, formData, { headers, responseType: 'text' });
+    return this.http.post(`${this.apiUrl}/foto`, formData, {
+      headers,
+      responseType: 'text',
+    });
   }
 
-  aggHabilidades(habilidad: string):Observable<any>{
-    const token = this.getToken()
+  aggHabilidades(habilidad: string): Observable<any> {
+    const token = this.getToken();
     if (!token) {
       console.warn('No hay token disponible');
       return of(null);
     }
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    const body = {nombre: habilidad}
-    return this.http.post(`${this.apiUrl}/habilidades`, body, { headers, responseType: 'text'});
+    const body = { nombre: habilidad };
+    return this.http.post(`${this.apiUrl}/habilidades`, body, {
+      headers,
+      responseType: 'text',
+    });
   }
-  
-  getHabilidades(){
+
+  getHabilidades() {
     const token = this.getToken();
     if (!token) {
       console.warn('No hay token disponible');
@@ -108,19 +148,21 @@ export class AuthPersonaService {
     }
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.get<any[]>(`${this.apiUrl}/habilidades`, { headers }); 
+    return this.http.get<any[]>(`${this.apiUrl}/habilidades`, { headers });
   }
 
-  deleteHabilidades(id: number):Observable<string>{
+  deleteHabilidades(id: number): Observable<string> {
     const token = this.getToken();
     if (!token) {
       console.warn('No hay token disponible');
     }
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.delete(`${this.apiUrl}/habilidades/${id}`, {headers, responseType: 'text' });
+    return this.http.delete(`${this.apiUrl}/habilidades/${id}`, {
+      headers,
+      responseType: 'text',
+    });
   }
-
 
   getFotoPerfil(id: number): Observable<any> {
     const token = this.getToken();
@@ -130,7 +172,10 @@ export class AuthPersonaService {
     }
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.get(`${this.apiUrl}/foto/${id}`, { headers, responseType: 'blob' });
+    return this.http.get(`${this.apiUrl}/foto/${id}`, {
+      headers,
+      responseType: 'blob',
+    });
   }
 
   // Guardar token en el navegador
@@ -146,8 +191,8 @@ export class AuthPersonaService {
   }
 
   // Obtener rol
-  getRol():string | null{
-    return localStorage.getItem('rol')
+  getRol(): string | null {
+    return localStorage.getItem('rol');
   }
 
   // Obtener token
@@ -158,7 +203,7 @@ export class AuthPersonaService {
   // Cerrar sesión
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('rol')
+    localStorage.removeItem('rol');
     this.loggedin.next(false);
   }
 

@@ -776,3 +776,97 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 100%;
     z-index: 998;
 }
+
+/* Agrega estos estilos al final de tu register.component.css */
+
+/* Estilos para mensajes de validación */
+.validation-message {
+    font-size: 13px;
+    margin-top: 5px;
+    min-height: 20px;
+}
+
+.validando {
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.validando i {
+    font-size: 12px;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.text-success {
+    color: #28a745 !important;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.text-danger i,
+.text-success i {
+    font-size: 14px;
+}
+
+/* Estilos para campos con error */
+.mb-3 input.ng-invalid.ng-touched,
+.contenedor-input input.ng-invalid.ng-touched {
+    border-color: #dc3545 !important;
+}
+
+.mb-3 input.ng-valid.ng-touched:not(:focus),
+.contenedor-input input.ng-valid.ng-touched:not(:focus) {
+    border-color: #28a745 !important;
+}
+
+/* Deshabilitar botón cuando hay errores */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Animación para el spinner */
+.fa-spin {
+    animation: fa-spin 1s infinite linear;
+}
+
+@keyframes fa-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Estilos específicos para validaciones en móvil */
+@media (max-width: 768px) {
+    .validation-message {
+        font-size: 12px;
+    }
+
+    .text-danger i,
+    .text-success i {
+        font-size: 12px;
+    }
+}
+
+/* Mejorar visibilidad de los mensajes */
+.validation-message div {
+    padding: 3px 0;
+    line-height: 1.3;
+}
+
+/* Asegurar que los íconos se alineen bien */
+.validation-message i {
+    vertical-align: middle;
+}
