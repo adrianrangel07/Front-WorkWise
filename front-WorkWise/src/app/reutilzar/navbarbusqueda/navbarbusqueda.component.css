@@ -321,3 +321,58 @@
 #usuario:hover {
   color: #555; /* Cambia de color al pasar el mouse */
 }
+
+.notificacion-container {
+  position: relative;
+  margin-right: 15px;
+}
+
+.campana {
+  font-size: 20px;
+  cursor: pointer;
+  color: #0a1128;
+}
+
+.campana:hover {
+  color: #007bff;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: white;
+  font-size: 11px;
+  border-radius: 50%;
+  padding: 3px 6px;
+}
+
+.notificacion-dropdown {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  width: 300px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  z-index: 1000;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.notificacion-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.notificacion-item:hover {
+  background: #f5f5f5;
+}
+
+.sin-notificaciones {
+  padding: 15px;
+  text-align: center;
+  color: #777;
+}
