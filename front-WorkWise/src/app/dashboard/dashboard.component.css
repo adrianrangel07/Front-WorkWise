@@ -20,16 +20,30 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     line-height: 1.2;
     font-weight: 700;
     margin-bottom: var(--space-sm);
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.5rem; }
-h4 { font-size: 1.25rem; }
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1.25rem;
+}
 
 p {
     margin-bottom: var(--space-sm);
@@ -99,25 +113,31 @@ img {
 .section-title {
     text-align: center;
     margin-bottom: var(--space-lg);
-    position: relative; /* Necesario para el pseudo-elemento */
+    position: relative;
+    /* Necesario para el pseudo-elemento */
 }
 
 .section-title::after {
     content: '';
     display: block;
-    width: 80px; /* Longitud de la línea */
-    height: 4px; /* Grosor de la línea */
-    background: var(--primary); /* Color (usando tu variable azul) */
-    margin: var(--space-sm) auto 0; /* Espacio sobre la línea */
-    border-radius: var(--radius-full); /* Bordes redondeados para que sea un rectángulo suavizado */
+    width: 80px;
+    /* Longitud de la línea */
+    height: 4px;
+    /* Grosor de la línea */
+    background: var(--primary);
+    /* Color (usando tu variable azul) */
+    margin: var(--space-sm) auto 0;
+    /* Espacio sobre la línea */
+    border-radius: var(--radius-full);
+    /* Bordes redondeados para que sea un rectángulo suavizado */
 }
 
 
 
 /* ===== HERO SECTION ===== */
 .hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                url("/Imagenes/job-5382501.webp") center/cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url("/Imagenes/job-5382501.webp") center/cover;
     min-height: 500px;
     display: flex;
     align-items: center;
@@ -147,7 +167,7 @@ img {
     overflow: hidden;
 }
 
-.search-bar input, 
+.search-bar input,
 .search-bar select {
     padding: 1rem;
     flex: 1;
@@ -160,11 +180,11 @@ img {
     max-width: 200px;
 }
 
-.btn-search{
+.btn-search {
     border-top-right-radius: var(--radius-md);
     border-bottom-right-radius: var(--radius-md);
-    border-top-left-radius:0 ;
-    border-bottom-left-radius:0 ;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .stats {
@@ -339,12 +359,12 @@ img {
         text-align: center;
         padding: var(--space-lg);
     }
-    
+
     .testimonial-img {
         margin-right: 0;
         margin-bottom: var(--space-md);
     }
-    
+
     .testimonial-content {
         text-align: center;
     }
@@ -438,6 +458,72 @@ img {
     color: var(--primary);
 }
 
+/* ===== SECCIÓN BENEFICIOS ===== */
+
+.beneficios-section {
+    background: #f4f6f9;
+    text-align: center;
+    padding: 70px 0;
+}
+
+.section-subtitle {
+    color: #6c757d;
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+}
+
+.beneficios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.beneficio-card {
+    background: #e9eef4;
+    padding: 30px 20px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.beneficio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.beneficio-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #0a1128;
+}
+
+.beneficio-card h3 {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.beneficio-card p {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.app-card {
+    background: #0a1128;
+    color: white;
+}
+
+.app-card p {
+    color: #ddd;
+}
+
+.qr-img {
+    margin-top: 15px;
+    width: 140px;
+}
+
+.beneficios-cta {
+    margin-top: 40px;
+}
+
 /* ===== FOOTER ===== */
 .footer {
     background-color: var(--dark);
@@ -489,7 +575,7 @@ img {
 .footer-column a {
     display: block;
     margin-bottom: var(--space-xs);
-    color: rgba(255,255,255,0.7);
+    color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
 }
 
@@ -502,7 +588,7 @@ img {
     justify-content: space-between;
     align-items: center;
     padding-top: var(--space-md);
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 0.9rem;
 }
 
@@ -528,6 +614,7 @@ img {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -544,7 +631,7 @@ img {
         flex-direction: column;
         padding: var(--space-md);
     }
-    
+
     .nav {
         margin-left: 0;
         width: 100%;
@@ -552,22 +639,22 @@ img {
         padding: var(--space-sm) 0;
         margin-top: var(--space-sm);
     }
-    
+
     .hero h1 {
         font-size: 2rem;
     }
-    
+
     .search-bar {
         flex-direction: column;
     }
-    
+
     .search-bar input,
     .search-bar select,
     .search-bar button {
         width: 100%;
         border-radius: 0;
     }
-    
+
     .search-bar select {
         border-left: none;
         border-right: none;
@@ -575,26 +662,26 @@ img {
         border-bottom: 1px solid #eee;
         max-width: 100%;
     }
-    
+
     .steps {
         flex-direction: column;
         align-items: center;
         gap: var(--space-xl);
     }
-    
+
     .step {
         max-width: 100%;
     }
-    
+
     .app-content {
         flex-direction: column;
         text-align: center;
     }
-    
+
     .app-stores {
         justify-content: center;
     }
-    
+
     .app-qr {
         margin-top: var(--space-xl);
     }
@@ -604,28 +691,28 @@ img {
     .section {
         padding: var(--space-lg) 0;
     }
-    
+
     .section-title {
         font-size: 1.75rem;
     }
-    
+
     .category-grid {
         grid-template-columns: 1fr 1fr;
         gap: var(--space-md);
     }
-    
+
     .company-logos {
         gap: var(--space-md);
     }
-    
+
     .company-logos img {
         height: 30px;
     }
-    
+
     .footer-column {
         min-width: 120px;
     }
-    
+
     .footer-bottom {
         flex-direction: column;
         gap: var(--space-md);
