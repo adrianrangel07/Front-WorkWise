@@ -28,7 +28,11 @@ export class RegisterComponent {
 
   profesionesFiltradas: string[] = [];
   filtroProfesion: string = '';
-  mostrarDropdown: boolean = false;
+  
+  barriosFiltrados: string[] = [];
+  filtroBarrio: string = '';
+
+
 
   step: number = 1;
   private flatpickrInstance: any;
@@ -67,7 +71,8 @@ export class RegisterComponent {
   };
 
   ngOnInit() {
-    this.profesionesFiltradas = [...this.profesiones];
+    this.profesionesFiltradas = [];
+    this.barriosFiltrados = [];
 
     // Configurar debounce para email
     const emailSubscription = this.emailSubject
@@ -156,43 +161,83 @@ export class RegisterComponent {
     });
   }
 
-  onSearchInput(event: any) {
+  onSearchInputProfesion(event: any) {
     this.filtroProfesion = event.target.value;
     this.filtrarProfesiones();
   }
-
-  // Método para abrir el dropdown y permitir búsqueda
-  abrirBusqueda() {
-    this.mostrarDropdown = true;
-    this.filtroProfesion = '';
-    this.profesionesFiltradas = [...this.profesiones];
-
-    // Enfocar el input virtual después de que se renderice
-    setTimeout(() => {
-      if (this.searchInput && this.searchInput.nativeElement) {
-        this.searchInput.nativeElement.focus();
-      }
-    }, 50);
-  }
-
+  
   // Filtrar profesiones en tiempo real
   filtrarProfesiones() {
-    console.log('Buscando:', this.filtroProfesion); // Para debug
-    console.log('Total profesiones:', this.profesiones.length); // Para debug
+    // console.log('Filtro:', this.filtroProfesion);
 
-    if (!this.filtroProfesion) {
-      this.profesionesFiltradas = [...this.profesiones];
-    } else {
-      const filtro = this.normalizarTexto(this.filtroProfesion);
-
-      this.profesionesFiltradas = this.profesiones.filter((profesion) =>
-        this.normalizarTexto(profesion).includes(filtro),
-      );
+    if (!this.filtroProfesion || this.filtroProfesion.trim() === '') {
+      this.profesionesFiltradas = [];
+      return;
     }
 
-    console.log('Resultados encontrados:', this.profesionesFiltradas.length); // Para debug
-    console.log('Resultados:', this.profesionesFiltradas); // Para debug
+    const filtro = this.normalizarTexto(this.filtroProfesion);
+
+    this.profesionesFiltradas = this.profesiones.filter((profesion) =>
+      this.normalizarTexto(profesion).includes(filtro)
+    );
+
+    // console.log('Resultados:', this.profesionesFiltradas);
   }
+
+  // Seleccionar una profesión
+  seleccionarProfesion(profesion: string) {
+    this.persona.profesion = profesion;
+    this.filtroProfesion = profesion;
+    this.profesionesFiltradas = [];
+  }
+
+    // Manejar teclas en el input virtual
+  manejarTeclaProfesion(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.filtroProfesion = '';
+      this.profesionesFiltradas = [];
+    } else if (event.key === 'Enter' && this.profesionesFiltradas.length > 0) {
+      this.seleccionarProfesion(this.profesionesFiltradas[0]);
+    }
+  }
+
+  onSearchInputBarrio(event: any) {
+    this.filtroBarrio = event.target.value;
+    this.filtrarBarrios();
+  }
+
+  filtrarBarrios() {
+     // console.log('Filtro:', this.filtroProfesion);
+
+    if (!this.filtrarBarrios || this.filtroBarrio.trim() === '') {
+      this.barriosFiltrados = [];
+      return;
+    }
+
+    const filtro = this.normalizarTexto(this.filtroBarrio);
+
+    this.barriosFiltrados = this.barrios.filter((barrio) =>
+      this.normalizarTexto(barrio).includes(filtro)
+    );
+
+    console.log('Resultados:', this.barriosFiltrados);
+  }
+
+  seleccionarBarrio(barrio: string) {
+    this.persona.direccion = barrio;
+    this.filtroBarrio = barrio;
+    this.barriosFiltrados = [];
+  }
+  
+  manejarTeclaBarrio(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.filtroBarrio = '';
+      this.barriosFiltrados = [];
+    } else if (event.key === 'Enter' && this.barriosFiltrados.length > 0) {
+      this.seleccionarBarrio(this.barriosFiltrados[0]);
+    }
+  }
+
 
   // Función para normalizar texto (quitar tildes y convertir a minúsculas)
   normalizarTexto(texto: string): string {
@@ -203,35 +248,8 @@ export class RegisterComponent {
       .replace(/[\u0300-\u036f]/g, '') // quitar tildes
       .trim();
   }
+  
 
-  // Seleccionar una profesión
-  seleccionarProfesion(profesion: string) {
-    this.persona.profesion = profesion;
-    this.mostrarDropdown = false;
-    this.filtroProfesion = '';
-  }
-
-  // Manejar teclas en el input virtual
-  manejarTecla(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      this.mostrarDropdown = false;
-      this.filtroProfesion = '';
-    } else if (event.key === 'Enter' && this.profesionesFiltradas.length > 0) {
-      this.seleccionarProfesion(this.profesionesFiltradas[0]);
-    }
-  }
-
-  // Cerrar dropdown cuando se hace clic fuera del componente
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const clickedInside = (event.target as HTMLElement).closest(
-      '.dropdown-container',
-    );
-    if (!clickedInside && this.mostrarDropdown) {
-      this.mostrarDropdown = false;
-      this.filtroProfesion = '';
-    }
-  }
 
   nextStep() {
     if (this.emailExiste) {
@@ -353,8 +371,7 @@ export class RegisterComponent {
       this.passwordsMatch = null; // no mostrar nada si alguno está vacío
       return;
     }
-    this.passwordsMatch =
-      this.persona.usuario.password === this.confirmPassword;
+    this.passwordsMatch = this.persona.usuario.password === this.confirmPassword;
   }
 
   passwordStrength = {
@@ -362,6 +379,8 @@ export class RegisterComponent {
     color: 'red',
     text: '',
   };
+
+  validacion = false;
 
   checkPasswordStrength(password: string) {
     let strength = 0;
@@ -373,12 +392,23 @@ export class RegisterComponent {
 
     switch (strength) {
       case 0:
-        this.passwordStrength = { width: '0%', color: 'red', text: '' };
+        this.validacion = false;
+        this.passwordStrength = { 
+          width: '0%', 
+          color: 'red', 
+          text: '' 
+        };
         break;
       case 1:
-        this.passwordStrength = { width: '25%', color: 'red', text: 'Débil' };
+        this.validacion = true;
+        this.passwordStrength = { 
+          width: '25%', 
+          color: 'red', 
+          text: 'Débil' 
+        };
         break;
       case 2:
+        this.validacion = true;
         this.passwordStrength = {
           width: '50%',
           color: 'orange',
@@ -386,6 +416,7 @@ export class RegisterComponent {
         };
         break;
       case 3:
+        this.validacion = true;
         this.passwordStrength = {
           width: '75%',
           color: 'yellowgreen',
@@ -393,6 +424,7 @@ export class RegisterComponent {
         };
         break;
       case 4:
+        this.validacion = true;
         this.passwordStrength = {
           width: '100%',
           color: 'green',
