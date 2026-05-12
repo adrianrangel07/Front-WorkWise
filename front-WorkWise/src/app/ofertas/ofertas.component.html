@@ -6,17 +6,58 @@
         </app-navbarbusqueda>
         <div class="content-area flex-grow-1 p-3">
             <div class="section-title text-center">
-                <h2 class="display-5 fw-bold" data-trad="offers.title">Ofertas disponibles</h2>
+                <h2 class="display-5 fw-bold">Ofertas disponibles</h2>
                 <p class="text-muted">Explora las oportunidades laborales que tenemos para ti</p>
             </div>
 
-            <div class="btn-favoritos-container">
-                <button class="btn-favoritos" [class.active]="mostrarFavoritosPrimero"
+            <!-- Fila de filtros pill -->
+            <div class="filtros-container">
+                <div class="filtro-wrapper" *ngFor="let filtro of filtros">
+
+                    <!-- Pill: se pinta si tiene selecciones activas -->
+                    <button class="filtro-pill" [class.active]="filtroActivo === filtro.key"
+                        [class.tiene-filtro]="tieneFiltros(filtro.key)" (click)="toggleFiltro(filtro.key)">
+
+                        <span class="badge-count" *ngIf="tieneFiltros(filtro.key)">
+                            {{ cantidadFiltros(filtro.key) }}
+                        </span>
+
+                        {{ filtro.label }}
+                        <span class="arrow" [class.open]="filtroActivo === filtro.key">▾</span>
+                    </button>
+
+                    <!-- Dropdown -->
+                    <div class="filtro-dropdown" *ngIf="filtroActivo === filtro.key">
+                        <label *ngFor="let opcion of filtro.opciones" class="opcion-item">
+                            <input type="checkbox" [value]="opcion.value"
+                                [checked]="(selecciones[filtro.key] || []).includes(opcion.value)"
+                                (change)="onCheckChange(filtro.key, opcion.value, $event)">
+                            {{ opcion.label }}
+                        </label>
+
+                        <div class="dropdown-footer">
+                            <button class="btn-limpiar" (click)="limpiarFiltro(filtro.key)">Limpiar</button>
+                            <button class="btn-aplicar" (click)="aplicarFiltro()">Aplicar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Favoritos -->
+                <button class="filtro-pill filtro-favoritos" [class.tiene-filtro]="mostrarFavoritosPrimero"
                     (click)="toggleMostrarFavoritos()">
-                    <span class="heart-icon">❤️</span> Favoritos
+                    Favoritos
+                    <span class="badge-favoritos" *ngIf="totalFavoritos > 0">{{ totalFavoritos }}</span>
                 </button>
+
             </div>
-            <app-oferta-card></app-oferta-card>
+
+            <!-- Overlay -->
+            <div class="overlay" *ngIf="filtroActivo" (click)="cerrarFiltro()"></div>
+
+            <!-- Overlay para cerrar al hacer clic fuera -->
+            <div class="overlay" *ngIf="filtroActivo" (click)="cerrarFiltro()"></div>
+            <app-oferta-card [filtrosEntrada]="selecciones" [mostrarFavoritos]="mostrarFavoritosPrimero"
+                [busqueda]="terminoBusqueda"></app-oferta-card>
         </div>
         <app-footer class="mt-auto"></app-footer>
     </div>

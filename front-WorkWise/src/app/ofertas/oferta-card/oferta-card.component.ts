@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AuthOfertasService } from '../../services/auth-ofertas.service';
 import { AuthPostulacionesService } from '../../services/auth-postulaciones.service';
 import { AuthPersonaService } from '../../services/auth-personsa.service';
@@ -12,7 +12,11 @@ import { forkJoin } from 'rxjs';
   templateUrl: './oferta-card.component.html',
   styleUrl: './oferta-card.component.css',
 })
-export class OfertaCardComponent {
+export class OfertaCardComponent implements OnChanges {
+  @Input() filtrosEntrada: { [key: string]: string[] } = {};
+  @Input() mostrarFavoritos: boolean = false;
+  @Input() busqueda: string = '';
+
   ofertas: any[] = [];
   ofertasFiltradas: any[] = [];
   ofertaSeleccionada: any = null;
@@ -30,7 +34,6 @@ export class OfertaCardComponent {
   compatibles: number[] = [];
   loading: boolean = false;
 
-
   // Filtros activos
   filtrosActivos: any = {
     salarioMin: null,
@@ -38,9 +41,14 @@ export class OfertaCardComponent {
     tipoContrato: '',
     tipoEmpleo: '',
     modalidades: [],
+    nivelEducativo: [],
   };
 
-  constructor(private authOfertasService: AuthOfertasService, private authPostulacionesService: AuthPostulacionesService, private AuthPersonaService: AuthPersonaService){}
+  constructor(
+    private authOfertasService: AuthOfertasService,
+    private authPostulacionesService: AuthPostulacionesService,
+    private AuthPersonaService: AuthPersonaService,
+  ) {}
 
   ngOnInit() {
     this.token = localStorage.getItem('token');
@@ -83,7 +91,7 @@ export class OfertaCardComponent {
     this.authPostulacionesService.getPostulaciones().subscribe({
       next: (data) => {
         this.postulaciones = data.map(
-          (postulacion: any) => postulacion.oferta.id
+          (postulacion: any) => postulacion.oferta.id,
         );
         console.log('Postulaciones cargadas:', this.postulaciones.length);
       },
@@ -91,6 +99,12 @@ export class OfertaCardComponent {
         console.error('Error al cargar las postulaciones', err);
       },
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.ofertas.length > 0) {
+      this.aplicarTodosLosFiltros();
+    }
   }
 
   // Método para filtrar por texto
@@ -112,7 +126,7 @@ export class OfertaCardComponent {
   aplicarTodosLosFiltros() {
     let ofertasFiltradas = [...this.ofertas];
 
-    // Aplicar filtro de texto
+    // Búsqueda por texto (la que ya tenías)
     if (this.terminoBusqueda) {
       ofertasFiltradas = ofertasFiltradas.filter(
         (oferta) =>
@@ -121,69 +135,116 @@ export class OfertaCardComponent {
             ?.toLowerCase()
             .includes(this.terminoBusqueda) ||
           oferta.descripcion?.toLowerCase().includes(this.terminoBusqueda) ||
-          (oferta.habilidades &&
-            oferta.habilidades.some((hab: any) =>
-              hab.habilidad?.nombre
-                ?.toLowerCase()
-                .includes(this.terminoBusqueda)
-            )) ||
-          oferta.ubicacion?.toLowerCase().includes(this.terminoBusqueda)
+          oferta.ubicacion?.toLowerCase().includes(this.terminoBusqueda),
       );
     }
 
-    // Aplicar filtros avanzados
+    // ── Filtros nuevos desde el padre ──────────────────────────
+
+    // Sector
+    if (this.filtrosEntrada['sector']?.length) {
+      ofertasFiltradas = ofertasFiltradas.filter((o) =>
+        this.filtrosEntrada['sector'].includes(o.sector),
+      );
+    }
+
+    // Salario
+    if (this.filtrosEntrada['salario']?.length) {
+      ofertasFiltradas = ofertasFiltradas.filter((o) =>
+        this.filtrosEntrada['salario'].some((rango) => {
+          const [min, max] = rango.split('-').map(Number);
+          return max ? o.salario >= min && o.salario <= max : o.salario >= min;
+        }),
+      );
+    }
+
+    // Tipo contrato
+    if (this.filtrosEntrada['contrato']?.length) {
+      ofertasFiltradas = ofertasFiltradas.filter((o) =>
+        this.filtrosEntrada['contrato'].includes(o.tipo_Contrato),
+      );
+    }
+
+    // Tipo empleo
+    if (this.filtrosEntrada['empleo']?.length) {
+      ofertasFiltradas = ofertasFiltradas.filter((o) =>
+        this.filtrosEntrada['empleo'].includes(o.tipo_Empleo),
+      );
+    }
+
+    // Modalidad
+    if (this.filtrosEntrada['modalidad']?.length) {
+      ofertasFiltradas = ofertasFiltradas.filter((o) =>
+        this.filtrosEntrada['modalidad'].includes(o.modalidad),
+      );
+    }
+
+    // Experiencia
+    if (this.filtrosEntrada['experiencia']?.length) {
+      ofertasFiltradas = ofertasFiltradas.filter((o) => {
+        const exp = Number(o.experiencia);
+        return this.filtrosEntrada['experiencia'].some((rango) => {
+          if (rango === '0') return exp === 0;
+          if (rango === '2') return exp >= 1 && exp <= 3;
+          if (rango === '3') return exp >= 3 && exp <= 5;
+          if (rango === '4') return exp >= 5 && exp <= 10;
+          if (rango === '5') return exp > 10;
+          return false;
+        });
+      });
+    }
+
+    if (this.filtrosEntrada['tipo_empleo']?.length) {
+      ofertasFiltradas = ofertasFiltradas.filter((o) =>
+        this.filtrosEntrada['tipo_empleo'].includes(o.tipo_Empleo),
+      );
+    }
+
+    if (this.filtrosEntrada['nivel_educacion']?.length) {
+      ofertasFiltradas = ofertasFiltradas.filter((o) =>
+        this.filtrosEntrada['nivel_educacion'].includes(o.nivel_Educacion),
+      );
+    }
+
+    // Favoritos
+    if (this.mostrarFavoritos) {
+      ofertasFiltradas = ofertasFiltradas.filter((o) => o.esFavorito);
+    }
+
+    // ── Filtros avanzados que ya tenías ────────────────────────
     ofertasFiltradas = ofertasFiltradas.filter((oferta) => {
-      // Filtro por salario
       if (
         this.filtrosActivos.salarioMin !== null &&
         oferta.salario < this.filtrosActivos.salarioMin
-      ) {
+      )
         return false;
-      }
       if (
         this.filtrosActivos.salarioMax !== null &&
         oferta.salario > this.filtrosActivos.salarioMax
-      ) {
+      )
         return false;
-      }
-
-      // Filtro por tipo de contrato
       if (
         this.filtrosActivos.tipoContrato &&
         oferta.tipo_Contrato !== this.filtrosActivos.tipoContrato
-      ) {
+      )
         return false;
-      }
-
-      // Filtro por tipo de empleo
       if (
         this.filtrosActivos.tipoEmpleo &&
         oferta.tipo_Empleo !== this.filtrosActivos.tipoEmpleo
-      ) {
+      )
         return false;
-      }
-
-      // Filtro por modalidad
       if (
         this.filtrosActivos.modalidades.length > 0 &&
         !this.filtrosActivos.modalidades.includes(
-          oferta.modalidad?.toLowerCase()
+          oferta.modalidad?.toLowerCase(),
         )
-      ) {
+      )
         return false;
-      }
-
       return true;
     });
 
     this.ofertasFiltradas = ofertasFiltradas;
     this.actualizarPaginacion();
-
-    console.log(
-      'Ofertas después de aplicar filtros:',
-      this.ofertasFiltradas.length
-    );
-    console.log('Filtros activos:', this.filtrosActivos);
   }
 
   limpiarBusqueda() {
@@ -195,6 +256,7 @@ export class OfertaCardComponent {
       tipoContrato: '',
       tipoEmpleo: '',
       modalidades: [],
+      nivelEducativo: [],
     };
     this.aplicarTodosLosFiltros();
   }
@@ -315,7 +377,6 @@ export class OfertaCardComponent {
   }
 
   getTipoEmpleo(valor: string) {
-    console.log(valor);
     switch (valor) {
       case 'Tiempo_Completo':
         return 'Tiempo Completo';
@@ -384,7 +445,7 @@ export class OfertaCardComponent {
       Swal.fire(
         'Inicia sesión',
         'Debes iniciar sesión para guardar favoritos.',
-        'warning'
+        'warning',
       );
       return;
     }
@@ -397,7 +458,7 @@ export class OfertaCardComponent {
 
     localStorage.setItem(
       'favoritos_' + this.token,
-      JSON.stringify(this.favoritos)
+      JSON.stringify(this.favoritos),
     );
 
     this.ordenarOfertas();

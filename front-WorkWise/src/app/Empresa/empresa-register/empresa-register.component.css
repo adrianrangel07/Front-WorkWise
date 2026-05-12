@@ -90,6 +90,10 @@ html, body {
     width: 100%;
 }
 
+.row{
+    margin-bottom: 15px;
+}
+
 .contenedor-input{
     width: 50% !important;
     display: flex;
@@ -196,6 +200,122 @@ html, body {
     font-size: 16px;
     padding: 0 15px;
     background: #fff;
+}
+
+.custom-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px 4px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    margin-top: 2px;
+    width: 95% !important;
+}
+
+.dropdown-container{
+    margin-bottom: 0 !important;
+}
+
+
+.dropdown-options {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.dropdown-option {
+    padding: 0.75rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f8f9fa;
+    font-size: 15px;
+    line-height: 1.33333;
+    color: rgba(0, 0, 0, 0.9);
+    transition: background-color 0.2s;
+}
+
+.dropdown-option:hover {
+    background-color: #e9ecef;
+}
+
+.dropdown-option.selected {
+    background-color: #0a1128;
+    color: white;
+}
+
+.dropdown-option.no-results {
+    color: #6c757d;
+    font-style: italic;
+    cursor: default;
+}
+
+.dropdown-option.no-results:hover {
+    background-color: transparent;
+}
+
+/* Ajuste para el label cuando el dropdown está activo */
+.mb-3:has(.select-display.active) .label-active {
+    top: 0;
+    font-size: 16px;
+    padding: 0 15px;
+    background: #fff;
+    z-index: 1001;
+}
+
+/* Ajuste para el label cuando hay una profesión seleccionada */
+.mb-3:has(.select-display:not(:empty)) .label-active {
+    top: 0;
+    font-size: 16px;
+    padding: 0 15px;
+    background: #fff;
+    z-index: 1001;
+}
+
+.custom-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px 4px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    margin-top: 2px;
+    width: 95% !important;
+}
+
+/* Mejorar la visibilidad del dropdown */
+.dropdown-options {
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1002;
+    position: relative;
+}
+
+.dropdown-option {
+    padding: 0.75rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f8f9fa;
+    font-size: 15px;
+    line-height: 1.33333;
+    color: rgba(0, 0, 0, 0.9);
+    transition: background-color 0.2s;
+    z-index: 1003;
+}
+
+/* Asegurar que el contenedor tenga buen z-index */
+.dropdown-container {
+    position: relative;
+    z-index: 999;
+}
+
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
+    z-index: 998;
 }
 
 

@@ -1,0 +1,9 @@
+/* En tu loading.component.css */
+::ng-deep mat-spinner circle {
+    stroke: #ffffff !important; /* Tu color personalizado */
+}
+
+mat-spinner {
+    display: block;
+    margin: 0 auto; /* Centra el spinner */
+}

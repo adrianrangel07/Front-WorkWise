@@ -18,46 +18,155 @@
     margin-top: 10px;
 }
 
-.btn-favoritos-container {
-    margin: 15px 0 25px 0;
+.filtros-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 16px 0 24px 0;
 }
 
-/* Botón base */
-.btn-favoritos {
-    padding: 10px 20px;
-    background-color: white;
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
-    font-weight: 600;
-    font-size: 1rem;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+.filtro-wrapper {
+  position: relative;
 }
 
-/* Hover */
-.btn-favoritos:hover {
-    background-color: var(--primary-color);
-    color: white;
+/* Pill base */
+.filtro-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1.5px solid #c8ccd4;
+  background-color: #f0f2f5;
+  color: #3a3a3a;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
-/* Estado activo (cuando favoritos van primero) */
-.btn-favoritos.active {
-    background-color: var(--primary-color);
-    color: white;
-    transform: scale(0.97);
-    box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.15);
+.filtro-pill:hover {
+  border-color: #1a2e55;
+  background-color: #e2e6ed;
 }
 
-/* Icono */
-.heart-icon {
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
+/* Pill abierto (dropdown visible) */
+.filtro-pill.active {
+  background-color: #1a2e55;
+  color: #ffffff;
+  border-color: #1a2e55;
 }
 
-.btn-favoritos.active .heart-icon {
-    transform: scale(1.2);
+/* ✅ Pill con filtros seleccionados (pintado) */
+.filtro-pill.tiene-filtro {
+  background-color: #1a2e55;
+  color: #ffffff;
+  border-color: #1a2e55;
+  font-weight: 600;
+}
+
+.filtro-pill.tiene-filtro:hover {
+  background-color: #243d72;
+}
+
+/* Badge con cantidad */
+.badge-count {
+  background-color: #ffffff;
+  color: #1a2e55;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Flecha */
+.arrow {
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Dropdown */
+.filtro-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: #ffffff;
+  border: 1px solid #dde1e7;
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 210px;
+  z-index: 1000;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.opcion-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.opcion-item:hover {
+  background: #f0f2f5;
+}
+
+/* ✅ Checkbox seleccionado con color de marca */
+.opcion-item input[type="checkbox"] {
+  accent-color: #1a2e55;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.dropdown-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.btn-limpiar {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn-aplicar {
+  background: #1a2e55;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 14px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.btn-aplicar:hover {
+  background: #243d72;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
 }

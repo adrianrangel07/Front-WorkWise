@@ -80,8 +80,7 @@
         <div class="modal-header">
             <div class="modal-header-info">
                 <h3 id="modal-title">{{ofertaSeleccionada?.titulo}}</h3>
-                <div class="modal-info-item" id="modal-empresa" style="padding: 0%;"><Strong>Empresa:
-                    </Strong>{{ofertaSeleccionada?.empresa.nombre}}</div>
+                <div class="modal-info-item" id="modal-empresa" style="padding: 0%;"><Strong>Empresa:</Strong>&nbsp;{{ofertaSeleccionada?.empresa.nombre}}</div>
             </div>
             <span (click)="cerrarModal()" class="close-btn" id="close-btn">&times;</span>
         </div>
@@ -135,16 +134,15 @@
                 <h4>Requerimientos</h4>
                 <ul>
                     <li>
-                        <div class="modal-info-item" id="modal-experience"><strong>Experiencia:</strong>{{experiencia}}
+                        <div class="modal-info-item" id="modal-experience"><strong>Experiencia:</strong>&nbsp;{{experiencia}}
                         </div>
                     </li>
                     <li>
-                        <div class="modal-info-item" id="modal-studyLevel"><strong>Nivel de
-                                estudio:</strong>{{ofertaSeleccionada?.nivel_Educacion}}</div>
+                        <div class="modal-info-item" id="modal-studyLevel"><strong>Nivel de estudio:</strong>&nbsp;{{this.nivel_Educacion}}</div>
                     </li>
                     <li>
                         <div class="modal-info-item" id="modal-sector">
-                            <strong>Sector:</strong>{{ofertaSeleccionada?.sector_oferta}}
+                            <strong>Sector:</strong>&nbsp;{{ofertaSeleccionada?.sector_oferta}}
                         </div>
                     </li>
                 </ul>

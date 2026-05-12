@@ -11,14 +11,17 @@ import { Spanish } from 'flatpickr/dist/l10n/es.js';
 import {
   debounceTime,
   distinctUntilChanged,
+  pipe,
   Subject,
   Subscription,
 } from 'rxjs';
+import { LoadingComponent } from '../../reutilzar/loading/loading.component';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive, LoadingComponent],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
@@ -69,6 +72,8 @@ export class RegisterComponent {
       password: '',
     },
   };
+
+  loading = false;
 
   ngOnInit() {
     this.profesionesFiltradas = [];
@@ -341,8 +346,8 @@ export class RegisterComponent {
       });
       return;
     }
-
-    this.authService.register(this.persona).subscribe({
+    this.loading = true;
+    this.authService.register(this.persona).pipe(finalize(() => this.loading = false)).subscribe({
       next: (response) => {
         console.log('Registro exitoso:', response);
         Swal.fire({
@@ -392,11 +397,11 @@ export class RegisterComponent {
 
     switch (strength) {
       case 0:
-        this.validacion = false;
+        this.validacion = true;
         this.passwordStrength = { 
           width: '0%', 
           color: 'red', 
-          text: '' 
+          text: 'Mejora tu contraseña' 
         };
         break;
       case 1:
@@ -463,6 +468,17 @@ export class RegisterComponent {
       !!this.persona.numero_documento &&
       !!this.persona.tipo_Documento &&
       this.persona.usuario.password === this.confirmPassword
+    );
+  }
+
+  isStep2Valid(): boolean {
+    return (
+      !!this.persona.fecha_Nacimiento &&
+      !!this.persona.genero &&
+      !!this.persona.direccion &&
+      !!this.persona.telefono &&
+      !!this.persona.tipo_telefono &&
+      !!this.persona.profesion
     );
   }
 }

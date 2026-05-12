@@ -19,22 +19,21 @@
                                 <div class="col-sm-6 mb-3">
                                     <input class="form-control form-control-user" type="text"
                                         [(ngModel)]="empresa.nombre" placeholder="" name="nombreEmp" required>
-                                    <label for="nombreEmp" class="label" data-trad="nombreCompania">Nombre de la
-                                        compañia</label>
+                                    <label for="nombreEmp" class="label">Nombre de la compañia</label>
                                 </div>
                             </div>
                             <div class="contenedor-input">
                                 <div class="col-sm-6 mb-3">
                                     <input class="form-control form-control-user" type="text" placeholder=""
                                         [(ngModel)]="empresa.razonSocial" name="razon_social" required>
-                                    <label for="razon_social" class="label" data-trad="razonSocial">Razón social</label>
+                                    <label for="razon_social" class="label">Razón social</label>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <input class="form-control form-control-user" type="email" aria-describedby="emailHelp"
                                 [(ngModel)]="empresa.usuario.email" placeholder="" id="email" name="email" required>
-                            <label for="email" class="label" data-trad="correoElectronico">Correo electronico</label>
+                            <label for="email" class="label">Correo electronico</label>
                             <div class="validation-message" id="emailValidation" style="display: none;"></div>
                         </div>
                         <div class="row">
@@ -47,7 +46,7 @@
                                             id="password" name="contraseña" minlength="8" maxlength="45" required>
                                         <i class="fas fa-eye toggle-password"
                                             (click)="togglePasswordVisibility('password')"></i>
-                                        <label for="password" class="label" data-trad="contrasena">Contraseña</label>
+                                        <label for="password" class="label" >Contraseña</label>
                                     </div>
                                     <div class="password-strength-container">
                                         <div class="password-strength-bar" [style.width]="passwordStrength.width"
@@ -77,16 +76,14 @@
                             </div>
                         </div>
                         <button type="button" class="btn btn-primary d-block btn-user w-100" (click)="nextStep()"
-                            [disabled]="!empresa.nombre ||!empresa.razonSocial ||!empresa.usuario.email 
-                            ||!empresa.usuario.email.includes('@') || !empresa.usuario.password || empresa.usuario.password.length < 8 
-                            ||!confirmPassword ||(empresa.usuario.password !== confirmPassword)">
+                            [disabled]="!empresa.nombre || !empresa.razonSocial || !empresa.usuario.email || !empresa.usuario.email.includes('@') || passwordsMatch !== true">
                             Siguiente
                         </button>
 
                     </div>
                     <div *ngIf="step === 2" class="animate__animated animate__fadeIn">
                         <div class="container-back">
-                            <button type="button" (click)="prevStep()" class="back_a" style="border: none;">
+                            <button type="button" (click)="prevStep()" class="back_a" style="border: none; background: none;">
                                 <i class="fas fa-arrow-left back"></i>
                             </button>
                         </div>
@@ -100,18 +97,32 @@
                             </div>
                             <div class="contenedor-input">
                                 <div class="col-sm-6 mb-3">
-                                    <select name="direccion" id="direccion" class="form-control form-control-btn"
-                                        [(ngModel)]="empresa.direccion" required>
-                                        <option value="" disabled hidden></option>
-                                        <option *ngFor="let barrio of barrios" [value]="barrio">
-                                            {{ barrio }}
-                                        </option>
-                                    </select>
+                                    <div class="col-sm-6 mb-3 dropdown-container">
+                                    <input  class="form-control form-control-user" type="text" name="direccion" id="direccion" [(ngModel)]="filtroBarrio"
+                                            placeholder="" (ngModelChange)="filtrarBarrios()"
+                                            (keydown)="manejarTeclaBarrio($event)" autocomplete="off">
+                                    <label for="direccion" class="label">Barrio</label>
+                                    </div>
+                                    <div class="custom-select-wrapper">
+                                        <!-- Dropdown con búsqueda integrada -->
+                                        <div class="custom-dropdown" *ngIf="barriosFiltrados.length > 0">
+                                            <!-- Lista de opciones filtradas -->
+                                            <div class="dropdown-options">
+                                                <div *ngFor="let b of barriosFiltrados" class="dropdown-option"
+                                                    (click)="seleccionarBarrio(b)"
+                                                    [class.selected]="b === empresa.direccion">
+                                                    {{ b }}
+                                                </div>
 
-                                    <label for="direccion" class="label-active">Dirección</label>
+                                                <div *ngIf="barriosFiltrados.length === 0"
+                                                    class="dropdown-option no-results">
+                                                    No se encontraron resultados para "{{filtroBarrio}}"
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="row">
                             <div class="contenedor-input">
@@ -135,14 +146,32 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <select name="sector" id="sector" class="form-control form-control-btn"
-                                [(ngModel)]="empresa.sector" required>
-                                <option value="" hidden></option>
-                                <option *ngFor="let s of sectores" [value]="s">
-                                    {{ s }}
-                                </option>
-                            </select>
-                            <label for="sector" class="label-active">Sector empresarial</label>
+                            <div class="contenedor-input" style="width: 100% !important;">
+                                <div class="col-sm-6 mb-3">
+                                    <input  class="form-control form-control-user" type="text" name="sector" id="sector" [(ngModel)]="filtroSector"
+                                            placeholder="" (ngModelChange)="filtrarSectores()"
+                                            (keydown)="manejarTeclaSector($event)" autocomplete="off">
+                                    <label for="sector" class="label">Sector empresarial</label>
+                                    <div class="custom-select-wrapper">
+                                        <!-- Dropdown con búsqueda integrada -->
+                                        <div class="custom-dropdown" *ngIf="sectoresFiltrados.length > 0">
+                                            <!-- Lista de opciones filtradas -->
+                                            <div class="dropdown-options">
+                                                <div *ngFor="let s of sectoresFiltrados" class="dropdown-option"
+                                                    (click)="seleccionarSector(s)"
+                                                    [class.selected]="s === empresa.sector">
+                                                    {{ s }}
+                                                </div>
+
+                                                <div *ngIf="sectoresFiltrados.length === 0"
+                                                    class="dropdown-option no-results">
+                                                    No se encontraron resultados para "{{filtroSector}}"
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-3">

@@ -28,8 +28,9 @@
                         <i class="fas fa-eye toggle-password" (click)="togglePasswordVisibility('password')"></i>
                         <label for="password" class="floating-label">Contraseña</label>
                     </div>
-                    <button class="btn btn-primary d-block btn-user w-100" type="submit" id="validar" >
-                        Iniciar sesión
+                    <button class="btn btn-primary d-block btn-user w-100" style="height: 47px;" type="submit" id="validar" [disabled]="loading">
+                        <app-loading *ngIf="loading"></app-loading>
+                        <span *ngIf="!loading">Iniciar sesión</span>
                     </button>
                     <br>
                     <p><a href="/forgot-password">Olvidaste tu contraseña?</a></p>

@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthPersonaService } from '../../services/auth-personsa.service';
+import { LoadingComponent } from '../../reutilzar/loading/loading.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { finalize } from 'rxjs/operators';
+
 
 
 @Component({
   selector: 'app-login',
-  imports: [RouterLink, RouterLinkActive, FormsModule, CommonModule],
+  imports: [RouterLink, RouterLinkActive, FormsModule, CommonModule, LoadingComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -19,10 +22,13 @@ export class personaLoginComponent {
     password: ''
   };
 
+  loading = false;
+
   constructor(private authService: AuthPersonaService, private router: Router) { }
 
   login() {
-    this.authService.login(this.usuario).subscribe({
+    this.loading = true;
+    this.authService.login(this.usuario).pipe(finalize(() => this.loading = false)).subscribe({
       next: (response) => {
         this.authService.saveToken(response.token);
         this.authService.saveRol(response.rol)
