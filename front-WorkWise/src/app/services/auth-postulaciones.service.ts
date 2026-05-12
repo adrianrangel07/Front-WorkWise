@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 })
 export class AuthPostulacionesService {
 
-  private apiUrl = 'http://localhost:8080/api/postulaciones';
+  private apiUrl = 'https://workwise-backend-s3w4.onrender.com/api/postulaciones';
 
   constructor(private http: HttpClient) { }
 
