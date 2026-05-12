@@ -9,7 +9,7 @@ export class AuthEmpresaService {
 
   private loggedin = new BehaviorSubject<boolean>(this.getToken() !== null);
   
-  private apiUrl = 'http://localhost:8080/api/empresas';
+  private apiUrl = 'https://workwise-backend-s3w4.onrender.com/api/empresas';
 
   constructor(private http: HttpClient) { }
 
