@@ -8,6 +8,12 @@ import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import flatpickr from 'flatpickr';
 import { Spanish } from 'flatpickr/dist/l10n/es.js';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  Subject,
+  Subscription,
+} from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -22,12 +28,28 @@ export class RegisterComponent {
 
   profesionesFiltradas: string[] = [];
   filtroProfesion: string = '';
-  mostrarDropdown: boolean = false;
+  
+  barriosFiltrados: string[] = [];
+  filtroBarrio: string = '';
+
+
 
   step: number = 1;
   private flatpickrInstance: any;
   passwordsMatch: boolean | null = null;
   confirmPassword: string = '';
+
+  // Variables para verificación en tiempo real
+  emailExiste: boolean = false;
+  documentoExiste: boolean = false;
+  emailValidando: boolean = false;
+  documentoValidando: boolean = false;
+  emailMensaje: string = '';
+  documentoMensaje: string = '';
+
+  private emailSubject = new Subject<string>();
+  private documentoSubject = new Subject<string>();
+  private subscriptions: Subscription[] = [];
 
   @ViewChild('searchInput') searchInput!: ElementRef;
 
@@ -49,46 +71,173 @@ export class RegisterComponent {
   };
 
   ngOnInit() {
-    this.profesionesFiltradas = [...this.profesiones];
+    this.profesionesFiltradas = [];
+    this.barriosFiltrados = [];
+
+    // Configurar debounce para email
+    const emailSubscription = this.emailSubject
+      .pipe(
+        debounceTime(500), // Esperar 500ms después de la última tecla
+        distinctUntilChanged(), // Solo si el valor cambió
+      )
+      .subscribe((email) => {
+        this.verificarEmail(email);
+      });
+
+    // Configurar debounce para documento
+    const documentoSubscription = this.documentoSubject
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((documento) => {
+        this.verificarDocumento(documento);
+      });
+
+    this.subscriptions.push(emailSubscription, documentoSubscription);
   }
 
-  onSearchInput(event: any) {
+  // Método para verificar email
+  onEmailChange(email: string) {
+    if (!email || email.length < 5) {
+      this.emailExiste = false;
+      this.emailMensaje = '';
+      return;
+    }
+
+    // Validar formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      this.emailMensaje = 'Formato de email inválido';
+      return;
+    }
+
+    this.emailValidando = true;
+    this.emailSubject.next(email);
+  }
+
+  verificarEmail(email: string) {
+    this.authService.verificarEmail(email).subscribe({
+      next: (response) => {
+        this.emailExiste = response.exists;
+        this.emailMensaje = response.message;
+        this.emailValidando = false;
+      },
+      error: (error) => {
+        console.error('Error verificando email:', error);
+        this.emailMensaje = 'Error verificando email';
+        this.emailValidando = false;
+      },
+    });
+  }
+
+  // Método para verificar documento
+  onDocumentoChange(documento: string) {
+    if (!documento || documento.length < 4) {
+      this.documentoExiste = false;
+      this.documentoMensaje = '';
+      return;
+    }
+
+    // Validar que sea solo números
+    if (!/^\d+$/.test(documento)) {
+      this.documentoMensaje = 'Solo se permiten números';
+      return;
+    }
+
+    this.documentoValidando = true;
+    this.documentoSubject.next(documento);
+  }
+
+  verificarDocumento(documento: string) {
+    this.authService.verificarDocumento(documento).subscribe({
+      next: (response) => {
+        this.documentoExiste = response.exists;
+        this.documentoMensaje = response.message;
+        this.documentoValidando = false;
+      },
+      error: (error) => {
+        console.error('Error verificando documento:', error);
+        this.documentoMensaje = 'Error verificando documento';
+        this.documentoValidando = false;
+      },
+    });
+  }
+
+  onSearchInputProfesion(event: any) {
     this.filtroProfesion = event.target.value;
     this.filtrarProfesiones();
   }
-
-  // Método para abrir el dropdown y permitir búsqueda
-  abrirBusqueda() {
-    this.mostrarDropdown = true;
-    this.filtroProfesion = '';
-    this.profesionesFiltradas = [...this.profesiones];
-
-    // Enfocar el input virtual después de que se renderice
-    setTimeout(() => {
-      if (this.searchInput && this.searchInput.nativeElement) {
-        this.searchInput.nativeElement.focus();
-      }
-    }, 50);
-  }
-
+  
   // Filtrar profesiones en tiempo real
   filtrarProfesiones() {
-    console.log('Buscando:', this.filtroProfesion); // Para debug
-    console.log('Total profesiones:', this.profesiones.length); // Para debug
+    // console.log('Filtro:', this.filtroProfesion);
 
-    if (!this.filtroProfesion) {
-      this.profesionesFiltradas = [...this.profesiones];
-    } else {
-      const filtro = this.normalizarTexto(this.filtroProfesion);
-
-      this.profesionesFiltradas = this.profesiones.filter((profesion) =>
-        this.normalizarTexto(profesion).includes(filtro)
-      );
+    if (!this.filtroProfesion || this.filtroProfesion.trim() === '') {
+      this.profesionesFiltradas = [];
+      return;
     }
 
-    console.log('Resultados encontrados:', this.profesionesFiltradas.length); // Para debug
-    console.log('Resultados:', this.profesionesFiltradas); // Para debug
+    const filtro = this.normalizarTexto(this.filtroProfesion);
+
+    this.profesionesFiltradas = this.profesiones.filter((profesion) =>
+      this.normalizarTexto(profesion).includes(filtro)
+    );
+
+    // console.log('Resultados:', this.profesionesFiltradas);
   }
+
+  // Seleccionar una profesión
+  seleccionarProfesion(profesion: string) {
+    this.persona.profesion = profesion;
+    this.filtroProfesion = profesion;
+    this.profesionesFiltradas = [];
+  }
+
+    // Manejar teclas en el input virtual
+  manejarTeclaProfesion(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.filtroProfesion = '';
+      this.profesionesFiltradas = [];
+    } else if (event.key === 'Enter' && this.profesionesFiltradas.length > 0) {
+      this.seleccionarProfesion(this.profesionesFiltradas[0]);
+    }
+  }
+
+  onSearchInputBarrio(event: any) {
+    this.filtroBarrio = event.target.value;
+    this.filtrarBarrios();
+  }
+
+  filtrarBarrios() {
+     // console.log('Filtro:', this.filtroProfesion);
+
+    if (!this.filtrarBarrios || this.filtroBarrio.trim() === '') {
+      this.barriosFiltrados = [];
+      return;
+    }
+
+    const filtro = this.normalizarTexto(this.filtroBarrio);
+
+    this.barriosFiltrados = this.barrios.filter((barrio) =>
+      this.normalizarTexto(barrio).includes(filtro)
+    );
+
+    console.log('Resultados:', this.barriosFiltrados);
+  }
+
+  seleccionarBarrio(barrio: string) {
+    this.persona.direccion = barrio;
+    this.filtroBarrio = barrio;
+    this.barriosFiltrados = [];
+  }
+  
+  manejarTeclaBarrio(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.filtroBarrio = '';
+      this.barriosFiltrados = [];
+    } else if (event.key === 'Enter' && this.barriosFiltrados.length > 0) {
+      this.seleccionarBarrio(this.barriosFiltrados[0]);
+    }
+  }
+
 
   // Función para normalizar texto (quitar tildes y convertir a minúsculas)
   normalizarTexto(texto: string): string {
@@ -100,36 +249,28 @@ export class RegisterComponent {
       .trim();
   }
   
-  // Seleccionar una profesión
-  seleccionarProfesion(profesion: string) {
-    this.persona.profesion = profesion;
-    this.mostrarDropdown = false;
-    this.filtroProfesion = '';
-  }
 
-  // Manejar teclas en el input virtual
-  manejarTecla(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      this.mostrarDropdown = false;
-      this.filtroProfesion = '';
-    } else if (event.key === 'Enter' && this.profesionesFiltradas.length > 0) {
-      this.seleccionarProfesion(this.profesionesFiltradas[0]);
-    }
-  }
-
-  // Cerrar dropdown cuando se hace clic fuera del componente
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const clickedInside = (event.target as HTMLElement).closest(
-      '.dropdown-container'
-    );
-    if (!clickedInside && this.mostrarDropdown) {
-      this.mostrarDropdown = false;
-      this.filtroProfesion = '';
-    }
-  }
 
   nextStep() {
+    if (this.emailExiste) {
+      Swal.fire({
+        title: 'Email ya registrado',
+        text: 'El correo electrónico ya está en uso. Por favor usa otro.',
+        icon: 'warning',
+        confirmButtonText: 'Entendido',
+      });
+      return;
+    }
+
+    if (this.documentoExiste) {
+      Swal.fire({
+        title: 'Documento ya registrado',
+        text: 'El número de documento ya está registrado.',
+        icon: 'warning',
+        confirmButtonText: 'Entendido',
+      });
+      return;
+    }
     if (this.step < 2) {
       this.step++;
       console.log(this.persona);
@@ -157,10 +298,31 @@ export class RegisterComponent {
 
   constructor(
     private authService: AuthPersonaService,
-    private router: Router
+    private router: Router,
   ) {}
 
   register() {
+    // Validaciones finales antes de enviar
+    if (this.emailExiste) {
+      Swal.fire({
+        title: 'Error',
+        text: 'El correo electrónico ya está registrado.',
+        icon: 'error',
+        timer: 2000,
+      });
+      return;
+    }
+
+    if (this.documentoExiste) {
+      Swal.fire({
+        title: 'Error',
+        text: 'El número de documento ya está registrado.',
+        icon: 'error',
+        timer: 2000,
+      });
+      return;
+    }
+
     const nacimiento = new Date(this.persona.fecha_Nacimiento);
     const hoy = new Date();
     let edad = hoy.getFullYear() - nacimiento.getFullYear();
@@ -209,8 +371,7 @@ export class RegisterComponent {
       this.passwordsMatch = null; // no mostrar nada si alguno está vacío
       return;
     }
-    this.passwordsMatch =
-      this.persona.usuario.password === this.confirmPassword;
+    this.passwordsMatch = this.persona.usuario.password === this.confirmPassword;
   }
 
   passwordStrength = {
@@ -218,6 +379,8 @@ export class RegisterComponent {
     color: 'red',
     text: '',
   };
+
+  validacion = false;
 
   checkPasswordStrength(password: string) {
     let strength = 0;
@@ -229,12 +392,23 @@ export class RegisterComponent {
 
     switch (strength) {
       case 0:
-        this.passwordStrength = { width: '0%', color: 'red', text: '' };
+        this.validacion = false;
+        this.passwordStrength = { 
+          width: '0%', 
+          color: 'red', 
+          text: '' 
+        };
         break;
       case 1:
-        this.passwordStrength = { width: '25%', color: 'red', text: 'Débil' };
+        this.validacion = true;
+        this.passwordStrength = { 
+          width: '25%', 
+          color: 'red', 
+          text: 'Débil' 
+        };
         break;
       case 2:
+        this.validacion = true;
         this.passwordStrength = {
           width: '50%',
           color: 'orange',
@@ -242,6 +416,7 @@ export class RegisterComponent {
         };
         break;
       case 3:
+        this.validacion = true;
         this.passwordStrength = {
           width: '75%',
           color: 'yellowgreen',
@@ -249,6 +424,7 @@ export class RegisterComponent {
         };
         break;
       case 4:
+        this.validacion = true;
         this.passwordStrength = {
           width: '100%',
           color: 'green',
@@ -273,5 +449,20 @@ export class RegisterComponent {
         icon?.classList.add('fa-eye');
       }
     }
+  }
+
+  isStep1Valid(): boolean {
+    return (
+      !this.emailExiste &&
+      !this.documentoExiste &&
+      !!this.persona.nombre &&
+      !!this.persona.apellido &&
+      !!this.persona.usuario.password &&
+      !!this.confirmPassword &&
+      !!this.persona.usuario.email &&
+      !!this.persona.numero_documento &&
+      !!this.persona.tipo_Documento &&
+      this.persona.usuario.password === this.confirmPassword
+    );
   }
 }
