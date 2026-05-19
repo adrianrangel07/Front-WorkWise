@@ -9,8 +9,8 @@ import { map } from 'rxjs/operators';
 export class AuthPersonaService {
   private loggedin = new BehaviorSubject<boolean>(this.getToken() !== null);
 
-  private apiUrl = 'https://workwise-backend-s3w4.onrender.com/api/personas';
-
+  private apiUrl = 'http://localhost:8080/api/personas';
+  private verificationUrl = 'http://localhost:8080/api/verificacion';
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +22,6 @@ export class AuthPersonaService {
       `${this.verificationUrl}/verificar-email?email=${encodeURIComponent(email)}`,
     );
   }
-
 
   // Verificar si el documento existe
   verificarDocumento(
