@@ -105,8 +105,9 @@
                                             <select [(ngModel)]="oferta.ubicacion" id="ubicacion" name="ubicacion"
                                                 class="form-control" required>
                                                 <option value="" hidden></option>
-                                                <option value="campestre">campestre</option>
-                                                <option value="socorro">socorro</option>
+                                                <option *ngFor="let barrio of barrios" [value]="barrio">
+                                                    {{ barrio }}
+                                                </option>
                                             </select>
                                             <label for="jobType" class="label-active">Ubicacion de empleo</label>
                                         </div>
@@ -190,8 +191,8 @@
                                             </div>
 
                                             <select hidden [(ngModel)]="oferta.sector_oferta" name="sector_oferta">
-                                                <option *ngFor="let item of options" [value]="item.value">
-                                                    {{ item.label }}
+                                                <option *ngFor="let profesion of profesiones" [value]="profesion">
+                                                    {{ profesion }}
                                                 </option>
                                             </select>
 

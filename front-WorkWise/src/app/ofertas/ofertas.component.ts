@@ -6,6 +6,8 @@ import { FooterComponent } from '../reutilzar/footer/footer.component';
 import { ActivatedRoute } from '@angular/router';
 import { NgIf, NgFor } from '@angular/common';
 
+
+
 @Component({
   selector: 'app-ofertas',
   imports: [ NavbarAcordionComponent, NavbarbusquedaComponent, OfertaCardComponent, FooterComponent, NgFor, NgIf ],

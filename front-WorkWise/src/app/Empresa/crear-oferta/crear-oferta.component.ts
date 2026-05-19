@@ -9,6 +9,10 @@ import Swal from 'sweetalert2';
 import flatpickr from "flatpickr";
 import { Spanish } from 'flatpickr/dist/l10n/es.js';
 
+import { BARRIOS_CARTAGENA } from '../../data/barrios';
+import { profesiones } from '../../data/profesiones';
+
+
 interface Oferta {
   titulo: string;
   descripcion: string;
@@ -33,6 +37,8 @@ interface Oferta {
   styleUrl: './crear-oferta.component.css'
 })
 export class CrearOfertaComponent {
+  barrios = BARRIOS_CARTAGENA;
+  profesiones = profesiones;
   step: number = 1
   sectorSeleccionado: string = "";
   showDropdown: boolean = false;
