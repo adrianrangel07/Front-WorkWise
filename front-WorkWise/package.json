@@ -4,8 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration production --output-path=dist/front-work-wise",
-    "build:vercel": "ng build --configuration production --output-path=dist/front-work-wise",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -33,7 +32,6 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.15",
-    "@vercel/static-build": "latest",
     "@angular/cli": "^19.2.15",
     "@angular/compiler-cli": "^19.2.0",
     "@types/jasmine": "~5.1.0",
