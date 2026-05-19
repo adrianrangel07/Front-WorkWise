@@ -10,6 +10,7 @@ export class AuthPersonaService {
   private loggedin = new BehaviorSubject<boolean>(this.getToken() !== null);
 
   private apiUrl = 'https://workwise-backend-s3w4.onrender.com/api/personas';
+va  private verificationUrl = 'http://localhost:8080/api/verificacion';
 
 
   constructor(private http: HttpClient) {}
