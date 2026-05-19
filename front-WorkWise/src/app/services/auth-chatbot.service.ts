@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { __param } from 'tslib';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthChatbotService {
 
-  private apiUrlAntiguo = 'http://localhost:8080/api/chatbot/message';
-  private apiUrlNuevo = 'http://localhost:8080/api/chat';
+  private apiUrlAntiguo = `${environment.apiUrl}/chatbot/message`;
+  private apiUrlNuevo = `${environment.apiUrl}/chat`;
 
   constructor(private http: HttpClient) {}
 

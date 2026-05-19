@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { environment } from '../../environments/environments';
 
 export interface Notificacion {
   id: number;
@@ -16,7 +17,7 @@ export interface Notificacion {
   providedIn: 'root',
 })
 export class NotificacionService {
-  private apiUrl = 'http://localhost:8080/api/notificaciones';
+  private apiUrl = `${environment.apiUrl}/notificaciones`;
 
   constructor(private http: HttpClient) {}
 

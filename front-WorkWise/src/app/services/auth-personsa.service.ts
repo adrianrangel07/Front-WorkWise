@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +10,8 @@ import { map } from 'rxjs/operators';
 export class AuthPersonaService {
   private loggedin = new BehaviorSubject<boolean>(this.getToken() !== null);
 
-  private apiUrl = 'http://localhost:8080/api/personas';
-  private verificationUrl = 'http://localhost:8080/api/verificacion';
+  private apiUrl = `${environment.apiUrl}/personas`;
+  private verificationUrl = `${environment.apiUrl}/verificacion`;
 
   constructor(private http: HttpClient) {}
 

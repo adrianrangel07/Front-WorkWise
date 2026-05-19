@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class AuthEmpresaService {
 
   private loggedin = new BehaviorSubject<boolean>(this.getToken() !== null);
   
-  private apiUrl = 'http://localhost:8080/api/empresas';
+  private apiUrl = `${environment.apiUrl}/empresas`;
 
   constructor(private http: HttpClient) { }
 

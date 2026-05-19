@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, delay } from 'rxjs';
+import { environment } from '../../environments/environments';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Observable, BehaviorSubject, delay } from 'rxjs';
 export class AuthOfertasService {
   private ofertaSeleccionada: any | null = null;
 
-  private apiUrl = 'http://localhost:8080/api/ofertas';
+  private apiUrl = `${environment.apiUrl}/ofertas`;
 
   constructor(private http: HttpClient) {}
 
