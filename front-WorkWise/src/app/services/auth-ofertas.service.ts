@@ -7,10 +7,9 @@ import { Observable, BehaviorSubject, delay } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthOfertasService {
-
   private ofertaSeleccionada: any | null = null;
 
-  private apiUrl = 'https://workwise-backend-s3w4.onrender.com/api/ofertas';
+  private apiUrl = 'http://localhost:8080/api/ofertas';
 
   constructor(private http: HttpClient) {}
 
